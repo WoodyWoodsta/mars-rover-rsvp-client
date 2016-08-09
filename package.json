@@ -6,20 +6,20 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf ./build",
-    "build-core": "browserify ./src/app-core.es6 -o build/app-core.js --extension=.js --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] ] -r ./src/app-core.es6:app-core -x app-behaviors",
-    "build-behaviors":  "browserify ./src/app-behaviors.es6 -o build/app-behaviors.js --extension=.js --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] ] -r ./src/app-behaviors.es6:app-behaviors -x app-core",
-    "build-bundles": "npm run build-core && npm run build-behaviors",
+    "init-build": "mkdir build && ln -s $(pwd)/bower_components ./build/bower_components",
+    "build-core": "browserify ./src/app-core.es6 -o build/app-core.js --extension=.js --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] --extensions .es6 ] -r ./src/app-core.es6:app-core -x app-behaviors -x app-bootstrap",
+    "build-behaviors": "browserify ./src/app-behaviors.es6 -o build/app-behaviors.js --extension=.js --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] --extensions .es6 ] -r ./src/app-behaviors.es6:app-behaviors -x app-core -x app-bootstrap",
+    "build-bootstrap": "browserify ./src/app-bootstrap.es6 -o build/app-bootstrap.js --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] --extensions .es6 ] -r ./src/app-bootstrap.es6:app-bootstrap -x app-core -x app-behaviors",
+    "build-bundles": "npm run build-core && npm run build-behaviors && npm run build-bootstrap",
     "build-polymer": "babel ./app --presets @woodywoodsta/babel-preset-browser-polymer -d ./build --copy-files",
-
-    "rebuild-bundles": "npm run clean && mkdir build && npm run build-bundles",
-    "rebuild-polymer": "npm run clean && mkdir build && npm run build-polymer",
-
-    "watch-core": "watchify ./src/app-core.es6 -o build/app-core.js -v --extension=.js --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] ] -r app-core -x app-behaviors",
-    "watch-behaviors":  "watchify ./src/app-behaviors.es6 -o build/app-behaviors.js -v --extension=.js --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] ] -r app-behaviors -x app-core",
-    "watch-polymer": "babel ./app --presets @woodywoodsta/babel-preset-browser-polymer -d ./build -w",
-
-    "build": "npm run clean && mkdir build && npm run build-bundles && npm run build-polymer",
-    "watch": "npm run clean && mkdir build && concurrently --kill-others 'npm run watch-bundles' 'npm run watch-polymer'"
+    "rebuild-bundles": "npm run clean && npm run init-build && npm run build-bundles",
+    "rebuild-polymer": "npm run clean && npm run init-build && npm run build-polymer",
+    "watch-core": "watchify ./src/app-core.es6 -o build/app-core.js -v --extension=.js --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] --extensions .es6 ] -r ./src/app-core.es6:app-core -x app-behaviors -x app-bootstrap",
+    "watch-behaviors": "watchify ./src/app-behaviors.es6 -o build/app-behaviors.js -v --extension=.js --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] --extensions .es6 ] -r ./src/app-behaviors.es6:app-behaviors -x app-core -x app-bootstrap",
+    "watch-bootstrap": "watchify ./src/app-bootstrap.es6 -o build/app-bootstrap.js -v --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] --extensions .es6 ] -r ./src/app-bootstrap.es6:app-bootstrap -x app-core -x app-behaviors",
+    "watch-polymer": "babel ./app --presets @woodywoodsta/babel-preset-browser-polymer -d ./build --copy-files -w",
+    "build": "npm run clean && npm run init-build && npm run build-bundles && npm run build-polymer",
+    "watch": "npm run clean && npm run init-build && concurrently --kill-others 'npm run watch-core' 'npm run watch-behaviors' 'npm run watch-bootstrap' 'npm run watch-polymer'"
   },
   "repository": {
     "type": "git",
@@ -34,10 +34,13 @@
   "devDependencies": {
     "@woodywoodsta/babel-preset-browser-bundle": "^1.0.0",
     "@woodywoodsta/babel-preset-browser-polymer": "^1.0.0",
-    "babel-cli": "^6.11.4",
-    "babelify": "^7.3.0",
-    "browserify": "^13.1.0",
-    "concurrently": "^2.2.0",
-    "watchify": "^3.7.0"
+    "babel-cli": "^6",
+    "babelify": "^7",
+    "browserify": "^13",
+    "concurrently": "^2",
+    "watchify": "^3"
+  },
+  "dependencies": {
+    "socket.io-client": "^1"
   }
 }
