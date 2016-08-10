@@ -1,4 +1,4 @@
 /* app-core.es6 */
-import controlIOClient from './core/clients/control-io-client';
+import * as socket from './core/socket';
 
-controlIOClient();
+socket.startSockets();
