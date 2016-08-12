@@ -9,7 +9,7 @@
 
     <!-- <link rel="shortcut icon" sizes="32x32" href="/images/app-icon-32.png"> -->
 
-    <meta name="theme-color" content="#242424">
+    <meta name="theme-color" content="#FF5722">
     <!-- <link rel="manifest" href="/manifest.json"> -->
 
     <!-- Styles -->
@@ -21,7 +21,7 @@
 
     <!-- Scripts -->
     <script type="text/javascript">
-      window.Polymer = { lazyRegister: true, dom: 'shadow' };
+      window.Polymer = { lazyRegister: false, dom: 'shadow' };
     </script>
     <script src="bower_components/webcomponentsjs/webcomponents.js" charset="utf-8"></script>
     <link rel="import" href="bower_components/polymer/polymer.html">
@@ -32,7 +32,21 @@
 
     <!-- Imports -->
     <link rel="import" href="./elements/elements.html">
+
+    <style is="custom-style">
+      app-drawer-controls {
+        @apply(--layout-flex);
+
+        margin: var(--container-padding) 0;
+      }
+
+      app-body {
+        @apply(--layout-flex);
+        @apply(--layout-self-stretch)
+      }
+    </style>
   </head>
+
   <body>
     <app-shell>
       <app-drawer-controls drawer></app-drawer-controls>

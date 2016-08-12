@@ -4,7 +4,17 @@
     <style>
       :host {
         @apply(--layout-vertical);
-        @apply(--layout-center);
+
+        padding-left: 20px;
+        width: 236px;
+      }
+
+      paper-icon-button {
+        --paper-icon-button-ink-color: var(--light-strong-alpha);
+      }
+
+      .spacer {
+        @apply(--layout-flex);
       }
     </style>
 
@@ -12,6 +22,10 @@
     <paper-icon-button icon="icons:settings-input-composite"></paper-icon-button>
     <paper-icon-button icon="icons:watch-later"></paper-icon-button>
     <paper-icon-button icon="icons:settings"></paper-icon-button>
+
+    <div class="spacer"></div>
+
+    <paper-icon-button icon="icons:power-settings-new"></paper-icon-button>
 
   </template>
   <script src="app-drawer-controls.js" charset="utf-8"></script>

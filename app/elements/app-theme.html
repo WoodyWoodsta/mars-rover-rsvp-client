@@ -11,26 +11,26 @@
      */
 
     /* default app colors */
-    --primary-color:        #1976D2;
-    --primary-color-dark:   #0D47A1;
-    --primary-color-light:  #BBDEFB;
-    --accent-color:         #FFC107;
+    --primary-color:        #795548;
+    --primary-color-dark:   #5D4037;
+    --primary-color-light:  #D7CCC8;
+    --accent-color:         #FF5722;
 
     /* default app monochromatics */
-    --light-strong-alpha:   rgba(255,255,255,1);
-    --light-medium-alpha:   rgba(255,255,255,0.7);
-    --light-normal-alpha:   rgba(255,255,255,0.38);
-    --light-weak-alpha:     rgba(255,255,255,0.1);
+    --light-strong-alpha:   rgba(255,220,200,1);
+    --light-medium-alpha:   rgba(255,220,200,0.7);
+    --light-normal-alpha:   rgba(255,220,200,0.38);
+    --light-weak-alpha:     rgba(255,220,200,0.1);
     --light-strong:         #fff;
     --light-medium:         #b3b3b3;
     --light-normal:         #616161;
     --light-weak:           #1a1a1a;
 
-    --dark-strong-alpha:    rgba(0,0,0,0.87);
-    --dark-medium-alpha:    rgba(0,0,0,0.54);
-    --dark-normal-alpha:    rgba(0,0,0,0.38);
-    --dark-semiweak-alpha:  rgba(0,0,0,0.2);
-    --dark-weak-alpha:      rgba(0,0,0,0.1);
+    --dark-strong-alpha:    rgba(30,12,0,0.87);
+    --dark-medium-alpha:    rgba(30,12,0,0.54);
+    --dark-normal-alpha:    rgba(30,12,0,0.38);
+    --dark-semiweak-alpha:  rgba(30,12,0,0.2);
+    --dark-weak-alpha:      rgba(30,12,0,0.1);
     --dark-strong:          #212121;
     --dark-medium:          #757575;
     --dark-normal:          #9e9e9e;
@@ -45,11 +45,11 @@
     */
 
     /* app background */
-    --app-primary-background-color: #F2F2F2;
+    --app-primary-background-color: #181818;
 
     /* lists */
-    --divider-color: rgba(0, 0, 0, 0.07);
-    --divider-color-opaque: rgb(237, 237, 237);
+    --divider-color: rgba(255, 255, 255, 0.07);
+    --divider-color-opaque: rgb(3, 3, 3);
 
     /* scrollbar */
     --scrollbar-track-background-color: rgba(0,0,0,0.05);
@@ -60,10 +60,10 @@
      */
 
     /* polymer style mappings */
-    --primary-text-color: var(--dark-strong-alpha);
+    --primary-text-color: var(--light-strong-alpha);
     --primary-background-color: var(--app-primary-background-color);
-    --secondary-text-color: var(--dark-medium-alpha);
-    --disabled-text-color: var(--dark-normal-alpha);
+    --secondary-text-color: var(--light-medium-alpha);
+    --disabled-text-color: var(--light-normal-alpha);
     /*--divider-color: var(--dark-weak-alpha);*/
 
     /* confusing variable mappings */
@@ -107,6 +107,9 @@
     --page-content-max-width: 800px; /* NOTE: If changed here, needs to be changed
                                               in `app-notification-panel-toggle`
                                               dialog width query as well */
+
+    --duration: 0.2s;
+    --timing-function: ease-in-out;
 
     /* theme colors */
     --indigo-theme-dark-color:            #303F9F;

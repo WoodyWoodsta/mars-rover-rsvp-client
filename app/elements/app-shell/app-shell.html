@@ -6,26 +6,58 @@
   <template>
     <style>
       :host {
+        height: 100%;
+      }
 
+      app-drawer-layout {
+        height: 100%;
+        background-color: var(--dark-strong-alpha);
+      }
+
+      #mainContent {
+        @apply(--layout-vertical);
+
+        height: 100%;
+      }
+
+      #drawerWrapper {
+        @apply(--layout-vertical);
+        @apply(--layout-flex);
+
+        overflow: hidden;
+      }
+
+      :host([is-expanded]) #drawerWrapper {
+        -webkit-box-shadow: 4px 0px 16px 0px rgba(0,0,0,0.1);
+        -moz-box-shadow: 4px 0px 16px 0px rgba(0,0,0,0.1);
+        box-shadow: 4px 0px 16px 0px rgba(0,0,0,0.1);
       }
 
       app-drawer {
+        --app-drawer-width: 80px;
         --app-drawer-content-container: {
           @apply(--layout-vertical);
+          background-color: var(--primary-color-dark);
 
-          padding: var(--element-padding) 0; 
-          background-color: var(--dark-weak-alpha);
-        }
+          transition: 0.2s ease, calc(var(--duration) / 2) var(--timing-function);
+          transition-property: -webkit-transform, width;
+          transition-property: transform, width;
+          -webkit-transform: translate3d(-100%, 0, 0);
+          transform: translate3d(-100%, 0, 0);
+        };
       }
     </style>
 
-    <app-drawer-layout>
-      <app-drawer>
-        <div>
-          <content select="[drawer]"></content>
+    <!-- Main Layout -->
+    <app-drawer-layout id="layout">
+      <app-drawer id="appDrawer" swipe-open>
+        <div id="drawerWrapper">
+          <content id="drawerContent" select="[drawer]"></content>
         </div>
       </app-drawer>
-      <content select="[body]"></content>
+      <div id="mainContent">
+        <content id="drawerContent" select="[body]"></content>
+      </div>
     </app-drawer-layout>
 
   </template>
