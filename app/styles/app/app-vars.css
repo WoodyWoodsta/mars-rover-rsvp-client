@@ -1,0 +1,8 @@
+ /* app-vars.rss */
+
+ :root {
+   --app-font-size: 14px;
+   --app-font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+   --app-color: #333;
+   --app-background: #FAFAFA;
+ }

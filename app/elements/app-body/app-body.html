@@ -1,0 +1,32 @@
+<!-- app-body.html -->
+<dom-module id="app-body">
+  <template>
+    <style>
+      :host {
+        @apply(--layout-vertical);
+      }
+
+      #upperContainer {
+        @apply(--layout-horizontal);
+        @apply(--layout-flex);
+        @apply(--layout-center);
+      }
+
+      #lowerContainer {
+        @apply(--layout-center);
+        @apply(--layout-horizontal);
+      }
+    </style>
+
+    <div id="upperContainer">
+      <!-- Video Container -->
+      <!-- Graphical Overview -->
+    </div>
+    <div id="lowerContainer">
+      <!-- Controls -->
+      <!-- Telemetry -->
+    </div>
+
+  </template>
+  <script src="app-body.js" charset="utf-8"></script>
+</dom-module>

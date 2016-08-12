@@ -1,0 +1,28 @@
+/* local variables */
+:root {
+}
+
+* {
+  user-select: none;
+}
+
+input {
+  user-select: text;
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  overflow-y: hidden;
+}
+
+/* make sure this is in effect pronto */
+body[unresolved] {
+  display: none;
+}

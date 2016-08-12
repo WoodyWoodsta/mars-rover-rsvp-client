@@ -1,0 +1,140 @@
+<!-- app-theme.html -->
+<style is="custom-style">
+
+  /* app theme */
+  :root {
+
+    /**
+     * === Application Palette ===
+     * The root of all (evil) colors. Colors throughout the app should be
+     * derived from these.
+     */
+
+    /* default app colors */
+    --primary-color:        #1976D2;
+    --primary-color-dark:   #0D47A1;
+    --primary-color-light:  #BBDEFB;
+    --accent-color:         #FFC107;
+
+    /* default app monochromatics */
+    --light-strong-alpha:   rgba(255,255,255,1);
+    --light-medium-alpha:   rgba(255,255,255,0.7);
+    --light-normal-alpha:   rgba(255,255,255,0.38);
+    --light-weak-alpha:     rgba(255,255,255,0.1);
+    --light-strong:         #fff;
+    --light-medium:         #b3b3b3;
+    --light-normal:         #616161;
+    --light-weak:           #1a1a1a;
+
+    --dark-strong-alpha:    rgba(0,0,0,0.87);
+    --dark-medium-alpha:    rgba(0,0,0,0.54);
+    --dark-normal-alpha:    rgba(0,0,0,0.38);
+    --dark-semiweak-alpha:  rgba(0,0,0,0.2);
+    --dark-weak-alpha:      rgba(0,0,0,0.1);
+    --dark-strong:          #212121;
+    --dark-medium:          #757575;
+    --dark-normal:          #9e9e9e;
+    --dark-semiweak:        #cccccc;
+    --dark-weak:            #e6e6e6;
+
+    --transparent:          rgba(0, 0, 0, 0);
+
+    /**
+    * === Custom Color Definitions ===
+    * Variables that do not use colors from the palette are defined here.
+    */
+
+    /* app background */
+    --app-primary-background-color: #F2F2F2;
+
+    /* lists */
+    --divider-color: rgba(0, 0, 0, 0.07);
+    --divider-color-opaque: rgb(237, 237, 237);
+
+    /* scrollbar */
+    --scrollbar-track-background-color: rgba(0,0,0,0.05);
+
+    /**
+     * === Color Mappings ===
+     * Mapping of palette colors to other common global color variables.
+     */
+
+    /* polymer style mappings */
+    --primary-text-color: var(--dark-strong-alpha);
+    --primary-background-color: var(--app-primary-background-color);
+    --secondary-text-color: var(--dark-medium-alpha);
+    --disabled-text-color: var(--dark-normal-alpha);
+    /*--divider-color: var(--dark-weak-alpha);*/
+
+    /* confusing variable mappings */
+    --light-primary-color: var(--primary-color-light);
+    --dark-primary-color: var(--primary-color-dark);
+    --text-primary-color: var(--light-strong-alpha);
+
+    /**
+     * === Content Color Mappings ===
+     * Mapping of colors, in a global fashion, from the palette to individual
+     * elements/objects/artifacts are done here. Essentially a level of abstraction
+     * from color names to object styling.
+     */
+
+    /* scrollbar */
+    --scrollbar-thumb-background-color: var(--dark-weak-alpha);
+
+    /**
+     * === Structural Definitions ===
+     * Variables to structurally related properties
+     */
+
+    --size-small:   4px;
+    --size-norm:    calc(var(--size-small) * 2);
+    --size-large:   calc(var(--size-small) * 4);
+
+    --secondary-text-size: 0.75rem;
+
+    --border-radius: 2px;
+
+    --container-padding: 8px;
+    --element-padding: 5px;
+
+    --sidebar-width: 60px;
+    --indicator-width: 3px;
+
+    /* app chrome */
+    --chrome-border-radius: 5px;
+
+    /* page structure / overrides */
+    --page-content-max-width: 800px; /* NOTE: If changed here, needs to be changed
+                                              in `app-notification-panel-toggle`
+                                              dialog width query as well */
+
+    /* theme colors */
+    --indigo-theme-dark-color:            #303F9F;
+    --indigo-theme-primary-color:         #3F51B5;
+    --indigo-theme-light-color:           #E8EAF6;
+
+    --blue-gray-theme-dark-color:         #37474F;
+    --blue-gray-theme-primary-color:      #607D8B;
+    --blue-gray-theme-light-color:        #ECEFF1;
+
+    --gray-theme-dark-color:              #424242;
+    --gray-theme-primary-color:           #9E9E9E;
+    --gray-theme-light-color:             #FAFAFA;
+
+    --red-theme-dark-color:               #C62828;
+    --red-theme-primary-color:            #E53935;
+    --red-theme-light-color:              #FFEBEE;
+
+    --amber-theme-dark-color:             #FF8F00;
+    --amber-theme-primary-color:          #FFC107;
+    --amber-theme-light-color:            #FFF8E1;
+
+    --green-theme-dark-color:             #2E7D32;
+    --green-theme-primary-color:          #4CAF50;
+    --green-theme-light-color:            #E8F5E9;
+
+    --dark-gray-theme-dark-color:         #212121;
+    --dark-gray-theme-primary-color:      #424242;
+    --dark-gray-theme-light-color:        #9E9E9E;
+  }
+</style>

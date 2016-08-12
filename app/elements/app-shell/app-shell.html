@@ -1,0 +1,33 @@
+<!-- app-shell.html -->
+
+<!-- elements -->
+
+<dom-module id="app-shell">
+  <template>
+    <style>
+      :host {
+
+      }
+
+      app-drawer {
+        --app-drawer-content-container: {
+          @apply(--layout-vertical);
+
+          padding: var(--element-padding) 0; 
+          background-color: var(--dark-weak-alpha);
+        }
+      }
+    </style>
+
+    <app-drawer-layout>
+      <app-drawer>
+        <div>
+          <content select="[drawer]"></content>
+        </div>
+      </app-drawer>
+      <content select="[body]"></content>
+    </app-drawer-layout>
+
+  </template>
+  <script src="app-shell.js" charset="utf-8"></script>
+</dom-module>
