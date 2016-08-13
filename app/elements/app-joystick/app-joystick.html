@@ -1,0 +1,57 @@
+<!-- app-joystick.html -->
+<dom-module id="app-joystick">
+  <template>
+    <style>
+      :host {
+        @apply(--layout-horizontal);
+
+        height: var(--joystick-height, 200px);
+        width: var(--joystick-width, 200px);
+        padding: var(--element-padding);
+
+        -webkit-user-select: none;
+        -moz-user-select: none;
+      }
+
+      #padArea {
+        @apply(--layout-vertical);
+        @apply(--layout-flex);
+        @apply(--layout-self-stretch);
+
+        border-radius: 10px;
+        background-color: var(--dark-normal-alpha);
+      }
+
+      #joystickContainer {
+        position: relative;
+        @apply(--layout-flex);
+
+        margin: var(--container-padding);
+        border: solid 2px var(--light-semiweak-alpha);
+        border-radius: 7px;
+      }
+
+      #joystick {
+        position: absolute;
+        height: 40px;
+        width: 40px;
+        border-radius: 50%;
+        background-color: var(--light-normal-alpha);
+      }
+
+      :host(:not([transition-disabled])) #joystick {
+        transition-property: top left;
+        transition-duration: calc(var(--duration) / 2);
+        transition-timing-function: var(--timing-function);
+      }
+    </style>
+
+    <div id="padArea">
+      <div id="joystickContainer">
+        <div id="joystick"></div>
+      </div>
+    </div>
+
+  </template>
+  <script src="app-joystick.js" charset="utf-8"></script>
+</dom-module>

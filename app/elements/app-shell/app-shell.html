@@ -50,11 +50,14 @@
 
     <!-- Main Layout -->
     <app-drawer-layout id="layout">
+      <!-- Drawer -->
       <app-drawer id="appDrawer" swipe-open>
         <div id="drawerWrapper">
           <content id="drawerContent" select="[drawer]"></content>
         </div>
       </app-drawer>
+
+      <!-- Body -->
       <div id="mainContent">
         <content id="drawerContent" select="[body]"></content>
       </div>

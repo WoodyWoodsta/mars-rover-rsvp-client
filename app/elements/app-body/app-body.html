@@ -1,9 +1,14 @@
 <!-- app-body.html -->
+<!-- elements -->
+<link rel="import" href="../app-joystick/app-joystick.html">
+
 <dom-module id="app-body">
   <template>
     <style>
       :host {
         @apply(--layout-vertical);
+
+        padding: var(--container-padding);
       }
 
       #upperContainer {
@@ -19,13 +24,17 @@
     </style>
 
     <div id="upperContainer">
-      <h1>Hello</h1>
       <!-- Video Container -->
-      <!-- Graphical Overview -->
+      <!-- Telemetry -->
     </div>
     <div id="lowerContainer">
       <!-- Controls -->
-      <!-- Telemetry -->
+      <app-joystick title="Drive"></app-joystick>
+
+      <!-- REVIEW: Should this not be a keypad type control? -->
+      <app-joystick title="Head"></app-joystick>
+
+      <!-- Graphical Overview -->
     </div>
 
   </template>
