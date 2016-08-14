@@ -1,6 +1,7 @@
 <!-- app-shell.html -->
 
 <!-- elements -->
+<link rel="import" href="../app-drawer-controls/app-drawer-controls.html">
 
 <dom-module id="app-shell">
   <template>
@@ -34,7 +35,7 @@
       }
 
       app-drawer {
-        --app-drawer-width: 60px;
+        /*--app-drawer-width: 60px;*/
         --app-drawer-content-container: {
           @apply(--layout-vertical);
           background-color: var(--primary-color-dark);
@@ -46,14 +47,20 @@
           transform: translate3d(-100%, 0, 0);
         };
       }
+
+      app-drawer-controls {
+        @apply(--layout-flex);
+
+        margin: var(--container-padding) 0;
+      }
     </style>
 
     <!-- Main Layout -->
-    <app-drawer-layout id="layout">
+    <app-drawer-layout id="layout" narrow="{{narrow}}">
       <!-- Drawer -->
       <app-drawer id="appDrawer" swipe-open>
         <div id="drawerWrapper">
-          <content id="drawerContent" select="[drawer]"></content>
+          <app-drawer-controls id="drawerControls" is-parent-expanded="[[isExpanded]]"></app-drawer-controls>
         </div>
       </app-drawer>
 

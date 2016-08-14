@@ -26,7 +26,13 @@
       }
 
       .row > paper-icon-button {
-        margin-right: calc(var(--container-padding) * 2);
+        margin-right: calc(var(--container-padding) * 1.5);
+      }
+
+      .divider {
+        width: 120%;
+        margin: var(--element-padding) calc(-1 * var(--container-padding));
+        border-top: 1px solid var(--app-divider-color);
       }
 
       #drawerHeading {
@@ -40,9 +46,10 @@
 
     <!-- Top -->
     <div class="row center">
-      <paper-icon-button icon="icons:chevron-right"></paper-icon-button>
+      <paper-icon-button id="collapseButton" icon="[[collapseButtonIcon]]"></paper-icon-button>
       <span id="drawerHeading">MARS ROVER RSVP</span>
     </div>
+    <div class="divider"></div>
     <div class="row">
       <paper-icon-button icon="icons:explore"></paper-icon-button>
     </div>
@@ -56,7 +63,8 @@
       <paper-icon-button icon="icons:settings"></paper-icon-button>
     </div>
 
-    <div class="spacer"></div>
+    <!-- Spacer -->
+    <div id="drawerSpacer" class="spacer"></div>
 
     <!-- Bottom -->
     <div class="row">

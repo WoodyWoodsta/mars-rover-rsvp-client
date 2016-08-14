@@ -10,37 +10,72 @@ Polymer({
     isExpanded: {
       type: Boolean,
       reflectToAttribute: true,
+      observer: '_onIsExpandedChanged',
       value: false,
+    },
+
+    narrow: {
+      type: Boolean,
+      observer: '_onNarrowChanged',
     },
 
     // === Private ===
   },
 
-  listeners: {
-    'drawerWrapper.mouseenter': '_onDrawerWrapperMouseenter',
-    'drawerWrapper.mouseleave': '_onDrawerWrapperMouseleave',
+  attached() {
+    this.listen(this.$.drawerControls.$.collapseButton, 'tap', '_onExpandToggleableTap');
+    this.listen(this.$.drawerControls.$.drawerSpacer, 'tap', '_onExpandToggleableTap');
+    this._onNarrowChanged(this.$.layout.narrow);
+  },
+
+  detached() {
+    this.unlisten(this.$.drawerControls.$.collapseButton, 'tap', '_onExpandToggleableTap');
+    this.unlisten(this.$.drawerControls.$.drawerSpacer, 'tap', '_onExpandToggleableTap');
+  },
+
+  expandDrawer() {
+    this.set('isExpanded', true);
+  },
+
+  collapseDrawer() {
+    this.set('isExpanded', false);
+  },
+
+  toggleDrawerExpand() {
+    this.isExpanded = !this.isExpanded;
   },
 
   // === Private ===
-  /**
-   * When the mouse enters the area depicted by the drawer wrapper
-   */
-  _onDrawerWrapperMouseenter() {
-    if (!this.isExpanded && !this.$.layout.narrow) {
-      this.isExpanded = true;
-      this.$.appDrawer.customStyle['--app-drawer-width'] = '256px';
-      this.updateStyles();
+  _onExpandToggleableTap() {
+    if (!this.$.layout.narrow) {
+      this.toggleDrawerExpand();
     }
   },
 
-  /**
-   * When the mouse leaves the area depicted by the drawer wrapper
-   */
-  _onDrawerWrapperMouseleave() {
-    if (this.isExpanded && !this.$.layout.narrow) {
+  _onMainContentTap() {
+    if (!this.$.layout.narrow) {
+      this.collapseDrawer();
+      this.unlisten(this.$.mainContent, 'tap', '_onMainContentTap');
+    }
+  },
+
+  _onIsExpandedChanged(newValue, oldValue) {
+    if (newValue) {
+      this.$.appDrawer.customStyle['--app-drawer-width'] = '256px';
+      this.updateStyles();
+      this.listen(this.$.mainContent, 'tap', '_onMainContentTap');
+    } else {
       this.$.appDrawer.customStyle['--app-drawer-width'] = '60px';
       this.updateStyles();
-      this.isExpanded = false;
+      this.unlisten(this.$.mainContent, 'tap', '_onMainContentTap');
+    }
+  },
+
+  _onNarrowChanged(value) {
+    if (value) {
+      this.expandDrawer();
+    } else {
+      this.collapseDrawer();
     }
   },
 });
