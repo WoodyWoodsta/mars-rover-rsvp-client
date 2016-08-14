@@ -38,7 +38,7 @@ Polymer({
    */
   _onDrawerWrapperMouseleave() {
     if (this.isExpanded && !this.$.layout.narrow) {
-      this.$.appDrawer.customStyle['--app-drawer-width'] = '80px';
+      this.$.appDrawer.customStyle['--app-drawer-width'] = '60px';
       this.updateStyles();
       this.isExpanded = false;
     }

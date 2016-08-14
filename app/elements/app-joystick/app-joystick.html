@@ -3,6 +3,8 @@
   <template>
     <style>
       :host {
+        --pad-icon-size: 80px;
+
         @apply(--layout-horizontal);
 
         height: var(--joystick-height, 200px);
@@ -36,7 +38,7 @@
         height: 40px;
         width: 40px;
         border-radius: 50%;
-        background-color: var(--light-normal-alpha);
+        background-color: var(--light-medium-alpha);
       }
 
       :host(:not([transition-disabled])) #joystick {
@@ -44,10 +46,48 @@
         transition-duration: calc(var(--duration) / 2);
         transition-timing-function: var(--timing-function);
       }
+
+      iron-icon.pad-icon {
+        position: absolute;
+        color: var(--light-normal-alpha);
+        --iron-icon-width: var(--pad-icon-size);
+        --iron-icon-height: var(--pad-icon-size);
+      }
+
+      .pad-icon.horizontal {
+        top: calc(50% - (var(--pad-icon-size) / 2));
+      }
+
+      .pad-icon.vertical {
+        left: calc(50% - (var(--pad-icon-size) / 2));
+      }
+
+      #padIconLeft {
+        left: calc(20% - (var(--pad-icon-size) / 2));
+      }
+
+      #padIconRight {
+        left: calc(80% - (var(--pad-icon-size) / 2));
+      }
+
+      #padIconUp {
+        top: calc(20% - (var(--pad-icon-size) / 2));
+      }
+
+      #padIconDown {
+        top: calc(80% - (var(--pad-icon-size) / 2));
+      }
+
     </style>
 
     <div id="padArea">
       <div id="joystickContainer">
+        <template is="dom-if" if="{{arrows}}" restamp="true">
+          <iron-icon id="padIconLeft" class="pad-icon horizontal" icon="hardware:keyboard-arrow-left"></iron-icon>
+          <iron-icon id="padIconRight" class="pad-icon horizontal" icon="hardware:keyboard-arrow-right"></iron-icon>
+          <iron-icon id="padIconUp" class="pad-icon vertical" icon="hardware:keyboard-arrow-up"></iron-icon>
+          <iron-icon id="padIconDown" class="pad-icon vertical" icon="hardware:keyboard-arrow-down"></iron-icon>
+        </template>
         <div id="joystick"></div>
       </div>
     </div>

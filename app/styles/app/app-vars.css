@@ -2,7 +2,7 @@
 
  :root {
    --app-font-size: 14px;
-   --app-font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+   --app-font-family: 'Titillium Web', 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
    --app-color: rgba(255,220,200,1);
    --app-background: rgba(30,12,0,0.87);
  }

@@ -5,7 +5,7 @@
       :host {
         @apply(--layout-vertical);
 
-        padding-left: 20px;
+        padding-left: 10px;
         width: 236px;
       }
 
@@ -15,20 +15,53 @@
 
       .spacer {
         @apply(--layout-flex);
+      }
 
+      .row {
+        @apply(--layout-horizontal);
+      }
+
+      .row.middle {
+        @apply(--layout-center);
+      }
+
+      .row > paper-icon-button {
+        margin-right: calc(var(--container-padding) * 2);
+      }
+
+      #drawerHeading {
+        @apply(--layout-flex-none);
+        @apply(--layout-self-center);
+
+        font-size: 1.2rem;
+        font-weight: 700;
       }
     </style>
 
     <!-- Top -->
-    <paper-icon-button icon="icons:explore"></paper-icon-button>
-    <paper-icon-button icon="icons:settings-input-composite"></paper-icon-button>
-    <paper-icon-button icon="icons:watch-later"></paper-icon-button>
-    <paper-icon-button icon="icons:settings"></paper-icon-button>
+    <div class="row center">
+      <paper-icon-button icon="icons:chevron-right"></paper-icon-button>
+      <span id="drawerHeading">MARS ROVER RSVP</span>
+    </div>
+    <div class="row">
+      <paper-icon-button icon="icons:explore"></paper-icon-button>
+    </div>
+    <div class="row">
+      <paper-icon-button icon="icons:settings-input-composite"></paper-icon-button>
+    </div>
+    <div class="row">
+      <paper-icon-button icon="icons:watch-later"></paper-icon-button>
+    </div>
+    <div class="row">
+      <paper-icon-button icon="icons:settings"></paper-icon-button>
+    </div>
 
     <div class="spacer"></div>
 
     <!-- Bottom -->
-    <paper-icon-button icon="icons:power-settings-new"></paper-icon-button>
+    <div class="row">
+      <paper-icon-button icon="icons:power-settings-new"></paper-icon-button>
+    </div>
 
   </template>
   <script src="app-drawer-controls.js" charset="utf-8"></script>

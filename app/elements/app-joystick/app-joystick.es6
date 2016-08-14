@@ -5,6 +5,10 @@ const log = debug('rsvp-client:app-joystick');
 
 Polymer({
   is: 'app-joystick',
+  behaviors: [
+    Polymer.IronResizableBehavior,
+  ],
+
   properties: {
     /**
      * X Position of the joystick, relative to the joystick container
@@ -25,9 +29,9 @@ Polymer({
     },
 
     /**
-     * Title of the joystick (ie. what is it controlling?)
+     * Name of the joystick (ie. what is it controlling?)
      */
-    title: {
+    name: {
       type: String,
       value: 'Joystick',
     },
@@ -38,6 +42,15 @@ Polymer({
     transitionDisabled: {
       type: Boolean,
       value: true,
+      reflectToAttribute: true,
+    },
+
+    /**
+     * Whether or not the pad background should contain arrows
+     */
+    arrows: {
+      type: Boolean,
+      value: false,
       reflectToAttribute: true,
     },
 
@@ -85,6 +98,14 @@ Polymer({
     this._getJoystickDimensions();
     this._updatePadDimensions();
     this._returnToCenter();
+
+    // Attach to the resize listener when everything is configured
+    this.listen(this, 'iron-resize', '_onIronResize');
+  },
+
+  detached() {
+    // Unlisten to events
+    this.unlisten(this, 'iron-resize', '_onIronResize');
   },
 
   // === Private ===
@@ -160,8 +181,17 @@ Polymer({
    * Return the joystick to the center of the pad
    */
   _returnToCenter() {
-    this.xPos = this._padWidth / 2;
-    this.yPos = this._padHeight / 2;
+    const newX = this._padWidth / 2;
+    const newY = this._padHeight / 2;
+
+    // Prevent triggering the observers for no reason
+    if (this.xPos !== newX) {
+      this.xPos = newX;
+    }
+
+    if (this.yPos !== newY) {
+      this.yPos = newY;
+    }
   },
 
   /**
@@ -169,7 +199,7 @@ Polymer({
    */
   _onXPosChanged(value) {
     const actualValue = (value > this._padWidth) ? this._padWidth : ((value < 0) ? 0 : value);
-    this.$.joystick.style.left = `${actualValue - (this._joystickWidth / 2)}px`;
+    this.$.joystick.style.left = `${actualValue - (this._joystickWidth / 2) - 2}px`;
   },
 
   /**
@@ -177,6 +207,14 @@ Polymer({
    */
   _onYPosChanged(value) {
     const actualValue = (value > this._padHeight) ? this._padHeight : ((value < 0) ? 0 : value);
-    this.$.joystick.style.top = `${actualValue - (this._joystickHeight / 2)}px`;
+    this.$.joystick.style.top = `${actualValue - (this._joystickHeight / 2) - 2}px`;
+  },
+
+  /**
+   * Readjust the position of the joystick on resize (for flexible pad sizes + responsive layouting)
+   */
+  _onIronResize() {
+    this._updatePadDimensions();
+    this._returnToCenter();
   },
 });
