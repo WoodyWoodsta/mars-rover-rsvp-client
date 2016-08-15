@@ -1,5 +1,4 @@
 /* app-joystick.es6 */
-
 import { debug } from 'app-core';
 const log = debug('rsvp-client:app-joystick');
 
@@ -11,21 +10,27 @@ Polymer({
 
   properties: {
     /**
-     * X Position of the joystick, relative to the joystick container
+     * The position of the joystick relative to the pad
      */
-    xPos: {
-      type: Number,
-      value: 0,
-      observer: '_onXPosChanged',
+    position: {
+      type: Object,
+      value: {
+        x: 0,
+        y: 0,
+      },
+      observer: '_onPositionChanged',
     },
 
     /**
-     * Y Position of the joystick, relative to the joystick container
+     * The joystick control magnitudes
      */
-    yPos: {
-      type: Number,
-      value: 0,
-      observer: '_onYPosChanged',
+    magnitudes: {
+      type: Object,
+      value: {
+        x: 0,
+        y: 0,
+      },
+      observer: '_onMagnitudesChanged',
     },
 
     /**
@@ -49,6 +54,15 @@ Polymer({
      * Whether or not the pad background should contain arrows
      */
     arrows: {
+      type: Boolean,
+      value: false,
+      reflectToAttribute: true,
+    },
+
+    /**
+     * Whether or not the joystick is active
+     */
+    active: {
       type: Boolean,
       value: false,
       reflectToAttribute: true,
@@ -88,6 +102,10 @@ Polymer({
     },
   },
 
+  observers: [
+    '_onPosChanged(xPos, yPos)',
+  ],
+
   listeners: {
     'joystickContainer.down': '_onJoystickContainerDown',
     'joystickContainer.up': '_onJoystickContainerUp',
@@ -97,7 +115,12 @@ Polymer({
   attached() {
     this._getJoystickDimensions();
     this._updatePadDimensions();
-    this._returnToCenter();
+    this.returnToCenter();
+
+    // Signal that the joystick is ready
+    this.fire('app-joystick-ready', {
+      name: this.name,
+    });
 
     // Attach to the resize listener when everything is configured
     this.listen(this, 'iron-resize', '_onIronResize');
@@ -106,6 +129,43 @@ Polymer({
   detached() {
     // Unlisten to events
     this.unlisten(this, 'iron-resize', '_onIronResize');
+  },
+
+  /**
+  * Change the position of the joystick
+  * @param {Number}  x   The x position, in terms of the `left` CSS value
+  * @param {Number}  y   The y position, in terms of the `top` CSS value
+  */
+  changePosition(x, y) {
+    this.position = {
+      x,
+      y,
+    };
+  },
+
+  /**
+   * Change the joystick values in terms of magnitudes
+   * @param {Number}  x   The x position, in terms of magnitude
+   * @param {Number}  y   The y position, in terms of magnitude
+   */
+  changeMagnitudes(x, y) {
+    this.magnitudes = {
+      x,
+      y,
+    };
+  },
+
+  /**
+   * Return the joystick to the center of the pad
+   */
+  returnToCenter() {
+    const centerX = this._padWidth / 2;
+    const centerY = this._padHeight / 2;
+
+    // Prevent triggering the observers for no reason
+    if (this.position.x !== centerX || this.position.x !== centerY) {
+      this.changePosition(centerX, centerY);
+    }
   },
 
   // === Private ===
@@ -155,59 +215,51 @@ Polymer({
   * When the joystick is pressed
   */
   _onJoystickContainerDown(event) {
+    this.active = true;
     this._updatePadDimensions();
     this._trackStartLeft = event.detail.x - this._padX;
     this._trackStartTop = event.detail.y - this._padY;
-    this.xPos = this._trackStartLeft;
-    this.yPos = this._trackStartTop;
+    this.changePosition(this._trackStartLeft, this._trackStartTop);
   },
 
   /**
    * When the joystick is to track the pointer
    */
   _onJoystickContainerTrack(event) {
-    this.xPos = this._trackStartLeft + event.detail.dx;
-    this.yPos = this._trackStartTop + event.detail.dy;
+    this.changePosition(this._trackStartLeft + event.detail.dx, this._trackStartTop + event.detail.dy);
   },
 
   /**
    * When the joystick is unpressed
    */
   _onJoystickContainerUp() {
-    this._returnToCenter();
+    this.active = false;
+    this.returnToCenter();
   },
 
   /**
-   * Return the joystick to the center of the pad
+   * On change of position (top and left)
    */
-  _returnToCenter() {
-    const newX = this._padWidth / 2;
-    const newY = this._padHeight / 2;
+  _onPositionChanged(value) {
+    const limitXValue = (value.x > this._padWidth) ? this._padWidth : ((value.x < 0) ? 0 : value.x);
+    const leftValue = limitXValue - (this._joystickWidth / 2) - 2;
 
-    // Prevent triggering the observers for no reason
-    if (this.xPos !== newX) {
-      this.xPos = newX;
-    }
+    const limitYValue = (value.y > this._padHeight) ? this._padHeight : ((value.y < 0) ? 0 : value.y);
+    const topValue = limitYValue - (this._joystickHeight / 2) - 2;
 
-    if (this.yPos !== newY) {
-      this.yPos = newY;
-    }
+    this.changeMagnitudes({
+      x: this._posToMagX(limitXValue),
+      y: this._posToMagY(limitYValue)
+    });
+    this.$.joystick.style.left = `${leftValue}px`;
+    this.$.joystick.style.top = `${topValue}px`;
   },
 
   /**
-   * On change of X position (left)
+   * When the magnitudes value changes, notify outside elements
    */
-  _onXPosChanged(value) {
-    const actualValue = (value > this._padWidth) ? this._padWidth : ((value < 0) ? 0 : value);
-    this.$.joystick.style.left = `${actualValue - (this._joystickWidth / 2) - 2}px`;
-  },
-
-  /**
-   * On change of Y position (top)
-   */
-  _onYPosChanged(value) {
-    const actualValue = (value > this._padHeight) ? this._padHeight : ((value < 0) ? 0 : value);
-    this.$.joystick.style.top = `${actualValue - (this._joystickHeight / 2) - 2}px`;
+  _onMagnitudesChanged(value) {
+    this._fireNewMagnitudesEvent(value.x, value.y);
   },
 
   /**
@@ -215,6 +267,44 @@ Polymer({
    */
   _onIronResize() {
     this._updatePadDimensions();
-    this._returnToCenter();
+    this.returnToCenter();
+  },
+
+  /**
+   * Fire a `press` event with the correct schema
+   */
+  _fireNewPressEvent(x, y) {
+    this.fire('app-joystick-tweak', {
+      type: 'press',
+      xMag: this._posToMagX(x),
+      yMag: this._posToMagY(y),
+    });
+  },
+
+  /**
+   * Fire a `new-magnitudes` event with the correct schema
+   */
+  _fireNewMagnitudesEvent(mag) {
+    this.fire('app-joystick-tweak', {
+      type: 'new-magnitudes',
+      xMag: mag.x,
+      yMag: mag.y,
+    });
+  },
+
+  /**
+   * Convert the left postion to a magnitude between -1 and 1
+   * @return {Number} The magnitude within the bounds above
+   */
+  _posToMagX(x) {
+    return ((x - (0.5 * this._padWidth)) / this._padWidth) * 2;
+  },
+
+  /**
+   * Convert the top postion to a magnitude between -1 and 1
+   * @return {Number} The magnitude within the bounds above
+   */
+  _posToMagY(y) {
+    return ((y - (0.5 * this._padHeight)) / this._padHeight) * 2;
   },
 });

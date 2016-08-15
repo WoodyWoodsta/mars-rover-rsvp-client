@@ -33,7 +33,6 @@
   "devDependencies": {
     "@woodywoodsta/babel-preset-browser-bundle": "^1.0.0",
     "@woodywoodsta/babel-preset-browser-polymer": "^1.0.0",
-    "babel-cli": "^6",
     "babelify": "^7",
     "browserify": "^13",
     "concurrently": "^2",

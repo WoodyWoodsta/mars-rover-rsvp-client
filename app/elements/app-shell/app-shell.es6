@@ -3,6 +3,10 @@
 Polymer({
   is: 'app-shell',
 
+  behaviors: [
+    Polymer.IronResizableBehavior,
+  ],
+
   properties: {
     /**
      * Whether or not the side bar is full or narrow
@@ -22,10 +26,14 @@ Polymer({
     // === Private ===
   },
 
+  listeners: {
+    'iron-resize': '_onIronResize',
+  },
+
   attached() {
     this.listen(this.$.drawerControls.$.collapseButton, 'tap', '_onExpandToggleableTap');
     this.listen(this.$.drawerControls.$.drawerSpacer, 'tap', '_onExpandToggleableTap');
-    this._onNarrowChanged(this.$.layout.narrow);
+    this._onIsExpandedChanged(this.$.layout.narrow);
   },
 
   detached() {
@@ -59,7 +67,7 @@ Polymer({
     }
   },
 
-  _onIsExpandedChanged(newValue, oldValue) {
+  _onIsExpandedChanged(newValue) {
     if (newValue) {
       this.$.appDrawer.customStyle['--app-drawer-width'] = '256px';
       this.updateStyles();
@@ -75,6 +83,12 @@ Polymer({
     if (value) {
       this.expandDrawer();
     } else {
+      this.collapseDrawer();
+    }
+  },
+
+  _onIronResize() {
+    if (!this.narrow) {
       this.collapseDrawer();
     }
   },
