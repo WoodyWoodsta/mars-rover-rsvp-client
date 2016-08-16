@@ -11,7 +11,7 @@ export function init() {
 
   controlIOClient.on('error', () => {
     log('A socket.io error ocurred');
-  })
+  });
 }
 
 // === Private ===

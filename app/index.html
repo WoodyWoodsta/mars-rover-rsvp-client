@@ -22,10 +22,10 @@
 
     <!-- Scripts -->
     <script type="text/javascript">
-
-
       window.Polymer = { lazyRegister: false, dom: 'shadow' };
     </script>
+    <script src="bower_components/adapter.js/adapter.js"></script>
+    <script src="bower_components/kurento-utils/js/kurento-utils.js"></script>
     <script src="bower_components/webcomponentsjs/webcomponents.js" charset="utf-8"></script>
     <link rel="import" href="bower_components/polymer/polymer.html">
 
@@ -52,7 +52,9 @@
       <app-body body></app-body>
     </app-shell>
     <script type="text/javascript">
-      require('app-bootstrap');
+      require('app-core');
+      // require('app-behaviors');
+      // require('app-bootstrap');
     </script>
   </body>
 </html>
