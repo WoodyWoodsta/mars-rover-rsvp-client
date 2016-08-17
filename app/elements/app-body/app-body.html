@@ -1,25 +1,27 @@
 <!-- app-body.html -->
 <!-- elements -->
-<link rel="import" href="../app-joystick/app-joystick.html">
+<link rel="import" href="../app-rover-controls/app-rover-controls.html">
+<link rel="import" href="../app-rover-overview/app-rover-overview.html">
 
 <dom-module id="app-body">
   <template>
     <style>
       :host {
         @apply(--layout-vertical);
+        @apply(--layout-fit);
 
-        padding: var(--container-padding);
+        margin: var(--container-padding);
       }
 
       #upperContainer {
         @apply(--layout-horizontal);
+        @apply(--layout-start);
         @apply(--layout-flex);
-        /*@apply(--layout-center);*/
       }
 
       #lowerContainer {
-        @apply(--layout-center);
         @apply(--layout-horizontal);
+        @apply(--layout-center);
       }
 
       app-stream-container {
@@ -29,11 +31,19 @@
       app-rover-controls {
         @apply(--layout-flex);
       }
+
+      paper-button {
+        --paper-button: {
+          @apply(--layout-flex-none);
+        };
+      }
     </style>
+
 
     <div id="upperContainer">
       <!-- Video Container -->
-      <app-stream-container></app-stream-container>
+      <rover-control-button icon="icons:pan-tool" tool-tip="This is a nice test button" tool-tip-position="bottom">Testing</rover-control-button>
+      <!-- <app-stream-container></app-stream-container> -->
 
       <!-- Telemetry -->
     </div>

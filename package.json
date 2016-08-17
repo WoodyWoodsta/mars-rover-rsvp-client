@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "init-build": "ln -s $(pwd)/bower_components ../mars-rover-rsvp-server/app/bower_components",
+    "init-build": "mkdir ../mars-rover-rsvp-server/app && ln -s $(pwd)/bower_components ../mars-rover-rsvp-server/app/bower_components",
+    "clean": "rm -rf ../mars-rover-rsvp-server/app && npm run init-build",
     "build-core": "browserify ./src/app-core.es6 -o ../mars-rover-rsvp-server/app/app-core.js --extension=.js --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] --extensions .es6 ] -r ./src/app-core.es6:app-core -x app-behaviors -x app-bootstrap",
     "build-behaviors": "browserify ./src/app-behaviors.es6 -o ../mars-rover-rsvp-server/app/app-behaviors.js --extension=.js --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] --extensions .es6 ] -r ./src/app-behaviors.es6:app-behaviors -x app-core -x app-bootstrap",
     "build-bootstrap": "browserify ./src/app-bootstrap.es6 -o ../mars-rover-rsvp-server/app/app-bootstrap.js --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] --extensions .es6 ] -r ./src/app-bootstrap.es6:app-bootstrap -x app-core -x app-behaviors",

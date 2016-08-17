@@ -18,12 +18,12 @@
     "kurento-utils": "master",
     "adapter.js": "^0.2",
     "polymer": "Polymer/polymer#^1",
-    "app-elements": "PolymerElements/app-elements#^1",
+    "app-elements": "PolymerElements/app-elements#^0.10",
     "iron-elements": "PolymerElements/iron-elements#^1",
     "paper-elements": "PolymerElements/paper-elements#^1",
     "platinum-elements": "PolymerElements/platinum-elements#^1",
     "neon-elements": "PolymerElements/neon-elements#^1",
-    "app-elements": "PolymerElements/app-elements#^0.10",
-    "molecules": "PolymerElements/molecules#^1"
+    "molecules": "PolymerElements/molecules#^1",
+    "mat-tooltip": "ExpandJS/mat-tooltip#^0.10.0"
   }
 }

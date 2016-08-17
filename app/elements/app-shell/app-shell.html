@@ -11,14 +11,7 @@
       }
 
       app-drawer-layout {
-        height: 100%;
         background-color: var(--dark-strong-alpha);
-      }
-
-      #mainContent {
-        @apply(--layout-vertical);
-
-        height: 100%;
       }
 
       #drawerWrapper {
@@ -55,7 +48,7 @@
     </style>
 
     <!-- Main Layout -->
-    <app-drawer-layout id="layout" narrow="{{narrow}}">
+    <app-drawer-layout id="layout" fullbleed narrow="{{narrow}}">
       <!-- Drawer -->
       <app-drawer id="appDrawer" swipe-open>
         <div id="drawerWrapper">
@@ -64,9 +57,7 @@
       </app-drawer>
 
       <!-- Body -->
-      <div id="mainContent">
-        <content id="drawerContent" select="[body]"></content>
-      </div>
+      <content id="mainContent" select="[body]"></content>
     </app-drawer-layout>
 
   </template>

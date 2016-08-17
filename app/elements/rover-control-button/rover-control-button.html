@@ -1,0 +1,90 @@
+<!-- rover-control-button.html -->
+
+<dom-module id="rover-control-button">
+  <template>
+    <style>
+      :host {
+        @apply(--layout-inline);
+        @apply(--layout-center-center);
+
+        position: relative;
+        box-sizing: border-box;
+        background: transparent;
+        font: inherit;
+        outline-width: 0;
+        border-radius: var(--border-radius-large);
+        -moz-user-select: none;
+        -ms-user-select: none;
+        -webkit-user-select: none;
+        user-select: none;
+        cursor: pointer;
+        z-index: 0;
+        padding: var(--container-padding);
+
+        min-width: var(--rover-control-button-width, 70px);
+        min-height: var(--rover-control-button-height, 70px);
+
+        /* Mobile outline hack */
+        outline: none;
+        -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+      }
+
+      #buttonContainer {
+        @apply(--layout-fit);
+        @apply(--layout-vertical);
+
+        background-color: var(--dark-normal-alpha);
+        border-radius: var(--border-radius-large);
+
+        transition: color calc(var(--duration) / 2) var(--timing-function);
+      }
+
+      #buttonInner {
+        @apply(--layout-vertical);
+        @apply(--layout-center-justified);
+        @apply(--layout-center);
+        @apply(--layout-flex);
+
+        margin: var(--element-padding);
+        padding: var(--element-padding);
+        border: 1px solid var(--light-normal-alpha);
+        border-radius: var(--border-radius);
+
+        transition: background-color calc(var(--duration) / 2) var(--timing-function);
+      }
+
+      :host([pressed]) #buttonInner {
+        background-color: var(--light-medium-alpha);
+        border: 1px solid var(--transparent);
+      }
+
+      :host([pressed]) {
+        color: var(--dark-strong-alpha);
+      }
+
+      iron-icon {
+        --iron-icon-height: 18px;
+        --iron-icon-width: var(--iron-icon-height);
+      }
+    </style>
+
+    <!-- Tooltip -->
+    <template is="dom-if" if="{{toolTip}}" restamp="true">
+      <paper-tooltip position="{{toolTipPosition}}">{{toolTip}}</paper-tooltip>
+    </template>
+
+    <div id="buttonContainer">
+      <div id="buttonInner">
+        <!-- Icon -->
+        <template is="dom-if" if="{{icon}}" restamp="true">
+          <iron-icon icon="{{icon}}"></iron-icon>
+        </template>
+
+        <!-- Text -->
+        <content id="textContent"></content>
+      </div>
+    </div>
+
+  </template>
+  <script src="rover-control-button.js" charset="utf-8"></script>
+</dom-module>

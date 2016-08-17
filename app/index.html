@@ -27,7 +27,6 @@
     <script src="bower_components/adapter.js/adapter.js"></script>
     <script src="bower_components/kurento-utils/js/kurento-utils.js"></script>
     <script src="bower_components/webcomponentsjs/webcomponents.js" charset="utf-8"></script>
-    <link rel="import" href="bower_components/polymer/polymer.html">
 
     <!-- Bundles -->
     <script src="app-bootstrap.js" charset="utf-8"></script>
@@ -35,15 +34,11 @@
     <script src="app-behaviors.js" charset="utf-8"></script>
 
     <!-- Imports -->
-
+    <link rel="import" href="bower_components/polymer/polymer.html">
     <link rel="import" href="./elements/elements.html">
 
     <!-- Custom Style -->
     <style is="custom-style">
-      app-body {
-        @apply(--layout-flex);
-        @apply(--layout-self-stretch)
-      }
     </style>
   </head>
 
@@ -51,10 +46,11 @@
     <app-shell>
       <app-body body></app-body>
     </app-shell>
+
     <script type="text/javascript">
-      require('app-core');
+      // require('app-core');
       // require('app-behaviors');
-      // require('app-bootstrap');
+      require('app-bootstrap');
     </script>
   </body>
 </html>
