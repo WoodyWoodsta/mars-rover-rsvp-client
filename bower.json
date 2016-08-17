@@ -16,7 +16,7 @@
   ],
   "dependencies": {
     "kurento-utils": "master",
-    "adapter.js": "v0.2.9",
+    "adapter.js": "^0.2",
     "polymer": "Polymer/polymer#^1",
     "app-elements": "PolymerElements/app-elements#^1",
     "iron-elements": "PolymerElements/iron-elements#^1",

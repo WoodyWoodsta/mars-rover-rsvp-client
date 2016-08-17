@@ -21,23 +21,27 @@
         @apply(--layout-center);
         @apply(--layout-horizontal);
       }
+
+      app-stream-container {
+        @apply(--layout-flex);
+      }
+
+      app-rover-controls {
+        @apply(--layout-flex);
+      }
     </style>
 
     <div id="upperContainer">
       <!-- Video Container -->
-      <h1>MARS ROVER</h1>
-      <video id="video" autoplay controls width="320px" height="180px"></video>
+      <app-stream-container></app-stream-container>
 
       <!-- Telemetry -->
     </div>
     <div id="lowerContainer">
       <!-- Controls -->
-      <app-joystick name="Drive" arrows></app-joystick>
-
-      <!-- REVIEW: Should this not be a keypad type control? -->
-      <app-joystick name="Head"></app-joystick>
-
-      <!-- Graphical Overview -->
+      <app-rover-controls>
+        <app-rover-overview></app-rover-overview>
+      </app-rover-controls>
     </div>
 
   </template>

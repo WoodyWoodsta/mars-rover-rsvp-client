@@ -1,4 +1,7 @@
 /* kurento-behavior.es6 */
+/**
+ * Exposes video streaming functionality to the browser
+ */
 import debug from 'debug';
 import { kurentoIOClient } from 'app-core';
 
@@ -7,27 +10,88 @@ const log = debug('rsvp-client: kurento-behavior');
 let video = null;
 let webRtcPeer = null;
 
-// TODO: Sort this mess out
-const ws = kurentoIOClient.init({
-  getVideo,
-  getWebRtcPeer,
-  presenterResponse,
-  viewerResponse,
-  dispose,
+const ws = kurentoIOClient.init((message) => {
+  log('Received a message');
+
+  const parsedMessage = JSON.parse(message);
+  log(`Received message: ${message}`);
+
+  switch (parsedMessage.id) {
+    case 'presenterResponse':
+      presenterResponse(parsedMessage);
+      break;
+    case 'viewerResponse':
+      viewerResponse(parsedMessage);
+      break;
+    case 'stopCommunication':
+      dispose();
+      break;
+    case 'iceCandidate':
+      webRtcPeer.addIceCandidate(parsedMessage.candidate);
+      break;
+    default:
+      log(`Error, unrecognized message: ${parsedMessage}`);
+  }
 });
 
-export function getVideo() {
-  return video;
+function _onBeforeUnloadCallback() {
+  ws.close();
 }
 
+window.onbeforeunload = _onBeforeUnloadCallback;
+
+// === Public ===
 export function setVideo(inputVideo) {
   video = inputVideo;
 }
 
-export function getWebRtcPeer() {
-  return webRtcPeer;
+export function presenter() {
+  if (!webRtcPeer) {
+    log('Presenter - Loading peer video...');
+
+    const options = {
+      localVideo: video,
+      onicecandidate: onIceCandidate,
+    };
+
+    webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options, function callback(error) {
+      if (error) return onError(error);
+
+      this.generateOffer(onOfferPresenter);
+    });
+  }
 }
 
+export function viewer() {
+  if (!webRtcPeer) {
+    // showSpinner(video);
+    log('Viewer - Loading peer video...');
+
+    const options = {
+      remoteVideo: video,
+      onicecandidate: onIceCandidate,
+    };
+
+    webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options, function callback(error) {
+      if (error) return onError(error);
+
+      this.generateOffer(onOfferViewer);
+    });
+  }
+}
+
+export function stop() {
+  if (webRtcPeer) {
+    const message = {
+      id: 'stop',
+    };
+
+    sendMessage(message);
+    dispose();
+  }
+}
+
+// === Private ===
 function presenterResponse(message) {
   if (message.response !== 'accepted') {
     const errorMsg = message.message ? message.message : 'Unknow error';
@@ -48,23 +112,6 @@ function viewerResponse(message) {
   }
 }
 
-export function presenter() {
-  if (!webRtcPeer) {
-    log('Presenter - Loading peer video...');
-
-    const options = {
-      localVideo: video,
-      onicecandidate: onIceCandidate,
-    };
-
-    webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options, function callback(error) {
-      if (error) return onError(error);
-
-      this.generateOffer(onOfferPresenter);
-    });
-  }
-}
-
 function onOfferPresenter(error, offerSdp) {
   if (error) return onError(error);
 
@@ -74,24 +121,6 @@ function onOfferPresenter(error, offerSdp) {
   };
 
   sendMessage(message);
-}
-
-export function viewer() {
-  if (!webRtcPeer) {
-    // showSpinner(video);
-    log('Viewer - Loading peer video...');
-
-    const options = {
-      remoteVideo: video,
-      onicecandidate: onIceCandidate,
-    };
-
-    webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerRecvonly(options, function callback(error) {
-      if (error) return onError(error);
-
-      this.generateOffer(onOfferViewer);
-    });
-  }
 }
 
 function onOfferViewer(error, offerSdp) {
@@ -116,17 +145,6 @@ function onIceCandidate(candidate) {
   sendMessage(message);
 }
 
-export function stop() {
-  if (webRtcPeer) {
-    const message = {
-      id: 'stop',
-    };
-
-    sendMessage(message);
-    dispose();
-  }
-}
-
 function dispose() {
   if (webRtcPeer) {
     webRtcPeer.dispose();
@@ -142,24 +160,3 @@ function sendMessage(message) {
   log(`Senging message: ${jsonMessage}`);
   ws.send(jsonMessage);
 }
-
-// function showSpinner() {
-//   for (let i = 0; i < arguments.length; i++) {
-//     arguments[i].poster = './img/transparent-1px.png';
-//     arguments[i].style.background = 'center transparent url("./img/spinner.gif") no-repeat';
-//   }
-// }
-
-// function hideSpinner() {
-//   for (var i = 0; i < arguments.length; i++) {
-//     arguments[i].src = '';
-//     arguments[i].poster = './img/webrtc.png';
-//     arguments[i].style.background = '';
-//   }
-// }
-
-function _onBeforeUnloadCallback() {
-  ws.close();
-}
-
-window.onbeforeunload = _onBeforeUnloadCallback;

@@ -1,9 +1,9 @@
-/* app-joystick.es6 */
+/* rover-control-joystick.es6 */
 import { debug } from 'app-core';
-const log = debug('rsvp-client:app-joystick');
+const log = debug('rsvp-client:rover-control-joystick');
 
 Polymer({
-  is: 'app-joystick',
+  is: 'rover-control-joystick',
   behaviors: [
     Polymer.IronResizableBehavior,
   ],
@@ -118,7 +118,7 @@ Polymer({
     this.returnToCenter();
 
     // Signal that the joystick is ready
-    this.fire('app-joystick-ready', {
+    this.fire('rover-control-joystick-ready', {
       name: this.name,
     });
 
@@ -274,7 +274,7 @@ Polymer({
    * Fire a `press` event with the correct schema
    */
   _fireNewPressEvent(x, y) {
-    this.fire('app-joystick-tweak', {
+    this.fire('rover-control-joystick-tweak', {
       type: 'press',
       xMag: this._posToMagX(x),
       yMag: this._posToMagY(y),
@@ -285,7 +285,7 @@ Polymer({
    * Fire a `new-magnitudes` event with the correct schema
    */
   _fireNewMagnitudesEvent(mag) {
-    this.fire('app-joystick-tweak', {
+    this.fire('rover-control-joystick-tweak', {
       type: 'new-magnitudes',
       xMag: mag.x,
       yMag: mag.y,

@@ -1,0 +1,30 @@
+<!-- app-rover-controls.html -->
+<dom-module id="app-rover-controls">
+  <template>
+    <style>
+      :host {
+        @apply(--layout-horizontal);
+      }
+
+      .vertical {
+        @apply(--layout-vertical);
+      }
+
+      #midPanel {
+        @apply(--layout-flex);
+      }
+    </style>
+
+    <div id="leftPanel" class="vertical">
+      <rover-control-joystick name="Drive" arrows></rover-control-joystick>
+    </div>
+    <div id="midPanel">
+      <content></content>
+    </div>
+    <div id="rightPanel" class="vertical">
+      <!-- REVIEW: Should this not be a keypad type control? -->
+      <rover-control-joystick name="Head"></rover-control-joystick>
+    </div>
+  </template>
+  <script src="app-rover-controls.js" charset="utf-8"></script>
+</dom-module>
