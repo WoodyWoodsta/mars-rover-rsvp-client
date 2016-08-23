@@ -8,6 +8,8 @@
     <style>
       :host {
         @apply(--layout-horizontal);
+
+        --rover-control-button-icon-size: 24px;
       }
 
       .vertical {
@@ -17,17 +19,76 @@
       #midPanel {
         @apply(--layout-flex);
       }
+
+      #leftPanel {
+        @apply(--layout-vertical);
+      }
+
+      .horizontal-buttons {
+        @apply(--layout-horizontal);
+        @apply(--layout-start);
+      }
+
+      .horizontal-buttons > rover-control-button {
+        @apply(--layout-flex);
+
+        margin-bottom: var(--element-padding);
+      }
+
+      .horizontal-buttons > rover-control-button + rover-control-button {
+        margin-right: var(--element-padding);
+      }
+
+      .horizontal-buttons > rover-control-button:first-child {
+        margin-right: var(--element-padding);
+      }
+
+      .horizontal-buttons > rover-control-button + rover-control-button {
+        margin-right: var(--element-padding);
+      }
+
+      .horizontal-buttons > rover-control-button:last-child {
+        margin-right: 0;
+      }
     </style>
 
     <div id="leftPanel" class="vertical">
+      <div class="horizontal-buttons">
+        <rover-control-button icon="rsvp:rotate-left"
+          tool-tip="Rotate the rover counter-clockwise on the spot"
+          tool-tip-position="top">
+          <span>CCW</span>
+        </rover-control-button>
+        <rover-control-button icon="rsvp:rotate-right"
+          tool-tip="Rotate the rover clockwise on the spot"
+          tool-tip-position="top">
+          Rotate CW
+        </rover-control-button>
+      </div>
       <rover-control-joystick name="Drive" arrows></rover-control-joystick>
     </div>
     <div id="midPanel">
       <content></content>
     </div>
     <div id="rightPanel" class="vertical">
-      <!-- REVIEW: Should this not be a keypad type control? -->
-      <rover-control-joystick name="Head"></rover-control-joystick>
+      <div class="horizontal-buttons">
+
+      </div>
+      <div class="horizontal-buttons">
+        <rover-control-button icon="rsvp:rotate-left"
+          tool-tip="Rotate the rover counter-clockwise on the spot"
+          tool-tip-position="bottom">
+          Rotate CCW Over and over <br> over
+        </rover-control-button>
+        <rover-control-button icon="rsvp:rotate-right"
+          tool-tip="Rotate the rover clockwise on the spot"
+          tool-tip-position="bottom">
+          Rotate CW
+        </rover-control-button>
+      </div>
+      <div class="horizontal-buttons">
+
+      </div>
     </div>
   </template>
   <script src="app-rover-controls.js" charset="utf-8"></script>

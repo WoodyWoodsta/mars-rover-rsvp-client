@@ -37,20 +37,32 @@
           @apply(--layout-flex-none);
         };
       }
+
+      .test {
+        @apply(--layout-horizontal);
+
+      }
+
+      .test paper-button {
+        @apply(--layout-flex);
+      }
     </style>
 
 
     <div id="upperContainer">
       <!-- Video Container -->
-      <rover-control-button icon="icons:pan-tool" tool-tip="This is a nice test button" tool-tip-position="bottom">Testing</rover-control-button>
       <!-- <app-stream-container></app-stream-container> -->
+      <div class="test" style="width: 300px;">
+        <paper-button raised>Testing one two three four</paper-button>
+        <paper-button raised>Testing one two three four</paper-button>
+      </div>
 
       <!-- Telemetry -->
     </div>
     <div id="lowerContainer">
       <!-- Controls -->
       <app-rover-controls>
-        <app-rover-overview></app-rover-overview>
+        <app-rover-overview middle></app-rover-overview>
       </app-rover-controls>
     </div>
 

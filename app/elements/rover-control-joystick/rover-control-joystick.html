@@ -9,7 +9,6 @@
 
         height: var(--joystick-height, 200px);
         width: var(--joystick-width, 200px);
-        padding: var(--element-padding);
 
         -webkit-user-select: none;
         -moz-user-select: none;
@@ -20,17 +19,17 @@
         @apply(--layout-flex);
         @apply(--layout-self-stretch);
 
-        border-radius: 10px;
+        border-radius: var(--border-radius-large);
         background-color: var(--dark-normal-alpha);
       }
 
       #joystickContainer {
-        position: relative;
         @apply(--layout-flex);
 
+        position: relative;
         margin: var(--container-padding);
-        border: solid 2px var(--light-semiweak-alpha);
-        border-radius: var(--border-radius-large);
+        border: solid 1px var(--light-normal-alpha);
+        border-radius: var(--border-radius);
       }
 
       #joystick {

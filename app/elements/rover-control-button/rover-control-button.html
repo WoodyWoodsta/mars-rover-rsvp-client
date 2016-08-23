@@ -5,38 +5,29 @@
     <style>
       :host {
         @apply(--layout-inline);
-        @apply(--layout-center-center);
+        /*@apply(--layout-vertical);*/
 
-        position: relative;
-        box-sizing: border-box;
-        background: transparent;
-        font: inherit;
+        min-width: var(--rover-control-button-width, 70px);
+        min-height: var(--rover-control-button-height, 70px);
+
         outline-width: 0;
+        box-sizing: border-box;
+        font: inherit;
         border-radius: var(--border-radius-large);
+        background-color: var(--dark-normal-alpha);
+
         -moz-user-select: none;
         -ms-user-select: none;
         -webkit-user-select: none;
         user-select: none;
         cursor: pointer;
         z-index: 0;
-        padding: var(--container-padding);
 
-        min-width: var(--rover-control-button-width, 70px);
-        min-height: var(--rover-control-button-height, 70px);
+        transition: color calc(var(--duration) / 2) var(--timing-function);
 
         /* Mobile outline hack */
         outline: none;
         -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
-      }
-
-      #buttonContainer {
-        @apply(--layout-fit);
-        @apply(--layout-vertical);
-
-        background-color: var(--dark-normal-alpha);
-        border-radius: var(--border-radius-large);
-
-        transition: color calc(var(--duration) / 2) var(--timing-function);
       }
 
       #buttonInner {
@@ -45,12 +36,15 @@
         @apply(--layout-center);
         @apply(--layout-flex);
 
+        /*height: auto;*/
         margin: var(--element-padding);
         padding: var(--element-padding);
         border: 1px solid var(--light-normal-alpha);
         border-radius: var(--border-radius);
 
-        transition: background-color calc(var(--duration) / 2) var(--timing-function);
+        transition-property: background-color, border;
+        transition-duration: calc(var(--duration) / 2);
+        transition-timing-function: var(--timing-function);
       }
 
       :host([pressed]) #buttonInner {
@@ -63,8 +57,20 @@
       }
 
       iron-icon {
-        --iron-icon-height: 18px;
+        --iron-icon: {
+          @apply(--layout-flex-none);
+        };
+
+        --iron-icon-height: var(--rover-control-button-icon-size, 18px);
         --iron-icon-width: var(--iron-icon-height);
+      }
+
+      #buttonText {
+        height: auto;
+        min-width: 0;
+        padding: 0 var(--element-padding);
+        text-align: center;
+        word-wrap: break-word;
       }
     </style>
 
@@ -73,7 +79,7 @@
       <paper-tooltip position="{{toolTipPosition}}">{{toolTip}}</paper-tooltip>
     </template>
 
-    <div id="buttonContainer">
+
       <div id="buttonInner">
         <!-- Icon -->
         <template is="dom-if" if="{{icon}}" restamp="true">
@@ -81,8 +87,9 @@
         </template>
 
         <!-- Text -->
-        <content id="textContent"></content>
-      </div>
+        <div id="buttonText">
+          <content id="textContent"></content>
+        </div>
     </div>
 
   </template>
