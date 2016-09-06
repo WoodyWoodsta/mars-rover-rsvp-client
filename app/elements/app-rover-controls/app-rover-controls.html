@@ -2,21 +2,40 @@
 
 <!-- components -->
 <link rel="import" href="../rover-control-button/rover-control-button.html">
+<link rel="import" href="../rover-control-joystick/rover-control-joystick.html">
 
 <dom-module id="app-rover-controls">
   <template>
-    <style>
+    <style include="app-general-shared-styles">
       :host {
         @apply(--layout-horizontal);
 
         --rover-control-button-icon-size: 24px;
       }
 
+      .panel + .panel {
+        margin-left: var(--container-padding);
+      }
+
+      #leftPanel > rover-control-joystick {
+        --pad-width: 200px;
+      }
+
+      #rightPanel {
+        min-width: 200px;
+      }
+
       .vertical {
         @apply(--layout-vertical);
+        @apply(--layout-center);
       }
 
       #midPanel {
+        @apply(--layout-vertical);
+        @apply(--layout-flex);
+      }
+
+      #midPanel > ::content > [middle] {
         @apply(--layout-flex);
       }
 
@@ -24,36 +43,51 @@
         @apply(--layout-vertical);
       }
 
-      .horizontal-buttons {
+      .button-row {
         @apply(--layout-horizontal);
-        @apply(--layout-start);
+        @apply(--layout-self-stretch);
       }
 
-      .horizontal-buttons > rover-control-button {
-        @apply(--layout-flex);
+      .button-row + .button-row {
+        margin-top: var(--element-padding);
+      }
 
+      .button-row.left {
         margin-bottom: var(--element-padding);
       }
 
-      .horizontal-buttons > rover-control-button + rover-control-button {
-        margin-right: var(--element-padding);
+      .button-row > rover-control-button + rover-control-button {
+        margin-left: var(--element-padding);
       }
 
-      .horizontal-buttons > rover-control-button:first-child {
-        margin-right: var(--element-padding);
+
+      .button-row > rover-control-button {
+        @apply(--layout-flex);
       }
 
-      .horizontal-buttons > rover-control-button + rover-control-button {
-        margin-right: var(--element-padding);
+      .button-row.right {
+        @apply(--layout-flex);
       }
 
-      .horizontal-buttons > rover-control-button:last-child {
-        margin-right: 0;
+      .icon-heading {
+        @apply(--layout-horizontal);
+        @apply(--layout-self-start);
+        @apply(--layout-center);
       }
+
+      .icon-heading > iron-icon {
+        margin: 0 var(--element-padding);
+      }
+
     </style>
 
-    <div id="leftPanel" class="vertical">
-      <div class="horizontal-buttons">
+    <!-- Left Hand Panel -->
+    <div id="leftPanel" class="panel vertical">
+      <div class="icon-heading">
+        <iron-icon icon="rsvp:engine"></iron-icon>
+        <div class="app subheading">Drive</div>
+      </div>
+      <div class="button-row left">
         <rover-control-button icon="rsvp:rotate-left"
           tool-tip="Rotate the rover counter-clockwise on the spot"
           tool-tip-position="top">
@@ -67,27 +101,49 @@
       </div>
       <rover-control-joystick name="Drive" arrows></rover-control-joystick>
     </div>
-    <div id="midPanel">
-      <content></content>
-    </div>
-    <div id="rightPanel" class="vertical">
-      <div class="horizontal-buttons">
 
+    <!-- Center Panel -->
+    <div id="midPanel" class="panel">
+      <div class="icon-heading">
+        <iron-icon icon="rsvp:surround-sound"></iron-icon>
+        <div class="app subheading">Rover Overview</div>
       </div>
-      <div class="horizontal-buttons">
-        <rover-control-button icon="rsvp:rotate-left"
+      <content select="[middle]"></content>
+    </div>
+
+    <!-- Right Hand Panel -->
+    <div id="rightPanel" class="panel vertical">
+      <div class="icon-heading">
+        <iron-icon icon="rsvp:visibility"></iron-icon>
+        <span class="app subheading">Head</span>
+      </div>
+      <div class="button-row right">
+        <rover-control-button icon="rsvp:keyboard-arrow-up"
           tool-tip="Rotate the rover counter-clockwise on the spot"
           tool-tip-position="bottom">
-          Rotate CCW Over and over <br> over
-        </rover-control-button>
-        <rover-control-button icon="rsvp:rotate-right"
-          tool-tip="Rotate the rover clockwise on the spot"
-          tool-tip-position="bottom">
-          Rotate CW
+          Point Up
         </rover-control-button>
       </div>
-      <div class="horizontal-buttons">
 
+      <div class="button-row right">
+        <rover-control-button icon="rsvp:keyboard-arrow-left"
+          tool-tip="Rotate the rover counter-clockwise on the spot"
+          tool-tip-position="bottom">
+          Pan Left
+        </rover-control-button>
+        <rover-control-button icon="rsvp:keyboard-arrow-right"
+          tool-tip="Rotate the rover clockwise on the spot"
+          tool-tip-position="bottom">
+          Pan Right
+        </rover-control-button>
+      </div>
+
+      <div class="button-row right">
+        <rover-control-button icon="rsvp:keyboard-arrow-down"
+          tool-tip="Rotate the rover counter-clockwise on the spot"
+          tool-tip-position="bottom">
+          Point Down
+        </rover-control-button>
       </div>
     </div>
   </template>

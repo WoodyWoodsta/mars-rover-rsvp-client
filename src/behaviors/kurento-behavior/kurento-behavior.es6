@@ -17,9 +17,6 @@ const ws = kurentoIOClient.init((message) => {
   log(`Received message: ${message}`);
 
   switch (parsedMessage.id) {
-    case 'presenterResponse':
-      presenterResponse(parsedMessage);
-      break;
     case 'viewerResponse':
       viewerResponse(parsedMessage);
       break;
@@ -45,26 +42,8 @@ export function setVideo(inputVideo) {
   video = inputVideo;
 }
 
-export function presenter() {
-  if (!webRtcPeer) {
-    log('Presenter - Loading peer video...');
-
-    const options = {
-      localVideo: video,
-      onicecandidate: onIceCandidate,
-    };
-
-    webRtcPeer = kurentoUtils.WebRtcPeer.WebRtcPeerSendonly(options, function callback(error) {
-      if (error) return onError(error);
-
-      this.generateOffer(onOfferPresenter);
-    });
-  }
-}
-
 export function viewer() {
   if (!webRtcPeer) {
-    // showSpinner(video);
     log('Viewer - Loading peer video...');
 
     const options = {
@@ -92,16 +71,6 @@ export function stop() {
 }
 
 // === Private ===
-function presenterResponse(message) {
-  if (message.response !== 'accepted') {
-    const errorMsg = message.message ? message.message : 'Unknow error';
-    log(`Call not accepted for the following reason: ${errorMsg}`);
-    dispose();
-  } else {
-    webRtcPeer.processAnswer(message.sdpAnswer);
-  }
-}
-
 function viewerResponse(message) {
   if (message.response !== 'accepted') {
     const errorMsg = message.message ? message.message : 'Unknow error';
@@ -110,17 +79,6 @@ function viewerResponse(message) {
   } else {
     webRtcPeer.processAnswer(message.sdpAnswer);
   }
-}
-
-function onOfferPresenter(error, offerSdp) {
-  if (error) return onError(error);
-
-  const message = {
-    id: 'presenter',
-    sdpOffer: offerSdp,
-  };
-
-  sendMessage(message);
 }
 
 function onOfferViewer(error, offerSdp) {
@@ -146,13 +104,11 @@ function onIceCandidate(candidate) {
 }
 
 function dispose() {
+  log('Disposing of or cancelling WebRTC Peer');
   if (webRtcPeer) {
     webRtcPeer.dispose();
     webRtcPeer = null;
   }
-
-  // hideSpinner(video);
-  log('Disposing of or cancelling WebRTC Peer');
 }
 
 function sendMessage(message) {

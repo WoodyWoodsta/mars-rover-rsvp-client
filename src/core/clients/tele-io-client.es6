@@ -2,19 +2,22 @@
 import debug from 'debug';
 
 import SocketClient from 'socket.io-client';
-import { client } from '../store';
+// import { client } from '../store';
 
 const log = debug('rsvp-client:TeleIOClient');
 
+export let teleIOClient;
+
 export function init() {
-  const teleIOClient = new SocketClient(`${window.location.origin}/TeleIO`);
+  teleIOClient = new SocketClient(`${window.location.origin}/TeleIO`);
   attachCoreListeners(teleIOClient);
 }
 
 // === Private ===
 function attachCoreListeners(io) {
   io.on('connect', () => {
-    client.teleIO.connected = true;
+    // TODO: use the correct data mutation method
+    // client.teleIO.connected = true;
     log('Connected to TeleIO Websocket');
     io.emit('test');
 

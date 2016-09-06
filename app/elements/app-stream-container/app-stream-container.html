@@ -1,11 +1,30 @@
 <!-- app-stream-container.html -->
+<!-- custom elements -->
+<link rel="import" href="../app-panel/app-panel.html">
+
 <dom-module id="app-stream-container">
   <template>
     <style>
       :host {
-        display: block;
+        @apply(--layout-horizontal);
+      }
+
+      app-panel {
+        box-sizing: padding-box;
+        width: auto;
+        padding: var(--element-padding);
+      }
+
+      app-panel > video {
+        height: 100%;
       }
     </style>
+
+    <app-panel outline>
+      <video id="video" autoplay>
+
+      </video>
+    </app-panel>
 
   </template>
   <script src="app-stream-container.js" charset="utf-8"></script>

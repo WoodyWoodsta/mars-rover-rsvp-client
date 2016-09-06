@@ -1,0 +1,22 @@
+<!-- app-panel.html -->
+<dom-module id="app-panel">
+  <template>
+    <style>
+      :host {
+        display: block;
+
+        background-color: var(--dark-normal-alpha);
+        border-radius: var(--border-radius-large);
+      }
+
+      :host([outline]) {
+        background-color: transparent;
+        border: 2px solid var(--dark-normal-alpha);
+      }
+    </style>
+
+    <content></content>
+
+  </template>
+  <script src="app-panel.js" charset="utf-8"></script>
+</dom-module>

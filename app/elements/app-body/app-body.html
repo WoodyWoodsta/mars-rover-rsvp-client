@@ -2,6 +2,7 @@
 <!-- elements -->
 <link rel="import" href="../app-rover-controls/app-rover-controls.html">
 <link rel="import" href="../app-rover-overview/app-rover-overview.html">
+<link rel="import" href="../app-stream-container/app-stream-container.html">
 
 <dom-module id="app-body">
   <template>
@@ -15,8 +16,11 @@
 
       #upperContainer {
         @apply(--layout-horizontal);
-        @apply(--layout-start);
+        /*@apply(--layout-center);*/
+        /*@apply(--layout-start);*/
         @apply(--layout-flex);
+
+        margin-bottom: var(--container-padding);
       }
 
       #lowerContainer {
@@ -51,11 +55,7 @@
 
     <div id="upperContainer">
       <!-- Video Container -->
-      <!-- <app-stream-container></app-stream-container> -->
-      <div class="test" style="width: 300px;">
-        <paper-button raised>Testing one two three four</paper-button>
-        <paper-button raised>Testing one two three four</paper-button>
-      </div>
+      <app-stream-container></app-stream-container>
 
       <!-- Telemetry -->
     </div>
