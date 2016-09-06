@@ -102,10 +102,6 @@ Polymer({
     },
   },
 
-  observers: [
-    '_onPosChanged(xPos, yPos)',
-  ],
-
   listeners: {
     'joystickContainer.down': '_onJoystickContainerDown',
     'joystickContainer.up': '_onJoystickContainerUp',

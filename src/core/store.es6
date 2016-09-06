@@ -1,6 +1,6 @@
 /* store.es6 */
 /**
- * Client data model including state. Operates on a data-driven model in terms of socket notification
+ * Client data model including state. Operates on a data-driven model in terms of socket notifications
  */
 import debug from 'debug';
 import objectPath from 'object-path';
@@ -9,6 +9,36 @@ import { controlIOClient } from './clients/control-io-client';
 import { teleIOClient } from './clients/tele-io-client';
 
 const log = debug('rsvp-client:store');
+
+/**
+ * Data related to the client that is currently in session
+ * @member  {String}  type          The type of client ['viewer'|'controller']
+ * @member  {String}  controlLevel  The level of control that the client has in this session ['none'|'control'|'admin']
+ */
+export const client = {
+  type: 'controller',
+  controlLevel: 'none',
+
+  _watched: {
+    test: ['controlIO', 'teleIO'],
+  },
+};
+
+export const control = {
+  driveInput: {
+    xMag: 0,
+    yMag: 0,
+  },
+
+  _watched: {
+    driveInput: ['controlIO'],
+  },
+};
+
+export const store = {
+  client,
+  control,
+};
 
 /**
  * Mutate the store, optionally notifying listeners on specific socket channels of the change
@@ -36,7 +66,7 @@ export function set(path, data, notifyees) {
       store[base]._watched[sub].forEach((notifyee) => {
         notifyMutate(notifyee, path, oldValue, data);
         notified.push(notifyee);
-        log(`Notified ${notifyee}`);
+        // log(`Notified ${notifyee}`);
       });
 
       break;
@@ -68,29 +98,14 @@ export function set(path, data, notifyees) {
   }
 }
 
-/**
- * Data related to the client that is currently in session
- * @member  {String}  type          The type of client ['viewer'|'controller']
- * @member  {String}  controlLevel  The level of control that the client has in this session ['none'|'control'|'admin']
- */
-export const client = {
-  type: 'controller',
-  controlLevel: 'none',
-
-  _watched: {
-    test: ['controlIO', 'teleIO'],
-  },
-};
-
-export const control = {
-};
-
-export const store = {
-  client,
-  control,
-};
-
 // === Private ===
+/**
+ * Emit a notification of a mutation on a store property
+ * @param  {String} notifyee The socket on which to send the notification
+ * @param  {String} path     The property path of the property that was mutated
+ * @param  {any}    oldValue The previous value
+ * @param  {any}    newValue The new value
+ */
 function notifyMutate(notifyee, path, oldValue, newValue) {
   // Construct message to send
   const message = {

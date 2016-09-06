@@ -28,6 +28,8 @@ function attachCoreListeners(io) {
   io.on('test', () => {
     log('Received test message from ControlIO');
   });
+
+  io.emit('data', 'hello');
 }
 
 function attachControlListeners(io) {
