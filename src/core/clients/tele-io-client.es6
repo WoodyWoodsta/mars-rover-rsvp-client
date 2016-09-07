@@ -2,7 +2,8 @@
 import debug from 'debug';
 
 import SocketClient from 'socket.io-client';
-// import { client } from '../store';
+
+import * as teleIOClientTranslator from './tele-io-client-translator';
 
 const log = debug('rsvp-client:TeleIOClient');
 
@@ -16,8 +17,6 @@ export function init() {
 // === Private ===
 function attachCoreListeners(io) {
   io.on('connect', () => {
-    // TODO: use the correct data mutation method
-    // client.teleIO.connected = true;
     log('Connected to TeleIO Websocket');
     io.emit('test');
 
@@ -31,15 +30,7 @@ function attachTeleListeners(io) {
     log('Received test message from TeleIO');
   });
 
-  io.on('servos', (data) => {
-    // Do some translation of this info
-  });
-
-  io.on('proximity', (data) => {
-    // Do some translation of this info
-  });
-
-  io.on('battery', (data) => {
-    // Do some translation of this info
+  io.on('data', (message) => {
+    teleIOClientTranslator.onData(message, 'data');
   });
 }

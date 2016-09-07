@@ -47,9 +47,20 @@ export const control = {
   _type: 'source',
 };
 
+export const rceState = {
+  rceCpu: undefined,
+  rceMemory: undefined,
+  camCpu: undefined,
+  camMemory: undefined,
+  _watched: {
+  },
+  _type: 'sink',
+};
+
 export const stores = {
   client,
   control,
+  rceState,
 };
 
 /**
