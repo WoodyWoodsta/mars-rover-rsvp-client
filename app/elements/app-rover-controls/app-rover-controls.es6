@@ -8,13 +8,13 @@ Polymer({
   listeners: {
     'driveJoystick.rover-control-joystick-tweak': '_onDriveJoystickTweak',
     'pointUpButton.down': '_onPointUpButtonDown',
-    'pointUpButton.up' : '_onPointUpButtonUp'
+    'pointUpButton.up': '_onPointUpButtonUp',
   },
 
 
   // === Private ===
   _onDriveJoystickTweak(event) {
-    store.set('control.driveInput', { xMag: event.detail.xMag, yMag: event.detail.yMag });
+    // store.set('control.driveInput', { xMag: event.detail.xMag, yMag: event.detail.yMag });
   },
 
   _onPointUpButtonDown() {

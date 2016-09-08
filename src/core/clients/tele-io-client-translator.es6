@@ -9,7 +9,7 @@ export function onData(message, event) {
   switch (message.storeName) {
     case 'rceState':
       if (event === 'data') {
-        store.set(message.path, message.data.newValue);
+        store.rceState.set((message.path.includes('Cpu')) ? 'rceCpu' : 'rceMemory', message.data.newValue);
       }
       break;
     default:

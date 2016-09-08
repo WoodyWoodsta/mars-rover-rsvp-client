@@ -9,21 +9,32 @@ Polymer({
     this._setupBindings();
   },
 
+  detached() {
+    this._removeBindings();
+  },
+
   // === Private ===
 
   _setupBindings() {
-    store.rceState._watched.rceCpu.push((newValue) => { this._onRceCpuChanged(newValue); });
-    store.rceState._watched.rceMemory.push((newValue) => { this._onRceMemChanged(newValue); });
-    store.rceState._watched.camCpu.push((newValue) => { this._onCamCpuChanged(newValue); });
-    store.rceState._watched.camMemory.push((newValue) => { this._onCamMemChanged(newValue); });
+    store.rceState.on('rceCpu-changed', this._onRceCpuChanged.bind(this));
+    store.rceState.on('rceMemory-changed', this._onRceMemChanged.bind(this));
+    store.rceState.on('rceCpu-changed', this._onRceCpuChanged.bind(this));
+    store.rceState.on('rceMemory-changed', this._onRceMemChanged.bind(this));
   },
 
-  _onRceCpuChanged(newValue) {
-    this.$.rceCpuBubble.value = newValue;
+  _removeBindings() {
+    store.rceState.removeListener('rceCpu-changed', this._onRceCpuChanged.bind(this));
+    store.rceState.removeListener('rceMemory-changed', this._onRceMemChanged.bind(this));
+    store.rceState.removeListener('rceCpu-changed', this._onRceCpuChanged.bind(this));
+    store.rceState.removeListener('rceMemory-changed', this._onRceMemChanged.bind(this));
   },
 
-  _onRceMemChanged(newValue) {
-    this.$.rceMemBubble.value = newValue;
+  _onRceCpuChanged(event) {
+    this.$.rceCpuBubble.value = event.newValue;
+  },
+
+  _onRceMemChanged(event) {
+    this.$.rceMemBubble.value = event.newValue;
   },
 
   _onCamCpuChanged(newValue) {
