@@ -29,6 +29,10 @@
       }
 
       app-stream-container {
+        /*@apply(--layout-flex);*/
+      }
+
+      app-telemetry-container {
         @apply(--layout-flex);
       }
 
@@ -56,7 +60,7 @@
     <div id="upperContainer">
       <!-- Video Container -->
       <app-stream-container></app-stream-container>
-
+      <app-telemetry-container></app-telemetry-container>
       <!-- Telemetry -->
     </div>
     <div id="lowerContainer">

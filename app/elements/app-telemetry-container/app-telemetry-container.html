@@ -1,13 +1,65 @@
 <!-- app-telemetry-container.htmkl -->
+<!-- custom elements -->
+<link rel="import" href="../app-panel/app-panel.html">
+<link rel="import" href="../rover-tele-progress-bubble/rover-tele-progress-bubble.html">
+
 <dom-module id="app-telemetry-container">
   <template>
     <style>
       :host {
-        display: block;
+        @apply(--layout-vertical);
+      }
+
+      paper-tabs {
+        --paper-tabs: {
+          height: 35px;
+        }
+
+        --paper-tabs-selection-bar-color: var(--light-medium-alpha);
+      }
+
+      paper-tab {
+        --paper-tab-ink: var(--light-normal-alpha);
+      }
+
+      app-panel {
+        @apply(--layout-vertical);
+        @apply(--layout-flex);
+
+        padding: var(--container-padding);
+        padding-top: var(--element-padding);
+      }
+
+      #rceSystemPage {
+        @apply(--layout-horizontal);
+        @apply(--layout-wrap);
+
+      }
+
+      rover-tele-progress-bubble {
+        margin: var(--element-padding);
       }
     </style>
 
-    
+    <app-panel outline>
+      <paper-tabs selected="{{selected}}">
+        <paper-tab>RCE System</paper-tab>
+        <paper-tab>Other</paper-tab>
+      </paper-tabs>
+
+      <iron-pages selected="{{selected}}">
+        <section id="rceSystemPage">
+          <rover-tele-progress-bubble id="rceCpuBubble" heading="RCE CPU"></rover-tele-progress-bubble>
+          <rover-tele-progress-bubble id="rceMemBubble" heading="RCE Memory"></rover-tele-progress-bubble>
+          <rover-tele-progress-bubble id="camCpuBubble" heading="Cam CPU"></rover-tele-progress-bubble>
+          <rover-tele-progress-bubble id="camMemBubble" heading="Cam Memory"></rover-tele-progress-bubble>
+        </section>
+        <section></section>
+      </iron-pages>
+    </app-panel>
+
+
+
 
   </template>
   <script src="app-telemetry-container.js" charset="utf-8"></script>

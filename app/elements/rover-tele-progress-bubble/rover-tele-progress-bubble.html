@@ -1,0 +1,41 @@
+<!-- rover-tele-progress-bubble.html -->
+<dom-module id="rover-tele-progress-bubble">
+  <template>
+    <style>
+      :host {
+        @apply(--layout-vertical);
+        @apply(--layout-start);
+      }
+
+      .heading {
+        font-size: 0.8rem;
+        font-weight: 500;
+        color: var(--light-medium-alpha);
+      }
+
+      progress-bubble {
+        height: var(--rover-tele-progress-bubble-size, 60px);
+        width: var(--rover-tele-progress-bubble-size, 60px);
+        --progress-bubble-stroke-color: var(--rover-tele-progress-bubble-color, var(--light-medium-alpha));
+        --progress-bubble-stroke-linecap: butt;
+        --progress-bubble-bg-stroke-color: rgba(193, 193, 193, 0.2);
+        --progress-bubble-background: transparent;
+        --progress-bubble-reflection-display: none;
+      }
+
+      #mid {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--light-medium-alpha);
+        text-shadow: none;
+      }
+    </style>
+
+    <div class="heading">{{heading}}</div>
+    <progress-bubble id="bubble" value$="{{value}}">
+      <span id="mid">{{value}}{{unit}}</span>
+    </progress-bubble>
+
+  </template>
+  <script src="rover-tele-progress-bubble.js" charset="utf-8"></script>
+</dom-module>

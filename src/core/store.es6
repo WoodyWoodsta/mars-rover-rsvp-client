@@ -53,6 +53,10 @@ export const rceState = {
   camCpu: undefined,
   camMemory: undefined,
   _watched: {
+    rceCpu: [],
+    rceMemory: [],
+    camCpu: [],
+    camMemory: [],
   },
   _type: 'sink',
 };
