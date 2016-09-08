@@ -18,30 +18,30 @@ Polymer({
   _setupBindings() {
     store.rceState.on('rceCpu-changed', this._onRceCpuChanged.bind(this));
     store.rceState.on('rceMemory-changed', this._onRceMemChanged.bind(this));
-    store.rceState.on('rceCpu-changed', this._onRceCpuChanged.bind(this));
-    store.rceState.on('rceMemory-changed', this._onRceMemChanged.bind(this));
+    store.rceState.on('camCpu-changed', this._onCamCpuChanged.bind(this));
+    store.rceState.on('camMemory-changed', this._onCamMemChanged.bind(this));
   },
 
   _removeBindings() {
     store.rceState.removeListener('rceCpu-changed', this._onRceCpuChanged.bind(this));
     store.rceState.removeListener('rceMemory-changed', this._onRceMemChanged.bind(this));
-    store.rceState.removeListener('rceCpu-changed', this._onRceCpuChanged.bind(this));
-    store.rceState.removeListener('rceMemory-changed', this._onRceMemChanged.bind(this));
+    store.rceState.removeListener('camCpu-changed', this._onCamCpuChanged.bind(this));
+    store.rceState.removeListener('camMemory-changed', this._onCamMemChanged.bind(this));
   },
 
   _onRceCpuChanged(event) {
-    this.$.rceCpuBubble.value = event.newValue;
+    this.$.rceCpuBubble.value = Math.round(event.newValue * 100) / 100;
   },
 
   _onRceMemChanged(event) {
-    this.$.rceMemBubble.value = event.newValue;
+    this.$.rceMemBubble.value = Math.round(event.newValue * 100) / 100;
   },
 
-  _onCamCpuChanged(newValue) {
-    this.$.camCpuBubble.value = newValue;
+  _onCamCpuChanged(event) {
+    this.$.camCpuBubble.value = Math.round(event.newValue * 100) / 100;
   },
 
-  _onCamMemChanged(newValue) {
-    this.$.camMemBubble.value = newValue;
+  _onCamMemChanged(event) {
+    this.$.camMemBubble.value = Math.round(event.newValue * 100) / 100;
   },
 });

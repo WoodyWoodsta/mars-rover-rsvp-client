@@ -12,42 +12,13 @@ import { teleIOClient } from './clients/tele-io-client';
 const log = debug('rsvp-client:store');
 
 /**
- * Data related to the client that is currently in session
- * SOURCE
- * @member  {String}  type          The type of client ['viewer'|'controller']
- * @member  {String}  controlLevel  The level of control that the client has in this session ['none'|'control'|'admin']
+ * A store of data which allows declarative and imperative subscriptions to data changes as well as emits notifications of changes
+ * to available and specified web sockets
+ * @param {String}  name    The name of the data store. Is required to be the name of the `DataStore` instance
+ * @param {String}  type    The primary direction of flow of data
+ * @param {Object}  fields  The data fields to store
+ * @param {Object}  watched An array of socket channel names or callback functions for specific data paths
  */
-export const client = {
-  type: 'controller',
-  controlLevel: 'none',
-
-  _watched: {
-  },
-  _type: 'source',
-};
-
-/**
- * Control input store
- * SOURCE
- * @member  {Object}  driveInput  The input values from the drive joystick
- */
-export const control = {
-  driveInput: {
-    xMag: 0,
-    yMag: 0,
-  },
-
-  testLED: {
-    isOn: false,
-  },
-
-  _watched: {
-    driveInput: ['controlIO'],
-    testLED: ['controlIO'],
-  },
-  _type: 'source',
-};
-
 class DataStore extends EventEmitter {
   constructor(name, type = 'sink', fields = {}, watched = {}) {
     super();
@@ -99,7 +70,7 @@ class DataStore extends EventEmitter {
         // Only listen if there are watchers in the array
         this.on(`${watchKey}-changed`, function onChanged(message) {
           setTimeout(() => {
-            customNotify([], this.name, message.path, message.data, message.oldValue, this._watched[watchKey]);
+            customNotify([], this.name, message.path, message.newValue, message.oldValue, this._watched[watchKey]);
           }, 0);
         });
       }
@@ -107,6 +78,13 @@ class DataStore extends EventEmitter {
   }
 }
 
+/**
+ * Store for the RCE state and telemetry
+ * @member {Number} rceCpu    The percentage CPU usage taken up by the RCE Node process
+ * @member {Number} rceMemory The percentage of physically available memory taken up by the RCE Node process
+ * @member {Number} camCpu    The percentage CPU usage taken up by the cam process
+ * @member {Number} camMemory The percentage of physically available memory taken up by the cam process
+ */
 export const rceState = new DataStore('rceState', 'sink', {
   rceCpu: undefined,
   rceMemory: undefined,
@@ -119,57 +97,61 @@ export const rceState = new DataStore('rceState', 'sink', {
   camMemory: [],
 });
 
+/**
+ * Store for data relating to the client that is currently in session (viewer)
+ * @member {String} type          The type of client ['viewer'|'controller']
+ * @member {String} controlLevel  The level of control that the client has in this session ['none'|'control'|'admin']
+ */
+export const client = new DataStore('client', 'source', {
+  type: 'controller',
+  controlLevel: 'none',
+});
+
+/**
+ * Store for the control input
+ * @member {Object} driveInput  The input values from the drive joystick
+ * @member {Object} testLED     The state of the test LED
+ */
+export const control = new DataStore('control', 'source', {
+  driveInput: {
+    xMag: 0,
+    yMag: 0,
+  },
+
+  testLED: {
+    isOn: false,
+  },
+}, {
+  driveInput: ['controlIO'],
+  testLED: ['controlIO'],
+});
+
+/**
+ * Store for the server state data
+ * @member {Object} controlIOClients  Of the clients connected to the controlIO socket
+ * @member {Object} teleIOClients     Of the clients connected to the teleIO socket
+ * @member {Object} rover             Of the rover
+ */
+export const server = new DataStore('server', 'sink', {
+  controlIOClients: {
+    number: 0,
+  },
+
+  teleIOClients: {
+    number: 0,
+  },
+
+  rover: {
+    isOnline: false,
+  },
+});
+
 export const stores = {
+  server,
   client,
   control,
   rceState,
 };
-
-/**
- * Mutate the store, optionally notifying listeners on specific socket channels of the change
- * NOTE: Mutating the store will automatically notify according to the `_watched` array in each store object
- * @param {String}                path      The path of the property to change
- * @param {Any}                   data      The new data
- * @param {Array/String/Function} notifyees Custom notification: the name of the socket channel to notify on, or an array of
- *                                          such names, or a callback function, or an array of callback functions or a mixed
- *                                          array of notifyees or callback functions :D
- */
-// export function set(path, data, notifyees) {
-//   // Record of notified
-//   const notified = [];
-//
-//   // Record and mutate
-//   const baseDotIdx = path.indexOf('.');
-//   let dotIndex = 0;
-//   const base = path.slice(0, baseDotIdx);
-//   const key = path.slice(baseDotIdx + 1);
-//
-//   const oldValue = objectPath.get(stores, path);
-//   objectPath.set(stores, path, data);
-//
-//   while (dotIndex > -1) {
-//     const sub = key.slice(0, dotIndex || undefined);
-//     if (stores[base]._watched[sub]) {
-//       stores[base]._watched[sub].forEach((notifyee) => {
-//         // Handle all types
-//         if (typeof notifyee === 'function') {
-//           notifyee(data, oldValue, path);
-//         } else {
-//           notifyMutate(notifyee, base, path, oldValue, data);
-//           notified.push(notifyee);
-//         }
-//       });
-//
-//       break;
-//     }
-//
-//     dotIndex = key.indexOf('.', dotIndex + 1);
-//   }
-//
-//   // Custom Notify
-//   if (notifyees) {
-//   }
-// }
 
 // === Private ===
 function customNotify(notified, name, path, data, oldValue, notifyees) {
@@ -207,7 +189,7 @@ function customNotify(notified, name, path, data, oldValue, notifyees) {
  * @param  {any}    oldValue  The previous value
  * @param  {any}    newValue  The new value
  */
-function notifyMutate(notifyee, storeName, path, oldValue, newValue) {
+function notifyMutate(notifyee, storeName, path, newValue, oldValue) {
   // Construct message to send
   const message = {
     type: 'mutate',
@@ -228,7 +210,7 @@ function notifyMutate(notifyee, storeName, path, oldValue, newValue) {
       teleIOClient.emit('data', message);
       break;
     default:
-      log('Attempted notification failed, no such notifyee');
+      log(`Attempted notification failed on ${notifyee}, no such notifyee`);
       break;
   }
 }
