@@ -14,6 +14,9 @@ export function onData(message, event) {
       case 'server':
         store.server.set(message.path, message.data.newValue);
         break;
+      case 'hardwareState':
+        store.hardwareState.set(message.path, message.data.newValue);
+        break;
       default:
         log(`Storename '${message.storeName}' is not recognised`);
     }

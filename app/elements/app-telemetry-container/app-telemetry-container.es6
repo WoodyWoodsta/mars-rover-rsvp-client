@@ -20,6 +20,8 @@ Polymer({
     store.rceState.on('rceMemory-changed', this._onRceMemChanged.bind(this));
     store.rceState.on('camCpu-changed', this._onCamCpuChanged.bind(this));
     store.rceState.on('camMemory-changed', this._onCamMemChanged.bind(this));
+
+    store.hardwareState.on('analog.initialised-changed', this._onAnalogChanged.bind(this));
   },
 
   _removeBindings() {
@@ -27,6 +29,8 @@ Polymer({
     store.rceState.removeListener('rceMemory-changed', this._onRceMemChanged.bind(this));
     store.rceState.removeListener('camCpu-changed', this._onCamCpuChanged.bind(this));
     store.rceState.removeListener('camMemory-changed', this._onCamMemChanged.bind(this));
+
+    store.hardwareState.removeListener('analog.initialised-changed', this._onAnalogChanged.bind(this));
   },
 
   _onRceCpuChanged(event) {
@@ -43,5 +47,11 @@ Polymer({
 
   _onCamMemChanged(event) {
     this.$.camMemBubble.value = Math.round(event.newValue * 100) / 100;
+  },
+
+  _onAnalogChanged(event) {
+    console.log('Analog changed!');
+    console.log(event.newValue);
+    this.$.toast.show('Analog has changed!');
   },
 });

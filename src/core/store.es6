@@ -44,21 +44,32 @@ class DataStore extends EventEmitter {
    *                                          array of notifyees or callback functions :D
    */
   set(path, data, notifyees = []) {
-    const notified = this._watched[path];
+    // Keep track of who is notified to prevent event duplication
+    const notified = [];
 
-    // Record and mutate
     let dotIndex = 0;
-    const oldValue = objectPath.get(this, path);
-    objectPath.set(this, path, data);
 
+    // Copy old data and mutat
+    let oldValue = {};
+    objectPath.set(oldValue, path, objectPath.set(this, path, data));
+
+    // Copy new data
+    let newValue = {};
+    objectPath.set(newValue, path, data);
+
+    // Emit notifications
     while (dotIndex > -1) {
       const sub = path.slice(0, dotIndex || undefined);
-      this.emit(`${sub}-changed`, { path, newValue: data, oldValue });
+      this.emit(`${sub}-changed`, { path, newValue: objectPath.get(newValue, sub), oldValue: objectPath.get(oldValue, sub) });
+
+      if (this._watched[sub]) {
+        notified.push(sub);
+      }
 
       dotIndex = path.indexOf('.', dotIndex + 1);
     }
 
-    // Custom notify based on passed in `notifyees`
+    // Custom notify based on passed in `notifyees`. Will not duplicate
     if (notifyees) {
       customNotify(notified, this.name, path, data, oldValue, notifyees);
     }
@@ -146,7 +157,39 @@ export const server = new DataStore('server', 'sink', {
   },
 });
 
+/**
+ * Store for the hardware state data
+ * @member {Object} board     Data related to the `johnny-five` board
+ * @member {Object} analog    Data related to the analog inputs
+ * @member {Object} camera    Data related to the camera
+ * @member {Object} leds      Data related to the LEDs
+ * @member {Object} proximity Data related to the proximity sensors
+ * @member {Object} servos    Data related to the servo motors
+ */
+export const hardwareState = new DataStore('hardwareState', 'sink', {
+  board: {
+    initialised: false,
+  },
+  analog: {
+    initialised: false,
+  },
+  camera: {
+    initialised: false,
+    running: false,
+  },
+  leds: {
+    initialised: false,
+  },
+  proximity: {
+    initialised: false,
+  },
+  servos: {
+    initialised: false,
+  },
+});
+
 export const stores = {
+  hardwareState,
   server,
   client,
   control,
