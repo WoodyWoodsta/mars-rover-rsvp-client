@@ -5,6 +5,10 @@ import { store } from 'app-core';
 Polymer({
   is: 'app-telemetry-container',
 
+  listeners: {
+    'iron-select': '_onIronSelect',
+  },
+
   attached() {
     this._setupBindings();
   },
@@ -53,5 +57,19 @@ Polymer({
     console.log('Analog changed!');
     console.log(event.newValue);
     this.$.toast.show('Analog has changed!');
+  },
+
+  _onIronSelect(event) {
+    if (event.detail.item.getAttribute('page') === 'rce-system-page') {
+      this.$.rceCpuBubble.value = Math.round((store.rceState.rceCpu + 1) * 100) / 100;
+      this.$.rceMemBubble.value = Math.round((store.rceState.rceMemory + 1) * 100) / 100;
+      this.$.camCpuBubble.value = Math.round((store.rceState.camCpu + 1) * 100) / 100;
+      this.$.camMemBubble.value = Math.round((store.rceState.camMemory + 1) * 100) / 100;
+
+      this.$.rceCpuBubble.value = Math.round(store.rceState.rceCpu * 100) / 100;
+      this.$.rceMemBubble.value = Math.round(store.rceState.rceMemory * 100) / 100;
+      this.$.camCpuBubble.value = Math.round(store.rceState.camCpu * 100) / 100;
+      this.$.camMemBubble.value = Math.round(store.rceState.camMemory * 100) / 100;
+    }
   },
 });

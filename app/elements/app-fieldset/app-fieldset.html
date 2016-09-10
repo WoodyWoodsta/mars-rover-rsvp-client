@@ -1,0 +1,36 @@
+<!-- app-fieldset.html -->
+
+<dom-module id="app-fieldset">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #container {
+        margin-top: var(--element-padding);
+        padding: var(--element-padding);
+        border: 1px solid var(--app-fieldset-background-color, var(--light-normal-alpha));
+        border-radius: var(--border-radius);
+      }
+
+      .heading {
+        display: table;
+        margin-top: -1.25em;
+        padding: 0 var(--element-padding);
+        border-radius: var(--border-radius);
+        font-size: 0.75rem;
+        font-weight: 500;
+        color: var(--dark-strong-alpha);
+        background-color: var(--app-fieldset-background-color, var(--light-normal-alpha));
+      }
+    </style>
+
+    <fieldset id="container">
+      <legend class="heading">{{heading}}</legend>
+      <content></content>
+    </fieldset>
+
+  </template>
+  <script src="app-fieldset.js" charset="utf-8"></script>
+</dom-module>

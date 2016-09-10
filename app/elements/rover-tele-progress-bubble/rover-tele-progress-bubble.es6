@@ -13,12 +13,4 @@ Polymer({
       value: '%',
     },
   },
-
-  attached() {
-    // Progress bubble startup hack
-    setTimeout(() => {
-      this.value = 1;
-      this.value = 0;
-    }, 1000);
-  },
 });

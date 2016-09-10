@@ -37,13 +37,17 @@ class DataStore extends EventEmitter {
    * The mutation will also fire events pertaining to the path of the change and will do so for every node along the path tree,
    * downwards from the root.
    * NOTE: Mutating the store will automatically notify sockets as in notifyees
-   * @param {String}                path      The path of the property to change, relative to this `DataStore`
+   * @param {String}                fullPath  The path of the property to change, relative to this `DataStore`
    * @param {Any}                   data      The new data
    * @param {Array/String/Function} notifyees Custom notification: the name of the socket channel to notify on, or an array of
    *                                          such names, or a callback function, or an array of callback functions or a mixed
    *                                          array of notifyees or callback functions :D
    */
-  set(path, data, notifyees = []) {
+  set(fullPath, data, notifyees = []) {
+    this.receiveData(fullPath, fullPath, data, notifyees);
+  }
+
+  receiveData(fullPath, path, data, notifyees = []) {
     // Keep track of who is notified to prevent event duplication
     const notified = [];
 
@@ -59,19 +63,24 @@ class DataStore extends EventEmitter {
 
     // Emit notifications
     while (dotIndex > -1) {
-      const sub = path.slice(0, dotIndex || undefined);
-      this.emit(`${sub}-changed`, { path, newValue: objectPath.get(newValue, sub), oldValue: objectPath.get(oldValue, sub) });
+      const sub = fullPath.slice(0, dotIndex || undefined);
+      this.emit(`${sub}-changed`, {
+        fullPath,
+        path: sub,
+        newValue: objectPath.get(newValue, sub),
+        oldValue: objectPath.get(oldValue, sub),
+      });
 
       if (this._watched[sub]) {
         notified.push(sub);
       }
 
-      dotIndex = path.indexOf('.', dotIndex + 1);
+      dotIndex = fullPath.indexOf('.', dotIndex + 1);
     }
 
     // Custom notify based on passed in `notifyees`. Will not duplicate
     if (notifyees) {
-      customNotify(notified, this.name, path, data, oldValue, notifyees);
+      customNotify(notified, this.name, fullPath, path, newValue, oldValue, notifyees);
     }
   }
 
@@ -81,7 +90,7 @@ class DataStore extends EventEmitter {
         // Only listen if there are watchers in the array
         this.on(`${watchKey}-changed`, function onChanged(message) {
           setTimeout(() => {
-            customNotify([], this.name, message.path, message.newValue, message.oldValue, this._watched[watchKey]);
+            customNotify([], this.name, message.fullPath, message.path, message.newValue, message.oldValue, this._watched[watchKey]);
           }, 0);
         });
       }
@@ -97,10 +106,10 @@ class DataStore extends EventEmitter {
  * @member {Number} camMemory The percentage of physically available memory taken up by the cam process
  */
 export const rceState = new DataStore('rceState', 'sink', {
-  rceCpu: undefined,
-  rceMemory: undefined,
-  camCpu: undefined,
-  camMemory: undefined,
+  rceCpu: -1,
+  rceMemory: -1,
+  camCpu: -1,
+  camMemory: -1,
 }, {
   rceCpu: [],
   rceMemory: [],
@@ -197,12 +206,12 @@ export const stores = {
 };
 
 // === Private ===
-function customNotify(notified, name, path, data, oldValue, notifyees) {
+function customNotify(notified, name, fullPath, path, newValue, oldValue, notifyees) {
   // Handle all types
   if (typeof notifyees === 'string') {
     // One notifyee
     if (!notified.includes(notifyees)) {
-      notifyMutate(notifyees, name, path, data, oldValue);
+      notifyMutate(notifyees, name, fullPath, path, newValue, oldValue);
       notified.push(notifyees);
     }
   } else if (notifyees.constructor === Array) {
@@ -210,15 +219,15 @@ function customNotify(notified, name, path, data, oldValue, notifyees) {
     notifyees.forEach((notifyee) => {
       // Handle all types
       if (typeof notifyee === 'function') {
-        notifyee(data, oldValue, path);
+        notifyee(newValue, oldValue, path);
       } else if (!notified.includes(notifyee)) {
         // Do not notify more than once
-        notifyMutate(notifyee, name, path, data, oldValue);
+        notifyMutate(notifyee, name, fullPath, path, newValue, oldValue);
         notified.push(notifyee);
       }
     });
   } else if (typeof notifyees === 'function') {
-    notifyees(data, oldValue, path);
+    notifyees(newValue, oldValue, path, fullPath);
   } else {
     log('Notifyee list is not a string nor an array');
   }
@@ -232,11 +241,12 @@ function customNotify(notified, name, path, data, oldValue, notifyees) {
  * @param  {any}    oldValue  The previous value
  * @param  {any}    newValue  The new value
  */
-function notifyMutate(notifyee, storeName, path, newValue, oldValue) {
+function notifyMutate(notifyee, storeName, fullPath, path, newValue, oldValue) {
   // Construct message to send
   const message = {
     type: 'mutate',
     storeName,
+    fullPath,
     path,
     data: {
       oldValue,

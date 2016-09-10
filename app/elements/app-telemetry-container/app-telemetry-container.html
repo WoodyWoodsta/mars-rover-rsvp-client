@@ -12,6 +12,8 @@
 
       paper-tabs {
         --paper-tabs: {
+          @apply(--layout-flex-none);
+
           height: 35px;
         }
 
@@ -36,25 +38,32 @@
 
       }
 
+      iron-pages {
+        overflow: auto;
+        padding-top: var(--element-padding);
+      }
+
       rover-tele-progress-bubble {
         margin: var(--element-padding);
       }
     </style>
 
     <app-panel outline>
-      <paper-tabs selected="{{selected}}">
-        <paper-tab>RCE System</paper-tab>
-        <paper-tab>Other</paper-tab>
+      <paper-tabs selected="{{selected}}" attr-for-selected="page">
+        <paper-tab page="rce-system-page">RCE System</paper-tab>
+        <paper-tab page="other-page">Other</paper-tab>
       </paper-tabs>
 
-      <iron-pages selected="{{selected}}">
-        <section id="rceSystemPage">
+      <iron-pages selected="{{selected}}" attr-for-selected="page">
+        <section id="rceSystemPage" page="rce-system-page">
           <rover-tele-progress-bubble id="rceCpuBubble" heading="RCE CPU"></rover-tele-progress-bubble>
-          <rover-tele-progress-bubble id="rceMemBubble" heading="RCE Memory"></rover-tele-progress-bubble>
+          <rover-tele-progress-bubble id="rceMemBubble" heading="RCE Mem"></rover-tele-progress-bubble>
           <rover-tele-progress-bubble id="camCpuBubble" heading="Cam CPU"></rover-tele-progress-bubble>
-          <rover-tele-progress-bubble id="camMemBubble" heading="Cam Memory"></rover-tele-progress-bubble>
+          <rover-tele-progress-bubble id="camMemBubble" heading="Cam Mem"></rover-tele-progress-bubble>
         </section>
-        <section></section>
+        <section page="other-page">
+
+        </section>
       </iron-pages>
     </app-panel>
 

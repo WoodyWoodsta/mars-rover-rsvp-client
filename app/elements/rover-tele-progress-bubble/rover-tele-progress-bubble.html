@@ -1,4 +1,7 @@
 <!-- rover-tele-progress-bubble.html -->
+<!-- Custom Elements -->
+<link rel="import" href="../app-fieldset/app-fieldset.html">
+
 <dom-module id="rover-tele-progress-bubble">
   <template>
     <style>
@@ -7,15 +10,10 @@
         @apply(--layout-start);
       }
 
-      .heading {
-        font-size: 0.8rem;
-        font-weight: 500;
-        color: var(--light-medium-alpha);
-      }
-
       progress-bubble {
-        height: var(--rover-tele-progress-bubble-size, 60px);
-        width: var(--rover-tele-progress-bubble-size, 60px);
+        height: var(--rover-tele-progress-bubble-size, 50px);
+        width: var(--rover-tele-progress-bubble-size, 50px);
+        margin: var(--element-padding);
         --progress-bubble-stroke-color: var(--rover-tele-progress-bubble-color, var(--light-medium-alpha));
         --progress-bubble-stroke-linecap: butt;
         --progress-bubble-bg-stroke-color: rgba(193, 193, 193, 0.2);
@@ -31,10 +29,11 @@
       }
     </style>
 
-    <div class="heading">{{heading}}</div>
-    <progress-bubble id="bubble" value$="{{value}}">
-      <span id="mid">{{value}}{{unit}}</span>
-    </progress-bubble>
+    <app-fieldset heading="{{heading}}">
+      <progress-bubble id="bubble" value$="{{value}}">
+        <span id="mid">{{value}}{{unit}}</span>
+      </progress-bubble>
+    </app-fieldset>
 
   </template>
   <script src="rover-tele-progress-bubble.js" charset="utf-8"></script>
