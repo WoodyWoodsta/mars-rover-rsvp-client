@@ -5,6 +5,44 @@ import { store } from 'app-core';
 Polymer({
   is: 'app-telemetry-container',
 
+  properties: {
+    states: {
+      type: Array,
+      value: [
+        {
+          state: 'Offline',
+          description: 'Board System',
+          positivity: false,
+        },
+        {
+          state: 'Offline',
+          description: 'Analog Input System',
+          positivity: false,
+        },
+        {
+          state: 'Offline',
+          description: 'Camera System',
+          positivity: false,
+        },
+        {
+          state: 'Offline',
+          description: 'LED System',
+          positivity: false,
+        },
+        {
+          state: 'Offline',
+          description: 'Ultrasonic System',
+          positivity: false,
+        },
+        {
+          state: 'Offline',
+          description: 'Servo System',
+          positivity: false,
+        },
+      ],
+    },
+  },
+
   listeners: {
     'iron-select': '_onIronSelect',
   },
@@ -25,7 +63,12 @@ Polymer({
     store.rceState.on('camCpu-changed', this._onCamCpuChanged.bind(this));
     store.rceState.on('camMemory-changed', this._onCamMemChanged.bind(this));
 
-    store.hardwareState.on('analog.initialised-changed', this._onAnalogChanged.bind(this));
+    store.hardwareState.on('board.initialised-changed', this._onBoardInitialisedChanged.bind(this));
+    store.hardwareState.on('analog.initialised-changed', this._onAnalogInitialisedChanged.bind(this));
+    store.hardwareState.on('camera.running-changed', this._onCameraRunningChanged.bind(this));
+    store.hardwareState.on('leds.initialised-changed', this._onLedsInitialisedChanged.bind(this));
+    store.hardwareState.on('proximity.initialised-changed', this._onProximityInitialisedChanged.bind(this));
+    store.hardwareState.on('servos.initialised-changed', this._onServosInitialisedChanged.bind(this));
   },
 
   _removeBindings() {
@@ -34,7 +77,12 @@ Polymer({
     store.rceState.removeListener('camCpu-changed', this._onCamCpuChanged.bind(this));
     store.rceState.removeListener('camMemory-changed', this._onCamMemChanged.bind(this));
 
-    store.hardwareState.removeListener('analog.initialised-changed', this._onAnalogChanged.bind(this));
+    store.hardwareState.removeListener('board.initialised-changed', this._onBoardInitialisedChanged.bind(this));
+    store.hardwareState.removeListener('analog.initialised-changed', this._onAnalogInitialisedChanged.bind(this));
+    store.hardwareState.removeListener('camera.running-changed', this._onCameraRunningChanged.bind(this));
+    store.hardwareState.removeListener('leds.initialised-changed', this._onLedsInitialisedChanged.bind(this));
+    store.hardwareState.removeListener('proximity.initialised-changed', this._onProximityInitialisedChanged.bind(this));
+    store.hardwareState.removeListener('servos.initialised-changed', this._onServosInitialisedChanged.bind(this));
   },
 
   _onRceCpuChanged(event) {
@@ -53,10 +101,39 @@ Polymer({
     this.$.camMemBubble.value = Math.round(event.newValue * 100) / 100;
   },
 
-  _onAnalogChanged(event) {
-    console.log('Analog changed!');
-    console.log(event.newValue);
-    this.$.toast.show('Analog has changed!');
+  _onBoardInitialisedChanged(event) {
+    const state = (event.newValue) ? 'Online' : 'Offline';
+    this._setHardwareState(0, state, event.newValue);
+  },
+
+  _onAnalogInitialisedChanged(event) {
+    const state = (event.newValue) ? 'Online' : 'Offline';
+    this._setHardwareState(1, state, event.newValue);
+  },
+
+  _onCameraRunningChanged(event) {
+    const state = (event.newValue) ? 'Online' : 'Offline';
+    this._setHardwareState(2, state, event.newValue);
+  },
+
+  _onLedsInitialisedChanged(event) {
+    const state = (event.newValue) ? 'Online' : 'Offline';
+    this._setHardwareState(3, state, event.newValue);
+  },
+
+  _onProximityInitialisedChanged(event) {
+    const state = (event.newValue) ? 'Online' : 'Offline';
+    this._setHardwareState(4, state, event.newValue);
+  },
+
+  _onServosInitialisedChanged(event) {
+    const state = (event.newValue) ? 'Online' : 'Offline';
+    this._setHardwareState(5, state, event.newValue);
+  },
+
+  _setHardwareState(index, state, positivity) {
+    this.set(`states.${index}.state`, state);
+    this.set(`states.${index}.positivity`, positivity);
   },
 
   _onIronSelect(event) {

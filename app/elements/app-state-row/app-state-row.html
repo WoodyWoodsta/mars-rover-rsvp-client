@@ -1,0 +1,44 @@
+<!-- app-state-row.html -->
+<dom-module id="app-state-row">
+  <template>
+    <style>
+      :host {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+      }
+
+      iron-icon {
+        --iron-icon-height: 15px;
+        --iron-icon-width: var(--iron-icon-height);
+
+        margin-right: var(--element-padding);
+        color: var(--red-theme-primary-color);
+      }
+
+      .state-description {
+        @apply(--layout-flex);
+        margin-right: var(--element-padding);
+      }
+
+      .state {
+        @apply(--layout-flex);
+        font-size: 0.77rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        color: var(--red-theme-primary-color);
+      }
+
+      :host([positivity]) .state,
+      :host([positivity]) iron-icon {
+        color: var(--green-theme-primary-color);
+      }
+
+    </style>
+
+    <iron-icon icon="{{icon}}"></iron-icon>
+    <span class="state-description">{{description}}</span>
+    <span class="state">{{state}}</span>
+
+  </template>
+  <script src="app-state-row.js" charset="utf-8"></script>
+</dom-module>

@@ -1,7 +1,9 @@
 <!-- app-telemetry-container.htmkl -->
 <!-- custom elements -->
 <link rel="import" href="../app-panel/app-panel.html">
+<link rel="import" href="../app-fieldset/app-fieldset.html">
 <link rel="import" href="../rover-tele-progress-bubble/rover-tele-progress-bubble.html">
+<link rel="import" href="../app-state-row/app-state-row.html">
 
 <dom-module id="app-telemetry-container">
   <template>
@@ -10,7 +12,23 @@
         @apply(--layout-vertical);
       }
 
+      app-panel {
+        @apply(--layout-vertical);
+        @apply(--layout-flex);
+
+        padding: var(--container-padding);
+        padding-top: var(--element-padding);
+      }
+
+      iron-pages {
+        @apply(--layout-vertical);
+        @apply(--layout-flex);
+
+        padding-top: var(--element-padding);
+      }
+
       paper-tabs {
+        position: relative;
         --paper-tabs: {
           @apply(--layout-flex-none);
 
@@ -24,23 +42,23 @@
         --paper-tab-ink: var(--light-normal-alpha);
       }
 
-      app-panel {
+      #rceSystemPage {
         @apply(--layout-vertical);
         @apply(--layout-flex);
 
-        padding: var(--container-padding);
-        padding-top: var(--element-padding);
+        overflow: auto;
       }
 
-      #rceSystemPage {
+      .page-wrapper {
+        position: relative;
+        height: 100%;
+        overflow: auto;
+      }
+
+      #systemRow {
         @apply(--layout-horizontal);
         @apply(--layout-wrap);
-
-      }
-
-      iron-pages {
-        overflow: auto;
-        padding-top: var(--element-padding);
+        @apply(--flex-none);
       }
 
       rover-tele-progress-bubble {
@@ -49,18 +67,34 @@
     </style>
 
     <app-panel outline>
+      <!-- Tabs -->
       <paper-tabs selected="{{selected}}" attr-for-selected="page">
         <paper-tab page="rce-system-page">RCE System</paper-tab>
         <paper-tab page="other-page">Other</paper-tab>
       </paper-tabs>
 
+      <!-- Pages -->
       <iron-pages selected="{{selected}}" attr-for-selected="page">
+        <!-- RCE System Page -->
         <section id="rceSystemPage" page="rce-system-page">
-          <rover-tele-progress-bubble id="rceCpuBubble" heading="RCE CPU"></rover-tele-progress-bubble>
-          <rover-tele-progress-bubble id="rceMemBubble" heading="RCE Mem"></rover-tele-progress-bubble>
-          <rover-tele-progress-bubble id="camCpuBubble" heading="Cam CPU"></rover-tele-progress-bubble>
-          <rover-tele-progress-bubble id="camMemBubble" heading="Cam Mem"></rover-tele-progress-bubble>
+          <div class="page-wrapper">
+            <!-- Indicators -->
+            <div id="systemRow">
+              <rover-tele-progress-bubble id="rceCpuBubble" heading="RCE CPU"></rover-tele-progress-bubble>
+              <rover-tele-progress-bubble id="rceMemBubble" heading="RCE Mem"></rover-tele-progress-bubble>
+              <rover-tele-progress-bubble id="camCpuBubble" heading="Cam CPU"></rover-tele-progress-bubble>
+              <rover-tele-progress-bubble id="camMemBubble" heading="Cam Mem"></rover-tele-progress-bubble>
+            </div>
+            <!-- System States -->
+            <app-fieldset id="hardwareStates" heading="Hardware States">
+              <template is="dom-repeat" items="{{states}}" index-as="index">
+                <app-state-row description="{{item.description}}" state="{{item.state}}" positivity="{{item.positivity}}"></app-state-row>
+              </template>
+            </app-fieldset>
+          </div>
         </section>
+
+        <!-- Other Page -->
         <section page="other-page">
 
         </section>
