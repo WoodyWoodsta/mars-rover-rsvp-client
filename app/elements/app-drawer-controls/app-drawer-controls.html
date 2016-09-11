@@ -1,12 +1,32 @@
 <!-- app-drawer-controls.html -->
+<!-- Custome Elements -->
+<link rel="import" href="../app-drawer-collapse/app-drawer-collapse.html">
+
 <dom-module id="app-drawer-controls">
   <template>
     <style>
       :host {
+        position: relative;
         @apply(--layout-vertical);
 
         padding-left: 10px;
         width: 236px;
+      }
+
+
+      #midWrapper {
+        position: relative;
+        height: 100%;
+        margin-left: -10px;
+        margin-right: -10px;
+        padding-left: 10px;
+        padding-right: 10px;
+        overflow-y: auto;
+      }
+
+      #midContainer {
+        position: relative;
+        @apply(--layout-vertical);
       }
 
       paper-icon-button {
@@ -14,19 +34,39 @@
       }
 
       .spacer {
-        @apply(--layout-flex);
+        height: min-container;
+        /*@apply(--layout-flex);*/
       }
 
       .row {
-        @apply(--layout-horizontal);
+        @apply(--layout-vertical);
+
+        margin-right: -10px;
+        border-right: 3px solid transparent;
+        cursor: pointer;
+
+        transition: border-color var(--duration) var(--timing-function);
       }
 
-      .row.middle {
+      .row > .button {
+        @apply(--layout-horizontal);
         @apply(--layout-center);
       }
 
-      .row > paper-icon-button {
+      /*.row[collapse-opened] {
+        border-color: var(--light-normal-alpha);
+      }*/
+
+      .row:hover {
+        border-color: var(--light-strong-alpha);
+      }
+
+      .row > .button > paper-icon-button {
         margin-right: calc(var(--container-padding) * 1.5);
+      }
+
+      .menu-item {
+        font-size: 0.95rem;
       }
 
       .divider {
@@ -42,33 +82,127 @@
         font-size: 1.2rem;
         font-weight: 700;
       }
+
+      app-drawer-collapse {
+        margin-left: calc((-1 * var(--container-padding)) - 2px);
+        margin-right: -2.5px;
+
+        --app-drawer-collapse-content: {
+          padding-left: calc(var(--container-padding) * 2.5);
+          padding-right: calc(var(--container-padding) * 2.5);
+        }
+      }
+
+      .panel-group {
+        width: 100%;
+      }
+
+      .panel-group:last-child {
+        margin-bottom: var(--container-padding)
+      }
+
+      .panel-group.horizontal {
+        @apply(--layout-horizontal);
+      }
+
+      .panel-group.center {
+        @apply(--layout-center-justified);
+      }
+
+      .panel-group-heading {
+        display: inline-block;
+        margin: var(--container-padding) 0;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+      }
+
+      .panel-group-heading:first-child {
+        margin-top: 0;
+      }
+
+      paper-toggle-button#controlTypeToggle {
+        margin-right: var(--element-padding);
+        margin-left: var(--container-padding);
+
+        --paper-toggle-button-checked-bar-color:  var(--red-theme-primary-color);
+        --paper-toggle-button-checked-button-color:  var(--red-theme-primary-color);
+        --paper-toggle-button-checked-ink-color: var(--red-theme-primary-color);
+      }
+
+      paper-slider {
+        --paper-slider-active-color: var(--red-theme-primary-color);
+        --paper-slider-knob-color: var(--red-theme-primary-color);
+        --paper-slider-pin-color: var(--red-theme-primary-color);
+    }
     </style>
 
     <!-- Top -->
-    <div class="row center">
-      <paper-icon-button id="collapseButton" icon="[[collapseButtonIcon]]"></paper-icon-button>
-      <span id="drawerHeading">CURIOSITY RSVP</span>
+    <div class="row middle">
+      <div class="button">
+        <paper-icon-button id="collapseButton" icon="[[collapseButtonIcon]]"></paper-icon-button>
+        <span id="drawerHeading">CURIOSITY RSVP</span>
+      </div>
     </div>
     <div class="divider"></div>
-    <div class="row">
-      <paper-icon-button id="presenterButton" icon="icons:explore"></paper-icon-button>
-    </div>
-    <div class="row">
-      <paper-icon-button id="viewerButton" icon="icons:settings-input-composite"></paper-icon-button>
-    </div>
-    <div class="row">
-      <paper-icon-button icon="icons:watch-later"></paper-icon-button>
-    </div>
-    <div class="row">
-      <paper-icon-button icon="icons:settings"></paper-icon-button>
-    </div>
 
-    <!-- Spacer -->
-    <div id="drawerSpacer" class="spacer"></div>
+    <!-- Mid -->
+    <div id="midWrapper">
+      <div id="midContainer">
+        <div id="controlType" class="row middle">
+          <div id="controlTypeRowButton" class="button">
+            <paper-icon-button id="controlTypeButton" icon="rsvp:steer"></paper-icon-button>
+            <span class="menu-item">Control</span>
+          </div>
+          <!-- Control Type Picker -->
+          <app-drawer-collapse id="controlTypeCollapse">
+            <span class="panel-group-heading">Control Type</span>
+            <div class="panel-group horizontal center">
+              <span>Interactive</span>
+              <paper-toggle-button id="controlTypeToggle"></paper-toggle-button>
+              <span>RoSE</span>
+            </div>
+            <span class="panel-group-heading">Difficulty</span>
+            <div class="panel-group horizontal center">
+              <paper-slider id="controlDifficultySlider" pin snaps max="10" max-markers="10" step="1" value="5"></paper-slider>
+            </div>
+          </app-drawer-collapse>
+        </div>
+        <div class="row middle">
+          <div class="button">
+            <paper-icon-button id="viewerButton" icon="icons:settings-input-composite"></paper-icon-button>
+            <span class="menu-item">Menu 2</span>
+          </div>
+        </div>
+        <div class="row middle">
+          <div class="button">
+            <paper-icon-button icon="icons:watch-later"></paper-icon-button>
+            <span class="menu-item">Menu 3</span>
+          </div>
+        </div>
+        <div id="settings" class="row middle">
+          <div id="settingsRowButton" class="button">
+            <paper-icon-button icon="icons:settings"></paper-icon-button>
+            <span class="menu-item">Settings</span>
+          </div>
+          <app-drawer-collapse id="settingsCollapse">
+            <div style="height: 300px; width: 100%">
+
+            </div>
+          </app-drawer-collapse>
+        </div>
+
+      </div>
+      <!-- Spacer -->
+      <div id="drawerSpacer" class="spacer"></div>
+    </div>
 
     <!-- Bottom -->
-    <div class="row">
-      <paper-icon-button id="disconnectButton" icon="icons:power-settings-new"></paper-icon-button>
+    <div class="row middle">
+      <div class="button">
+        <paper-icon-button id="disconnectButton" icon="icons:power-settings-new"></paper-icon-button>
+        <span class="menu-item">Disconnect</span>
+      </div>
     </div>
 
   </template>

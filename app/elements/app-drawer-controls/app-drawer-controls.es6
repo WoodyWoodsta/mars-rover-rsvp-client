@@ -13,12 +13,15 @@ Polymer({
       type: String,
       computed: '_computeCollapseButtonIcon(isParentExpanded)',
     },
+
+    // === Private ===
   },
 
   listeners: {
-    'presenterButton.tap': '_onPresenterButtonTap',
     'viewerButton.tap': '_onViewerButtonTap',
     'disconnectButton.tap': '_onDisconnectButtonTap',
+    'settingsRowButton.tap': '_onSettingsRowButtonTap',
+    'controlTypeRowButton.tap': '_onControlTypeRowButtonTap',
   },
 
   // === Private ===
@@ -36,5 +39,23 @@ Polymer({
 
   _onDisconnectButtonTap() {
     kurentoBehavior.stop();
+  },
+
+  _onSettingsRowButtonTap() {
+    this.$.settingsCollapse.toggle();
+    if (this.$.settingsCollapse.opened) {
+      this.$.settings.setAttribute('collapse-opened', '');
+    } else {
+      this.$.settings.removeAttribute('collapse-opened');
+    }
+  },
+
+  _onControlTypeRowButtonTap() {
+    this.$.controlTypeCollapse.toggle();
+    if (this.$.controlTypeCollapse.opened) {
+      this.$.controlType.setAttribute('collapse-opened', '');
+    } else {
+      this.$.controlType.removeAttribute('collapse-opened');
+    }
   },
 });

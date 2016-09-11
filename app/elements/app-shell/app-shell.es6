@@ -88,8 +88,9 @@ Polymer({
   },
 
   _onIronResize() {
-    if (!this.narrow) {
-      this.collapseDrawer();
-    }
+    // TODO: Check for the correct origin of the iron resize, fix this up
+    // if (!this.narrow) {
+    //   this.collapseDrawer();
+    // }
   },
 });

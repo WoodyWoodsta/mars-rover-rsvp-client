@@ -1,0 +1,29 @@
+<!-- app-drawer-collapse.html -->
+<dom-module id="app-drawer-collapse">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+
+      #contentWrapper {
+        margin: var(--element-padding) 0;
+        padding: var(--container-padding);
+        background-color: var(--dark-normal-alpha);
+        border-top: 3px solid var(--dark-normal-alpha);
+        border-bottom: 3px solid var(--dark-normal-alpha);
+
+        @apply(--app-drawer-collapse-content);
+      }
+
+    </style>
+
+    <iron-collapse id="collapse" opened="{{opened}}">
+      <div id="contentWrapper">
+        <content></content>
+      </div>
+    </iron-collapse>
+
+  </template>
+  <script src="app-drawer-collapse.js" charset="utf-8"></script>
+</dom-module>
