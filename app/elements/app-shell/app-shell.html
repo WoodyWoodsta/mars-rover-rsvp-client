@@ -18,7 +18,11 @@
         @apply(--layout-vertical);
         @apply(--layout-flex);
 
+        background-color: var(--primary-color-dark);
         overflow: hidden;
+
+        transition: 0.2s ease, calc(var(--duration) / 2) var(--timing-function);
+        transition-property: width;
       }
 
       :host([is-expanded]) #drawerWrapper {
@@ -28,6 +32,7 @@
       }
 
       app-drawer {
+        --app-drawer-width: 60px;
         --app-drawer-content-container: {
           @apply(--layout-vertical);
           background-color: var(--primary-color-dark);

@@ -1,26 +1,128 @@
 <!-- app-rover-sequence-editor.html -->
 <!-- Custom Elements -->
 <link rel="import" href="../app-panel/app-panel.html">
+<link rel="import" href="../rover-sequence-item/rover-sequence-item.html">
 
 <dom-module id="app-rover-sequence-editor">
   <template>
     <style include="app-general-shared-styles">
       :host {
-        display: block;
+        @apply(--layout-horizontal);
+      }
+
+      #editorContainer {
+        @apply(--layout-vertical);
+        @apply(--layout-flex-2);
+
+        margin-right: var(--container-padding);
+      }
+
+      #panel {
+        @apply(--layout-vertical);
+        @apply(--layout-flex);
+
+        padding: var(--container-padding);
+      }
+
+      #sidePanelWrapper {
+        width: 45%;
+      }
+
+      #sortableWrapper {
+        @apply(--layout-flex);
+
+        overflow: auto;
+      }
+
+      rover-sequence-item:hover {
+        background: var(--light-weak-alpha);
+      }
+
+      rover-sequence-item + rover-sequence-item {
+        border-top: 1px solid var(--light-weak-alpha);
+      }
+
+      #sequenceControlsContainer {
+        @apply(--layout-horizontal);
+
+        margin-top: var(--element-padding);
+        padding: var(--element-padding);
+        border-radius: var(--border-radius);
+        border: 1px solid var(--light-normal-alpha);
+      }
+
+      .spacer {
+        @apply(--layout-flex);
+      }
+
+      paper-icon-button {
+        width: 26px;
+        height: 26px;
+
+        --paper-icon-button: {
+          padding: 2px;
+        }
+      }
+
+      #newSequenceDialog {
+        background-color: var(--primary-color-dark);
+      }
+
+      #newSequenceDialog > paper-dialog-scrollable {
+        --paper-dialog-scrollable: {
+          @apply(--layout-vertical);
+        };
+
+        width: 50vw;
+      }
+
+      paper-dropdown-menu.new-sequence {
+        @apply(--layout-flex);
       }
     </style>
 
     <!-- Sequence Editor Panel -->
-    <div class="icon-heading">
-      <iron-icon icon="rsvp:engine"></iron-icon>
-      <div class="app subheading">Sequence Editor</div>
+    <div id="editorContainer">
+      <div class="icon-heading">
+        <iron-icon icon="rsvp:view-list"></iron-icon>
+        <div class="app subheading">Sequence Editor</div>
+      </div>
+      <app-panel id="panel">
+        <div id="sortableWrapper">
+          <sortable-js group="sequenceSortable" draggable=".item" animation="100">
+            <template is="dom-repeat" items="{{sequence}}" index-as="index">
+              <rover-sequence-item class="item" data="{{item}}"></rover-sequence-item>
+            </template>
+          </sortable-js>
+        </div>
+        <div id="sequenceControlsContainer">
+          <paper-icon-button id="addButton" icon="rsvp:add"></paper-icon-button>
+          <div class="spacer"></div>
+          <paper-icon-button icon="rsvp:play-arrow"></paper-icon-button>
+          <paper-icon-button icon="rsvp:pause"></paper-icon-button>
+        </div>
+      </app-panel>
     </div>
-    <app-panel>
-
-    </app-panel>
 
     <!-- Side Panel -->
-    <content select="[right]"></content>
+    <div id="sidePanelWrapper">
+      <content select="[right]"></content>
+    </div>
+
+    <!-- Add Sequence Dialog -->
+    <paper-dialog id="newSequenceDialog" with-backdrop>
+      <h2>New Sequence Item</h2>
+      <paper-dialog-scrollable>
+        <!-- Command Dropdown -->
+        <paper-dropdown-menu id="sequenceTypeDropdown" class="new-sequence" label="Command">
+          <paper-listbox class="dropdown-content">
+            <template is="dom-repeat" items="{{_seqDefArray}}" index-as="index" sort="_sortSeqDefArray">
+              <paper-item type="{{item.type}}">{{item.name}}</paper-item>
+            </template>
+          </paper-listbox>
+        </paper-dropdown-menu>
+      </paper-dialog-scrollable>
+    </paper-dialog>
 
   </template>
   <script src="app-rover-sequence-editor.js" charset="utf-8"></script>

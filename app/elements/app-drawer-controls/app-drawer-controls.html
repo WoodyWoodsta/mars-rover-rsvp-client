@@ -53,9 +53,9 @@
         @apply(--layout-center);
       }
 
-      /*.row[collapse-opened] {
-        border-color: var(--light-normal-alpha);
-      }*/
+      .row[collapse-opened] > .button > iron-icon {
+        transform: rotate(180deg);
+      }
 
       .row:hover {
         border-color: var(--light-strong-alpha);
@@ -65,7 +65,15 @@
         margin-right: calc(var(--container-padding) * 1.5);
       }
 
+      .row > .button > iron-icon {
+        --iron-icon-height: 18px;
+        --iron-icon-width: var(--iron-icon-height);
+        margin-right: calc(var(--container-padding) * 1.5);
+      }
+
       .menu-item {
+        @apply(--layout-flex);
+
         font-size: 0.95rem;
       }
 
@@ -134,7 +142,7 @@
     </style>
 
     <!-- Top -->
-    <div class="row middle">
+    <div id="headingRow" class="row middle">
       <div class="button">
         <paper-icon-button id="collapseButton" icon="[[collapseButtonIcon]]"></paper-icon-button>
         <span id="drawerHeading">CURIOSITY RSVP</span>
@@ -145,10 +153,25 @@
     <!-- Mid -->
     <div id="midWrapper">
       <div id="midContainer">
+        <div id="viewer" class="row middle">
+          <div class="button">
+            <paper-icon-button id="viewerButton" icon="icons:settings-input-composite"></paper-icon-button>
+            <span class="menu-item">Start Stream</span>
+          </div>
+        </div>
+        <div id="watchLater" class="row middle">
+          <div class="button">
+            <paper-icon-button icon="icons:watch-later"></paper-icon-button>
+            <span class="menu-item">Request Control</span>
+          </div>
+        </div>
+
+        <!-- Control Row -->
         <div id="controlType" class="row middle">
           <div id="controlTypeRowButton" class="button">
             <paper-icon-button id="controlTypeButton" icon="rsvp:steer"></paper-icon-button>
             <span class="menu-item">Control</span>
+            <iron-icon icon="rsvp:keyboard-arrow-down"></iron-icon>
           </div>
           <!-- Control Type Picker -->
           <app-drawer-collapse id="controlTypeCollapse">
@@ -164,23 +187,15 @@
             </div>
           </app-drawer-collapse>
         </div>
-        <div class="row middle">
-          <div class="button">
-            <paper-icon-button id="viewerButton" icon="icons:settings-input-composite"></paper-icon-button>
-            <span class="menu-item">Menu 2</span>
-          </div>
-        </div>
-        <div class="row middle">
-          <div class="button">
-            <paper-icon-button icon="icons:watch-later"></paper-icon-button>
-            <span class="menu-item">Menu 3</span>
-          </div>
-        </div>
+
+        <!-- Settings Row -->
         <div id="settings" class="row middle">
           <div id="settingsRowButton" class="button">
             <paper-icon-button icon="icons:settings"></paper-icon-button>
             <span class="menu-item">Settings</span>
+            <iron-icon icon="rsvp:keyboard-arrow-down"></iron-icon>
           </div>
+          <!-- Settings -->
           <app-drawer-collapse id="settingsCollapse">
             <div style="height: 100px; width: 100%"></div>
           </app-drawer-collapse>
@@ -192,7 +207,7 @@
     </div>
 
     <!-- Bottom -->
-    <div class="row middle">
+    <div id="disconnect" class="row middle">
       <div class="button">
         <paper-icon-button id="disconnectButton" icon="icons:power-settings-new"></paper-icon-button>
         <span class="menu-item">Disconnect</span>

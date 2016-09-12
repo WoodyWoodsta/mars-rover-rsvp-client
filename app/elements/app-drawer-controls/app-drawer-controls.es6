@@ -25,10 +25,41 @@ Polymer({
   },
 
   listeners: {
-    'viewerButton.tap': '_onViewerButtonTap',
-    'disconnectButton.tap': '_onDisconnectButtonTap',
+    'viewer.tap': '_onViewerTap',
+    'disconnect.tap': '_onDisconnectTap',
     'settingsRowButton.tap': '_onSettingsRowButtonTap',
     'controlTypeRowButton.tap': '_onControlTypeRowButtonTap',
+  },
+
+  attached() {
+    this.controlTypeToggleChecked = store.client.control.type === 'rose';
+  },
+
+  collapseAll() {
+    this.setCollapse('settingsCollapse', false);
+    this.setCollapse('controlTypeCollapse', false);
+  },
+
+  setCollapse(collapseName, state) {
+    let row;
+
+    switch (collapseName) {
+      case 'settingsCollapse':
+        row = 'settings';
+        break;
+      case 'controlTypeCollapse':
+        row = 'controlType';
+        break;
+      default:
+        console.log(`Invalid collapse name ${collapseName}`);
+    }
+
+    this.$[collapseName][(state === undefined) ? 'toggle' : ((state) ? 'show' : 'hide')]();
+    if (this.$[collapseName].opened) {
+      this.$[row].setAttribute('collapse-opened', '');
+    } else {
+      this.$[row].removeAttribute('collapse-opened');
+    }
   },
 
   // === Private ===
@@ -40,30 +71,20 @@ Polymer({
     kurentoBehavior.presenter();
   },
 
-  _onViewerButtonTap() {
+  _onViewerTap() {
     kurentoBehavior.viewer();
   },
 
-  _onDisconnectButtonTap() {
+  _onDisconnectTap() {
     kurentoBehavior.stop();
   },
 
   _onSettingsRowButtonTap() {
-    this.$.settingsCollapse.toggle();
-    if (this.$.settingsCollapse.opened) {
-      this.$.settings.setAttribute('collapse-opened', '');
-    } else {
-      this.$.settings.removeAttribute('collapse-opened');
-    }
+    this.setCollapse('settingsCollapse');
   },
 
   _onControlTypeRowButtonTap() {
-    this.$.controlTypeCollapse.toggle();
-    if (this.$.controlTypeCollapse.opened) {
-      this.$.controlType.setAttribute('collapse-opened', '');
-    } else {
-      this.$.controlType.removeAttribute('collapse-opened');
-    }
+    this.setCollapse('controlTypeCollapse');
   },
 
   _onControlTypeToggleCheckedChanged(newValue) {

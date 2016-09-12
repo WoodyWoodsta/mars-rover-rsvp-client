@@ -7,7 +7,16 @@ Polymer({
   properties: {
     controlPageSelected: {
       type: Number,
-      value: 0,
+      value: (() => {
+        switch (store.client.control.type) {
+          case 'interactive':
+            return 0;
+          case 'rose':
+            return 1;
+          default:
+            return 0;
+        }
+      })(),
     },
   },
 
@@ -35,6 +44,8 @@ Polymer({
       default:
         this.controlPageSelected = 0;
     }
+
+    return this.controlPageSelected;
   },
 
   _onIronSelect(event) {

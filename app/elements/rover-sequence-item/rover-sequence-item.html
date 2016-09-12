@@ -1,0 +1,47 @@
+<!-- rover-sequence-item.html -->
+<dom-module id="rover-sequence-item">
+  <template>
+    <style>
+      :host {
+        display: block;
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+
+        --icon-size: 18px;
+
+        padding: var(--element-padding);
+        border-radius: var(--border-radius);
+      }
+
+      #icon {
+        --iron-icon-height: var(--icon-size);
+        --iron-icon-width: var(--icon-size);
+
+        margin-right: var(--element-padding);
+      }
+
+      #name {
+        @apply(--layout-flex);
+        /*min-width: 50%;*/
+      }
+
+      paper-icon-button {
+        width: var(--icon-size);
+        height: var(--icon-size);
+        margin-left: var(--element-padding);
+
+        --paper-icon-button: {
+          padding: 0;
+        }
+      }
+
+    </style>
+
+    <iron-icon id="icon" icon="{{_icon}}"></iron-icon>
+    <span id="name">{{data.name}}</span>
+    <paper-icon-button id="delete" icon="rsvp:delete"></paper-icon-button>
+    <paper-icon-button id="edit" icon="rsvp:edit"></paper-icon-button>
+
+  </template>
+  <script src="rover-sequence-item.js" charset="utf-8"></script>
+</dom-module>

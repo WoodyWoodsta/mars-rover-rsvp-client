@@ -127,7 +127,7 @@ export const client = new DataStore('client', 'source', {
   controlLevel: 'none',
 
   control: {
-    type: 'interactive',
+    type: 'rose',
   },
 });
 

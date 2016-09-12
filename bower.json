@@ -25,6 +25,7 @@
     "neon-elements": "PolymerElements/neon-elements#^1",
     "molecules": "PolymerElements/molecules#^1",
     "mat-tooltip": "ExpandJS/mat-tooltip#^0.10.0",
-    "progress-bubble": "^1.3.0"
+    "progress-bubble": "^1.3.0",
+    "Sortable": "^1.4.2"
   }
 }

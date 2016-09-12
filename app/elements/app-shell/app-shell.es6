@@ -31,13 +31,13 @@ Polymer({
   },
 
   attached() {
-    this.listen(this.$.drawerControls.$.collapseButton, 'tap', '_onExpandToggleableTap');
+    this.listen(this.$.drawerControls.$.headingRow, 'tap', '_onExpandToggleableTap');
     this.listen(this.$.drawerControls.$.drawerSpacer, 'tap', '_onExpandToggleableTap');
     this._onIsExpandedChanged(this.$.layout.narrow);
   },
 
   detached() {
-    this.unlisten(this.$.drawerControls.$.collapseButton, 'tap', '_onExpandToggleableTap');
+    this.unlisten(this.$.drawerControls.$.headingRow, 'tap', '_onExpandToggleableTap');
     this.unlisten(this.$.drawerControls.$.drawerSpacer, 'tap', '_onExpandToggleableTap');
   },
 
@@ -69,12 +69,11 @@ Polymer({
 
   _onIsExpandedChanged(newValue) {
     if (newValue) {
-      this.$.appDrawer.customStyle['--app-drawer-width'] = '256px';
-      this.updateStyles();
+      this.$.drawerWrapper.style.width = '256px';
       this.listen(this.$.mainContent, 'tap', '_onMainContentTap');
     } else {
-      this.$.appDrawer.customStyle['--app-drawer-width'] = '60px';
-      this.updateStyles();
+      this.$.drawerControls.collapseAll();
+      this.$.drawerWrapper.style.width = '60px';
       this.unlisten(this.$.mainContent, 'tap', '_onMainContentTap');
     }
   },
@@ -82,8 +81,14 @@ Polymer({
   _onNarrowChanged(value) {
     if (value) {
       this.expandDrawer();
+      this.$.drawerWrapper.style.width = '256px';
+      this.$.appDrawer.customStyle['--app-drawer-width'] = '256px';
+      this.updateStyles();
     } else {
       this.collapseDrawer();
+      this.$.drawerWrapper.style.width = '60px';
+      this.$.appDrawer.customStyle['--app-drawer-width'] = '60px';
+      this.updateStyles();
     }
   },
 
