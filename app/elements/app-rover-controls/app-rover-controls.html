@@ -68,17 +68,6 @@
       .button-row.right {
         @apply(--layout-flex);
       }
-
-      .icon-heading {
-        @apply(--layout-horizontal);
-        @apply(--layout-self-start);
-        @apply(--layout-center);
-      }
-
-      .icon-heading > iron-icon {
-        margin: 0 var(--element-padding);
-      }
-
     </style>
 
     <!-- Left Hand Panel -->
@@ -104,10 +93,6 @@
 
     <!-- Center Panel -->
     <div id="midPanel" class="panel">
-      <div class="icon-heading">
-        <iron-icon icon="rsvp:surround-sound"></iron-icon>
-        <div class="app subheading">Rover Overview</div>
-      </div>
       <content select="[middle]"></content>
     </div>
 

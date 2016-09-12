@@ -125,6 +125,10 @@ export const rceState = new DataStore('rceState', 'sink', {
 export const client = new DataStore('client', 'source', {
   type: 'controller',
   controlLevel: 'none',
+
+  control: {
+    type: 'interactive',
+  },
 });
 
 /**

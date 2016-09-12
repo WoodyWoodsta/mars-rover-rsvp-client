@@ -1,6 +1,7 @@
 /* app-drawer-controls.es6 */
 
 import { kurentoBehavior } from 'app-behaviors';
+import { store } from 'app-core';
 
 Polymer({
   is: 'app-drawer-controls',
@@ -12,6 +13,12 @@ Polymer({
     collapseButtonIcon: {
       type: String,
       computed: '_computeCollapseButtonIcon(isParentExpanded)',
+    },
+
+    controlTypeToggleChecked: {
+      type: Boolean,
+      value: false,
+      observer: '_onControlTypeToggleCheckedChanged',
     },
 
     // === Private ===
@@ -57,5 +64,9 @@ Polymer({
     } else {
       this.$.controlType.removeAttribute('collapse-opened');
     }
+  },
+
+  _onControlTypeToggleCheckedChanged(newValue) {
+    store.client.set('control.type', (newValue) ? 'rose' : 'interactive');
   },
 });

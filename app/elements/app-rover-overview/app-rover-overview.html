@@ -5,7 +5,7 @@
 
 <dom-module id="app-rover-overview">
   <template>
-    <style>
+    <style include="app-general-shared-styles">
       :host {
         @apply(--layout-vertical);
       }
@@ -15,6 +15,10 @@
       }
     </style>
 
+    <div class="icon-heading">
+      <iron-icon icon="rsvp:surround-sound"></iron-icon>
+      <div class="app subheading">Rover Overview</div>
+    </div>
     <app-panel></app-panel>
 
   </template>

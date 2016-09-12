@@ -109,9 +109,7 @@ Polymer({
   },
 
   attached() {
-    this._getJoystickDimensions();
-    this._updatePadDimensions();
-    this.returnToCenter();
+    this.resetController();
 
     // Signal that the joystick is ready
     this.fire('rover-control-joystick-ready', {
@@ -162,6 +160,15 @@ Polymer({
     if (this.position.x !== centerX || this.position.x !== centerY) {
       this.changePosition(centerX, centerY);
     }
+  },
+
+  /**
+  * Reset the control in terms of joystick position, recalculating the element dimensions
+  */
+  resetController() {
+    this._getJoystickDimensions();
+    this._updatePadDimensions();
+    this.returnToCenter();
   },
 
   // === Private ===
@@ -262,8 +269,7 @@ Polymer({
    * Readjust the position of the joystick on resize (for flexible pad sizes + responsive layouting)
    */
   _onIronResize() {
-    this._updatePadDimensions();
-    this.returnToCenter();
+    this.resetController();
   },
 
   /**

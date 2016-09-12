@@ -8,6 +8,16 @@
         font-size: 1.1rem;
         font-weight: 500;
       }
+
+      .icon-heading {
+        @apply(--layout-horizontal);
+        @apply(--layout-self-start);
+        @apply(--layout-center);
+      }
+
+      .icon-heading > iron-icon {
+        margin: 0 var(--element-padding);
+      }
     </style>
   </template>
 </dom-module>

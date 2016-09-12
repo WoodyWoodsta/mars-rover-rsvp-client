@@ -26,6 +26,15 @@
         @apply(--layout-center);
       }
 
+      iron-pages#controlPages {
+        @apply(--layout-flex);
+      }
+
+      #controlsSection {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+      }
+
       app-stream-container {
         margin-right: var(--container-padding);
       }
@@ -36,6 +45,14 @@
 
       app-rover-controls {
         @apply(--layout-flex);
+      }
+
+      app-rover-sequence-editor {
+        @apply(--layout-flex);
+      }
+
+      app-rover-sequence-editor > app-rover-overview {
+        height: 200px;
       }
 
       paper-button {
@@ -63,9 +80,19 @@
     </div>
     <div id="lowerContainer">
       <!-- Controls -->
-      <app-rover-controls>
-        <app-rover-overview middle></app-rover-overview>
-      </app-rover-controls>
+      <iron-pages id="controlPages" selected="{{controlPageSelected}}">
+        <section id="controlsSection">
+          <app-rover-controls id="controls">
+            <app-rover-overview middle></app-rover-overview>
+          </app-rover-controls>
+        </section>
+        <section id="sequenceSection">
+          <app-rover-sequence-editor>
+            <app-rover-overview right></app-rover-overview>
+          </app-rover-sequence-editor>
+        </section>
+      </iron-pages>
+
     </div>
 
   </template>

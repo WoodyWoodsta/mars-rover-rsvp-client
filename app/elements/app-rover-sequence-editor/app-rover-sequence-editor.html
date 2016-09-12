@@ -1,0 +1,27 @@
+<!-- app-rover-sequence-editor.html -->
+<!-- Custom Elements -->
+<link rel="import" href="../app-panel/app-panel.html">
+
+<dom-module id="app-rover-sequence-editor">
+  <template>
+    <style include="app-general-shared-styles">
+      :host {
+        display: block;
+      }
+    </style>
+
+    <!-- Sequence Editor Panel -->
+    <div class="icon-heading">
+      <iron-icon icon="rsvp:engine"></iron-icon>
+      <div class="app subheading">Sequence Editor</div>
+    </div>
+    <app-panel>
+
+    </app-panel>
+
+    <!-- Side Panel -->
+    <content select="[right]"></content>
+
+  </template>
+  <script src="app-rover-sequence-editor.js" charset="utf-8"></script>
+</dom-module>

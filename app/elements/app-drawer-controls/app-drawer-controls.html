@@ -6,9 +6,9 @@
   <template>
     <style>
       :host {
-        position: relative;
         @apply(--layout-vertical);
 
+        position: relative;
         padding-left: 10px;
         width: 236px;
       }
@@ -97,10 +97,6 @@
         width: 100%;
       }
 
-      .panel-group:last-child {
-        margin-bottom: var(--container-padding)
-      }
-
       .panel-group.horizontal {
         @apply(--layout-horizontal);
       }
@@ -125,15 +121,15 @@
         margin-right: var(--element-padding);
         margin-left: var(--container-padding);
 
-        --paper-toggle-button-checked-bar-color:  var(--red-theme-primary-color);
-        --paper-toggle-button-checked-button-color:  var(--red-theme-primary-color);
-        --paper-toggle-button-checked-ink-color: var(--red-theme-primary-color);
+        --paper-toggle-button-checked-bar-color: var(--accent-color);
+        --paper-toggle-button-checked-button-color: var(--accent-color);
+        --paper-toggle-button-checked-ink-color: var(--accent-color);
       }
 
       paper-slider {
-        --paper-slider-active-color: var(--red-theme-primary-color);
-        --paper-slider-knob-color: var(--red-theme-primary-color);
-        --paper-slider-pin-color: var(--red-theme-primary-color);
+        --paper-slider-active-color: var(--accent-color);
+        --paper-slider-knob-color: var(--accent-color);
+        --paper-slider-pin-color: var(--accent-color)
     }
     </style>
 
@@ -159,12 +155,12 @@
             <span class="panel-group-heading">Control Type</span>
             <div class="panel-group horizontal center">
               <span>Interactive</span>
-              <paper-toggle-button id="controlTypeToggle"></paper-toggle-button>
+              <paper-toggle-button id="controlTypeToggle" checked="{{controlTypeToggleChecked}}"></paper-toggle-button>
               <span>RoSE</span>
             </div>
             <span class="panel-group-heading">Difficulty</span>
             <div class="panel-group horizontal center">
-              <paper-slider id="controlDifficultySlider" pin snaps max="10" max-markers="10" step="1" value="5"></paper-slider>
+              <paper-slider id="controlDifficultySlider" pin snaps min="1" max="3" max-markers="3" step="1" value="1"></paper-slider>
             </div>
           </app-drawer-collapse>
         </div>
@@ -186,9 +182,7 @@
             <span class="menu-item">Settings</span>
           </div>
           <app-drawer-collapse id="settingsCollapse">
-            <div style="height: 300px; width: 100%">
-
-            </div>
+            <div style="height: 100px; width: 100%"></div>
           </app-drawer-collapse>
         </div>
 

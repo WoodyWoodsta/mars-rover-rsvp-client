@@ -11,6 +11,9 @@ Polymer({
     'pointUpButton.up': '_onPointUpButtonUp',
   },
 
+  resetControls() {
+    this.$.driveJoystick.resetController();
+  },
 
   // === Private ===
   _onDriveJoystickTweak(event) {
