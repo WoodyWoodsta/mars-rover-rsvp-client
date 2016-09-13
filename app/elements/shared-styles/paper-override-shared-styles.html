@@ -1,0 +1,27 @@
+<!-- paper-override-shared-styles.html -->
+<dom-module id="paper-override-shared-styles">
+  <template>
+    <style>
+      paper-dialog {
+        border-radius: var(--border-radius);
+      }
+
+      paper-dropdown-menu {
+        --paper-input-container-focus-color: var(--accent-color);
+      }
+
+      paper-input {
+        --paper-input-container-focus-color: var(--accent-color);
+      }
+
+      paper-button {
+        color: var(--light-medium-alpha);
+      }
+
+      paper-button[disabled] {
+        background: var(--light-weak-alpha);
+        color: var(--light-weak-alpha);
+      }
+    </style>
+  </template>
+</dom-module>

@@ -5,6 +5,7 @@
 
 <dom-module id="app-rover-sequence-editor">
   <template>
+    <style include="paper-override-shared-styles"></style>
     <style include="app-general-shared-styles">
       :host {
         @apply(--layout-horizontal);
@@ -64,20 +65,38 @@
         }
       }
 
-      #newSequenceDialog {
-        background-color: var(--primary-color-dark);
+      #cmdDialog {
+        background-color: var(--dark-strong);
       }
 
-      #newSequenceDialog > paper-dialog-scrollable {
+      #cmdDialog > paper-dialog-scrollable {
+        width: 30vw;
+
         --paper-dialog-scrollable: {
           @apply(--layout-vertical);
         };
-
-        width: 50vw;
       }
 
-      paper-dropdown-menu.new-sequence {
+      paper-dropdown-menu.new-cmd {
         @apply(--layout-flex);
+      }
+
+      .input-row {
+        @apply(--layout-horizontal);
+        @apply(--layout-end);
+      }
+
+      .input-row > paper-input {
+        @apply(--layout-flex);
+
+        color: var(--primary-color-light);
+      }
+
+      .input-unit {
+        margin-left: var(--container-padding);
+        margin-bottom: var(--container-padding);
+        font-size: 1rem;
+        font-weight: 600;
       }
     </style>
 
@@ -109,19 +128,38 @@
       <content select="[right]"></content>
     </div>
 
-    <!-- Add Sequence Dialog -->
-    <paper-dialog id="newSequenceDialog" with-backdrop>
-      <h2>New Sequence Item</h2>
+    <!-- Add Command Dialog -->
+    <paper-dialog id="cmdDialog" with-backdrop>
+      <h2>New Sequence Command</h2>
       <paper-dialog-scrollable>
         <!-- Command Dropdown -->
-        <paper-dropdown-menu id="sequenceTypeDropdown" class="new-sequence" label="Command">
+        <paper-dropdown-menu id="cmdTypeDropdown" class="new-cmd" label="Command" selected-item="{{_cmdTypeSelection}}">
           <paper-listbox class="dropdown-content">
-            <template is="dom-repeat" items="{{_seqDefArray}}" index-as="index" sort="_sortSeqDefArray">
-              <paper-item type="{{item.type}}">{{item.name}}</paper-item>
+            <template is="dom-repeat" items="{{_cmdDefArray}}" index-as="index" sort="_sortCmdDefArray">
+              <paper-item id="${item.def.name}Item" type="{{item.def.type}}" item="{{item}}" index="{{index}}">{{item.def.name}}</paper-item>
             </template>
           </paper-listbox>
         </paper-dropdown-menu>
+
+        <!-- Command Parameters -->
+        <template is="dom-if" if="{{_cmdTypeName.drive}}" restamp="true">
+
+        </template>
+        <template is="dom-if" if="{{_cmdTypeName.pause}}" restamp="true">
+          <div class="input-row">
+            <paper-input label="Duration" value="{{currentCmd.params.duration.value}}"></paper-input>
+            <span class="input-unit">{{currentCmd.params.duration.unit}}</span>
+          </div>
+        </template>
+
+
       </paper-dialog-scrollable>
+
+      <!-- Command Dialog Actions -->
+      <div class="buttons">
+        <paper-button>Cancel</paper-button>
+        <paper-button dialog-confirm autofocus disabled$="{{!cmdTypeIsSelected}}">{{_newCmdDialogCommitButtonText}}</paper-button>
+      </div>
     </paper-dialog>
 
   </template>

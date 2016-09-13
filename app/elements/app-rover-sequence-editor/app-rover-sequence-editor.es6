@@ -24,27 +24,55 @@ Polymer({
       ],
     },
 
-    _seqDefArray: {
+    cmdTypeIsSelected: {
+      type: Boolean,
+      value: false,
+      reflectToAttribute: true,
+    },
+
+    currentCmd: {
+      type: Object,
+    },
+
+    // === Private ===
+
+    _cmdDefArray: {
       type: Array,
+    },
+
+    _cmdTypeSelection: {
+      type: Object,
+      observer: '_onCmdTypeSelectionChanged',
+    },
+
+    _cmdTypeName: {
+      type: Object,
+      value: {},
+    },
+
+    _newCmdDialogCommitButtonText: {
+      type: String,
+      value: 'Create',
     },
   },
 
   listeners: {
     'addButton.tap': '_onAddButtonTap',
+    'cmdDialog.iron-overlay-closed': '_onNewCmdDialogIronOverlayClosed',
   },
 
   attached() {
-    this._seqDefArray = this._getSeqDefArray();
+    this._cmdDefArray = this._getCmdDefArray();
   },
 
   // === Private ===
   _onAddButtonTap() {
-    this.$.newSequenceDialog.open();
+    this.$.cmdDialog.open();
   },
 
-  _sortSeqDefArray(a, b) {
-    const aPos = this._getSeqDefPosition(a);
-    const bPos = this._getSeqDefPosition(b);
+  _sortCmdDefArray(a, b) {
+    const aPos = this._getCmdDefPosition(a);
+    const bPos = this._getCmdDefPosition(b);
 
     if (aPos < bPos) {
       return 1;
@@ -57,8 +85,8 @@ Polymer({
     return 0;
   },
 
-  _getSeqDefPosition(def) {
-    switch (def.type) {
+  _getCmdDefPosition(defObj) {
+    switch (defObj.def.type) {
       case 'low':
         return 0;
       case 'high':
@@ -70,7 +98,48 @@ Polymer({
     }
   },
 
-  _getSeqDefArray() {
-    return Object.keys(sequenceBehavior.seqDefinitions).map((val) => sequenceBehavior.seqDefinitions[val]);
+  /**
+   * Create an array of *example* commands to use in selecting a type
+   */
+  _getCmdDefArray() {
+    return Object.keys(sequenceBehavior.cmdDefinitions).map((val) => {
+      return {
+        def: sequenceBehavior.cmdDefinitions[val],
+        key: val,
+      };
+    });
+  },
+
+  _onCmdTypeSelectionChanged(newValue) {
+    this.cmdTypeIsSelected = (newValue !== null);
+    this._cmdTypeName = {};
+    if (newValue) {
+      this.set(`_cmdTypeName.${newValue.item.key}`, {});
+
+      const SelectedCmdClass = this._getCmdClassByKey(newValue.item.key);
+      this.currentCmd = new SelectedCmdClass();
+    }
+  },
+
+  _onNewCmdDialogIronOverlayClosed(event) {
+    if (event.detail.canceled) {
+      this.cmdTypeIsSelected = false;
+      this.$.cmdTypeDropdown.contentElement.selected = null;
+      this._cmdTypeName = {};
+      this.currentCmd = {};
+    }
+  },
+
+  _getCmdClassByKey(key) {
+    let className;
+
+    switch (key) {
+      case 'pause':
+        className = 'PauseCmd';
+        break;
+      default:
+    }
+
+    return sequenceBehavior[className];
   },
 });
