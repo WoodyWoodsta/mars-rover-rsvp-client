@@ -59,7 +59,7 @@
       paper-icon-button {
         width: 26px;
         height: 26px;
-
+        
         --paper-icon-button: {
           padding: 2px;
         }
@@ -70,10 +70,10 @@
       }
 
       #cmdDialog > paper-dialog-scrollable {
-        width: 30vw;
+        /*width: 30vw;*/
 
         --paper-dialog-scrollable: {
-          @apply(--layout-vertical);
+          /*@apply(--layout-vertical);*/
         };
       }
 
@@ -86,10 +86,10 @@
         @apply(--layout-end);
       }
 
-      .input-row > paper-input {
+      .input-row > paper-input,
+      .input-row > paper-slider,
+      .input-row > paper-radio-group {
         @apply(--layout-flex);
-
-        color: var(--primary-color-light);
       }
 
       .input-unit {
@@ -133,7 +133,13 @@
       <h2>New Sequence Command</h2>
       <paper-dialog-scrollable>
         <!-- Command Dropdown -->
-        <paper-dropdown-menu id="cmdTypeDropdown" class="new-cmd" label="Command" selected-item="{{_cmdTypeSelection}}">
+        <paper-dropdown-menu id="cmdTypeDropdown" class="new-cmd"
+          label="Command"
+          selected-item="{{_cmdTypeSelection}}"
+          placeholder="Select a command"
+          horizontal-offset="10"
+          vertical-offset="10"
+          always-float-label>
           <paper-listbox class="dropdown-content">
             <template is="dom-repeat" items="{{_cmdDefArray}}" index-as="index" sort="_sortCmdDefArray">
               <paper-item id="${item.def.name}Item" type="{{item.def.type}}" item="{{item}}" index="{{index}}">{{item.def.name}}</paper-item>
@@ -142,12 +148,39 @@
         </paper-dropdown-menu>
 
         <!-- Command Parameters -->
+        <!-- DriveCmd -->
         <template is="dom-if" if="{{_cmdTypeName.drive}}" restamp="true">
-
+          <div class="input-row">
+            <paper-input
+              label="Duration"
+              value="{{currentCmd.params.duration.value}}"
+              placeholder="Enter a duration",
+              type="number"
+              always-float-label></paper-input>
+            <span class="input-unit">{{currentCmd.params.duration.unit}}</span>
+          </div>
+          <div class="input-row">
+            <label>Direction</label>
+            <paper-radio-group selected="{{currentCmd.params.direction.value}}">
+              <paper-radio-button name="fwd">Forward</paper-radio-button>
+              <paper-radio-button name="rev">Reverse</paper-radio-button>
+            </paper-radio-group>
+          </div>
+          <div class="input-row">
+            <label>Velocity</label>
+            <paper-slider min="0" max="100" editable value="{{currentCmd.params.velocity.value}}"></paper-slider>
+          </div>
         </template>
+
+        <!-- PauseCmd -->
         <template is="dom-if" if="{{_cmdTypeName.pause}}" restamp="true">
           <div class="input-row">
-            <paper-input label="Duration" value="{{currentCmd.params.duration.value}}"></paper-input>
+            <paper-input
+              label="Duration"
+              value="{{currentCmd.params.duration.value}}"
+              placeholder="Enter a duration",
+              type="number"
+              always-float-label></paper-input>
             <span class="input-unit">{{currentCmd.params.duration.unit}}</span>
           </div>
         </template>
@@ -157,7 +190,7 @@
 
       <!-- Command Dialog Actions -->
       <div class="buttons">
-        <paper-button>Cancel</paper-button>
+        <paper-button id="cmdDialogCancelButton">Cancel</paper-button>
         <paper-button dialog-confirm autofocus disabled$="{{!cmdTypeIsSelected}}">{{_newCmdDialogCommitButtonText}}</paper-button>
       </div>
     </paper-dialog>

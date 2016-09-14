@@ -9,18 +9,19 @@ Polymer({
     sequence: {
       type: Array,
       value: [
-        {
-          name: 'Hardcore sequence item 1',
-        },
-        {
-          name: 'Hardcore sequence item 2',
-        },
-        {
-          name: 'Hardcore sequence item 3',
-        },
-        {
-          name: 'Hardcore sequence item 4',
-        },
+        new sequenceBehavior.DriveCmd({
+          duration: 200,
+          direction: 'fwd',
+          velocity: 50,
+        }),
+        new sequenceBehavior.PauseCmd({
+          duration: 50,
+        }),
+        new sequenceBehavior.DriveCmd({
+          duration: 100,
+          direction: 'fwd',
+          velocity: 30,
+        }),
       ],
     },
 
@@ -59,6 +60,7 @@ Polymer({
   listeners: {
     'addButton.tap': '_onAddButtonTap',
     'cmdDialog.iron-overlay-closed': '_onNewCmdDialogIronOverlayClosed',
+    'cmdDialogCancelButton.tap': '_onCmdDialogCancelButtonTap',
   },
 
   attached() {
@@ -119,17 +121,28 @@ Polymer({
       const SelectedCmdClass = this._getCmdClassByKey(newValue.item.key);
       this.currentCmd = new SelectedCmdClass();
     }
+
+    this.$.cmdDialog.notifyResize();
   },
 
   _onNewCmdDialogIronOverlayClosed(event) {
-    if (event.detail.canceled) {
-      this.cmdTypeIsSelected = false;
-      this.$.cmdTypeDropdown.contentElement.selected = null;
-      this._cmdTypeName = {};
-      this.currentCmd = {};
+    console.log(event);
+    if (event.detail.confirmed) {
+      this._addNewCmd(this.currentCmd);
+      this._resetCmdCreation();
+    } else if (event.detail.canceled) {
+      this._resetCmdCreation();
     }
   },
 
+  _resetCmdCreation() {
+    this.cmdTypeIsSelected = false;
+    this.$.cmdTypeDropdown.contentElement.selected = null;
+    this._cmdTypeName = {};
+    this.currentCmd = {};
+  },
+
+  // TODO: This should be moved to the behavior
   _getCmdClassByKey(key) {
     let className;
 
@@ -137,9 +150,20 @@ Polymer({
       case 'pause':
         className = 'PauseCmd';
         break;
+      case 'drive':
+        className = 'DriveCmd';
+        break;
       default:
     }
 
     return sequenceBehavior[className];
   },
+
+  _onCmdDialogCancelButtonTap() {
+    this.$.cmdDialog.cancel();
+  },
+
+  _addNewCmd(cmd) {
+    this.push('sequence', cmd);
+  }
 });

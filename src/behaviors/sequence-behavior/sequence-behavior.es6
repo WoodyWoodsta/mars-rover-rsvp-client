@@ -17,6 +17,7 @@ export class PauseCmd extends SeqCmd {
       duration: {
         type: Number,
         unit: 'sec',
+        icon: 'rsvp:access-time',
         value: params.duration || null,
       },
     };
@@ -32,16 +33,19 @@ export class SingleWheelRotateCmd extends SeqCmd {
         type: String,
         values: ['fl', 'fr', 'rl', 'rr'],
         unit: null,
+        icon: 'rsvp:wheel',
         value: params.wheel || null,
       },
       angle: {
         type: Number,
         unit: 'deg',
+        icon: 'rsvp:angle',
         value: params.angle || null,
       },
       velocity: {
         type: Number,
-        unit: 'units',
+        unit: '%',
+        icon: 'rsvp:velocity',
         value: params.velocity || null,
       },
     };
@@ -57,16 +61,19 @@ export class SingleWheelDriveCmd extends SeqCmd {
         type: String,
         values: ['fl', 'fr', 'rl', 'rr'],
         unit: null,
+        icon: 'rsvp:wheel',
         value: params.wheel || null,
       },
       duration: {
         type: Number,
         unit: 'sec',
+        icon: 'rsvp:access-time',
         value: params.duration || null,
       },
       velocity: {
         type: Number,
-        unit: 'units',
+        unit: '%',
+        icon: 'rsvp:velocity',
         value: params.velocity || null,
       },
     };
@@ -81,17 +88,20 @@ export class DriveCmd extends SeqCmd {
       duration: {
         type: Number,
         unit: 'sec',
+        icon: 'rsvp:access-time',
         value: params.duration || null,
       },
       velocity: {
         type: Number,
-        unit: 'units',
+        unit: '%',
+        icon: 'rsvp:velocity',
         value: params.velocity || null,
       },
       direction: {
         type: String,
         values: ['fwd', 'rev'],
         unit: null,
+        icon: 'rsvp:near-me',
         value: params.direction || null,
       },
     };
@@ -106,17 +116,20 @@ export class WheelsRotateCmd extends SeqCmd {
       duration: {
         type: Number,
         unit: 'sec',
+        icon: 'rsvp:access-time',
         value: params.duration || null,
       },
       velocity: {
         type: Number,
-        unit: 'units',
+        unit: '%',
+        icon: 'rsvp:velocity',
         value: params.velocity || null,
       },
       direction: {
         type: String,
         values: ['fwd', 'rev'],
         unit: null,
+        icon: 'rsvp:near-me',
         value: params.direction || null,
       },
     };
@@ -132,16 +145,19 @@ export class RoverRotateCmd extends SeqCmd {
         type: String,
         values: ['cw', 'ccw'],
         unit: null,
+        icon: 'rsvp:near-me',
         value: params.direction || null,
       },
       duration: {
         type: Number,
         unit: 'sec',
+        icon: 'rsvp:access-time',
         value: params.duration || null,
       },
       velocity: {
         type: Number,
-        unit: 'units',
+        unit: '%',
+        icon: 'rsvp:velocity',
         value: params.velocity || null,
       },
     };

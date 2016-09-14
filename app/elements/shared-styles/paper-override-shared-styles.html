@@ -2,6 +2,20 @@
 <dom-module id="paper-override-shared-styles">
   <template>
     <style>
+      paper-icon-button {
+        @apply(--layout-flex-none);
+        --paper-icon-button: {
+          @apply(--layout-flex-none);
+        }
+      }
+
+      iron-icon {
+        @apply(--layout-flex-none);
+        --iron-icon: {
+          @apply(--layout-flex-none);
+        }
+      }
+
       paper-dialog {
         border-radius: var(--border-radius);
       }
@@ -12,6 +26,17 @@
 
       paper-input {
         --paper-input-container-focus-color: var(--accent-color);
+      }
+
+      paper-slider {
+        --paper-slider-active-color: var(--accent-color);
+        --paper-slider-knob-color: var(--accent-color);
+        --paper-slider-pin-color: var(--accent-color);
+      }
+
+      paper-radio-button {
+        --paper-radio-button-checked-color: var(--accent-color);
+        --paper-radio-button-checked-ink-color: var(--accent-color);
       }
 
       paper-button {

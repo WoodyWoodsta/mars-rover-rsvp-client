@@ -1,7 +1,7 @@
 <!-- rover-sequence-item.html -->
 <dom-module id="rover-sequence-item">
   <template>
-    <style>
+    <style include="paper-override-shared-styles">
       :host {
         display: block;
         @apply(--layout-horizontal);
@@ -21,8 +21,39 @@
       }
 
       #name {
+        /*@apply(--layout-flex);*/
+        min-width: 20%;
+        text-overflow: ellipsis;
+        overflow: hidden;
+      }
+
+      #paramWrapper {
+        @apply(--layout-horizontal);
+        overflow: hidden;
+      }
+
+      .spacer {
         @apply(--layout-flex);
-        /*min-width: 50%;*/
+      }
+
+      .param {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+
+        margin-left: calc(var(--container-padding) * 2);
+      }
+
+      .param > iron-icon {
+        --iron-icon-height: var(--icon-size);
+        --iron-icon-width: var(--icon-size);
+
+        margin-right: var(--element-padding);
+        color: var(--light-medium-alpha);
+      }
+
+      .param-unit {
+        font-weight: 600;
+        color: var(--light-medium-alpha);
       }
 
       paper-icon-button {
@@ -39,6 +70,16 @@
 
     <iron-icon id="icon" icon="{{_icon}}"></iron-icon>
     <span id="name">{{data.name}}</span>
+    <div id="paramWrapper">
+      <template is="dom-repeat" items="{{_cmdParamArray}}" index-as="index">
+        <div class="param">
+          <iron-icon icon="{{item.icon}}"></iron-icon>
+          <span>{{item.value}}</span>
+          <span class="param-unit">&nbsp;{{item.unit}}</span>
+        </div>
+      </template>
+    </div>
+    <div class="spacer"></div>
     <paper-icon-button id="delete" icon="rsvp:delete"></paper-icon-button>
     <paper-icon-button id="edit" icon="rsvp:edit"></paper-icon-button>
 
