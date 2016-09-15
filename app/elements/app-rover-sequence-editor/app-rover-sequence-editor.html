@@ -158,7 +158,7 @@
         </div>
         <div id="sortableWrapper">
           <sortable-js id="sequenceSortable" group="sequenceSortable" draggable=".item" animation="100">
-            <template is="dom-repeat" items="{{sequence}}" index-as="index">
+            <template id="sequenceList" is="dom-repeat" items="{{sequence}}" index-as="index">
               <rover-sequence-item class="item" data="{{item}}" index="{{index}}"></rover-sequence-item>
             </template>
           </sortable-js>
@@ -182,7 +182,7 @@
 
     <!-- Add Command Dialog -->
     <paper-dialog id="cmdDialog" with-backdrop>
-      <h2>New Sequence Command</h2>
+      <h2>{{_cmdDialogHeading}}</h2>
       <paper-dialog-scrollable>
         <!-- Command Dropdown -->
         <paper-dropdown-menu id="cmdTypeDropdown" class="new-cmd"

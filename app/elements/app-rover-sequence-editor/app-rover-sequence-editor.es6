@@ -49,6 +49,12 @@ Polymer({
       observer: '_onStateChange',
     },
 
+    cmdDialogState: {
+      type: String,
+      value: 'new',
+      observer: '_onCmdDialogStateChanged',
+    },
+
     // === Private ===
 
     _cmdDefArray: {
@@ -85,6 +91,11 @@ Polymer({
       type: String,
       value: 'editing',
     },
+
+    _cmdDialogHeading: {
+      type: String,
+      value: 'New Sequence Command',
+    },
   },
 
   listeners: {
@@ -94,7 +105,7 @@ Polymer({
     'cmdDialogCancelButton.tap': '_onCmdDialogCancelButtonTap',
     'uploadButton.tap': '_onUploadButtonTap',
     'rover-sequence-item-delete': '_onRoverSequenceItemDelete',
-    'rover-sequence-item-edit': '_onRoverSequenceItemDelete',
+    'rover-sequence-item-edit': '_onRoverSequenceItemEdit',
   },
 
   attached() {
@@ -117,6 +128,7 @@ Polymer({
   },
 
   _onAddButtonTap() {
+    this.cmdDialogState = 'new';
     this.$.cmdDialog.open();
   },
 
@@ -174,8 +186,11 @@ Polymer({
     if (newValue) {
       this.set(`_cmdTypeName.${newValue.item.key}`, {});
 
-      const SelectedCmdClass = this._getCmdClassByKey(newValue.item.key);
-      this.currentCmd = new SelectedCmdClass();
+      if (this.cmdDialogState === 'new') {
+        const SelectedCmdClass = this._getCmdClassByKey(newValue.item.key);
+        this.currentCmd = new SelectedCmdClass();
+        this.currentCmd._key = newValue.item.key;
+      }
     }
 
     this.$.cmdDialog.notifyResize();
@@ -183,7 +198,12 @@ Polymer({
 
   _onNewCmdDialogIronOverlayClosed(event) {
     if (event.detail.confirmed && !event.detail.canceled) {
-      this._addNewCmd(this.currentCmd);
+      if (this.cmdDialogState === 'new') {
+        this._addNewCmd(this.currentCmd);
+      } else if (this.cmdDialogState === 'edit') {
+        this._forceSeqListRender();
+      }
+
       this._resetCmdCreation();
     } else if (event.detail.canceled) {
       this._resetCmdCreation();
@@ -246,8 +266,19 @@ Polymer({
     }
   },
 
+  _editCmd(index) {
+    this.cmdDialogState = 'edit';
+    this.set('currentCmd', this.sequence[index]);
+    this._cmdTypeSelection = { item: { key: this.currentCmd._key } };
+    this.$.cmdDialog.open();
+  },
+
   _onRoverSequenceItemDelete(event) {
     this._removeCmd(event.detail.index);
+  },
+
+  _onRoverSequenceItemEdit(event) {
+    this._editCmd(event.detail.index);
   },
 
   _onUploadButtonTap() {
@@ -294,5 +325,30 @@ Polymer({
 
   _computeReadyToPlayback(newValue) {
     return newValue === 'playing' || newValue === 'paused' || newValue === 'uploaded';
+  },
+
+  _onCmdDialogStateChanged(newValue) {
+    switch (newValue) {
+      case 'new':
+        this._cmdDialogHeading = 'New Sequence Command';
+        this._newCmdDialogCommitButtonText = 'Create';
+        this.$.cmdDialogCancelButton.style.display = 'intial';
+        this.$.cmdTypeDropdown.style.display = 'initial';
+        break;
+      case 'edit':
+        this._cmdDialogHeading = 'Edit Command';
+        this._newCmdDialogCommitButtonText = 'Save';
+        this.$.cmdDialogCancelButton.style.display = 'none';
+        this.$.cmdTypeDropdown.style.display = 'none';
+        break;
+      default:
+    }
+  },
+
+  _forceSeqListRender() {
+    const seq = this.sequence;
+    this.sequence = [];
+    this.$.sequenceList.render();
+    this.sequence = seq;
   },
 });
