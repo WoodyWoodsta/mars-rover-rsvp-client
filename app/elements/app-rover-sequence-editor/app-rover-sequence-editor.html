@@ -52,14 +52,48 @@
         border: 1px solid var(--light-normal-alpha);
       }
 
+      #seqEmptyState {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+        @apply(--layout-center-justified);
+
+        margin: auto;
+        height: 90%;
+        color: var(--light-semiweak-alpha);
+        font-size: 1.4rem;
+      }
+
+      :host(:not([_seq-empty])) #seqEmptyState {
+        display: none;
+      }
+
       .spacer {
         @apply(--layout-flex);
+      }
+
+      #status {
+        padding-top: 2px;
+        margin-right: var(--container-padding);
+        font-weight: 600;
+        text-transform: uppercase;
+      }
+
+      #status[status="uploading..."] {
+        color: var(--amber-theme-primary-color);
+      }
+
+      #status[status="uploaded"] {
+        color: var(--green-theme-primary-color);
+      }
+
+      #status[status="editing"] {
+        color: var(--red-theme-primary-color);
       }
 
       paper-icon-button {
         width: 26px;
         height: 26px;
-        
+
         --paper-icon-button: {
           padding: 2px;
         }
@@ -98,6 +132,18 @@
         font-size: 1rem;
         font-weight: 600;
       }
+
+      @media screen and (max-width: 800px) {
+        #seqEmptyState {
+          font-size: 1rem;
+        }
+      }
+
+      @media screen and (max-width: 550px) {
+        #seqEmptyState {
+          @apply(--layout-vertical);
+        }
+      }
     </style>
 
     <!-- Sequence Editor Panel -->
@@ -107,18 +153,24 @@
         <div class="app subheading">Sequence Editor</div>
       </div>
       <app-panel id="panel">
+        <div id="seqEmptyState">
+          <span>Click on "</span><iron-icon icon="rsvp:add"></iron-icon><span>" below to add a command</span>
+        </div>
         <div id="sortableWrapper">
-          <sortable-js group="sequenceSortable" draggable=".item" animation="100">
+          <sortable-js id="sequenceSortable" group="sequenceSortable" draggable=".item" animation="100">
             <template is="dom-repeat" items="{{sequence}}" index-as="index">
-              <rover-sequence-item class="item" data="{{item}}"></rover-sequence-item>
+              <rover-sequence-item class="item" data="{{item}}" index="{{index}}"></rover-sequence-item>
             </template>
           </sortable-js>
         </div>
         <div id="sequenceControlsContainer">
           <paper-icon-button id="addButton" icon="rsvp:add"></paper-icon-button>
+          <paper-icon-button id="editButton" icon="rsvp:edit"></paper-icon-button>
           <div class="spacer"></div>
-          <paper-icon-button icon="rsvp:play-arrow"></paper-icon-button>
-          <paper-icon-button icon="rsvp:pause"></paper-icon-button>
+          <span id="status" status$={{_statusText}}>{{_statusText}}</span>
+          <paper-icon-button id="uploadButton" icon="rsvp:file-upload"></paper-icon-button>
+          <paper-icon-button id="playButton" icon="rsvp:play-arrow" disabled$="{{!_readyToPlayback}}"></paper-icon-button>
+          <paper-icon-button id="pauseButton" icon="rsvp:pause" disabled$="{{!_readyToPlayback}}"></paper-icon-button>
         </div>
       </app-panel>
     </div>
@@ -134,12 +186,12 @@
       <paper-dialog-scrollable>
         <!-- Command Dropdown -->
         <paper-dropdown-menu id="cmdTypeDropdown" class="new-cmd"
-          label="Command"
-          selected-item="{{_cmdTypeSelection}}"
-          placeholder="Select a command"
-          horizontal-offset="10"
-          vertical-offset="10"
-          always-float-label>
+            label="Command"
+            selected-item="{{_cmdTypeSelection}}"
+            placeholder="Select a command"
+            horizontal-offset="10"
+            vertical-offset="10"
+            always-float-label>
           <paper-listbox class="dropdown-content">
             <template is="dom-repeat" items="{{_cmdDefArray}}" index-as="index" sort="_sortCmdDefArray">
               <paper-item id="${item.def.name}Item" type="{{item.def.type}}" item="{{item}}" index="{{index}}">{{item.def.name}}</paper-item>
@@ -148,29 +200,6 @@
         </paper-dropdown-menu>
 
         <!-- Command Parameters -->
-        <!-- DriveCmd -->
-        <template is="dom-if" if="{{_cmdTypeName.drive}}" restamp="true">
-          <div class="input-row">
-            <paper-input
-              label="Duration"
-              value="{{currentCmd.params.duration.value}}"
-              placeholder="Enter a duration",
-              type="number"
-              always-float-label></paper-input>
-            <span class="input-unit">{{currentCmd.params.duration.unit}}</span>
-          </div>
-          <div class="input-row">
-            <label>Direction</label>
-            <paper-radio-group selected="{{currentCmd.params.direction.value}}">
-              <paper-radio-button name="fwd">Forward</paper-radio-button>
-              <paper-radio-button name="rev">Reverse</paper-radio-button>
-            </paper-radio-group>
-          </div>
-          <div class="input-row">
-            <label>Velocity</label>
-            <paper-slider min="0" max="100" editable value="{{currentCmd.params.velocity.value}}"></paper-slider>
-          </div>
-        </template>
 
         <!-- PauseCmd -->
         <template is="dom-if" if="{{_cmdTypeName.pause}}" restamp="true">
@@ -180,10 +209,119 @@
               value="{{currentCmd.params.duration.value}}"
               placeholder="Enter a duration",
               type="number"
+              min$="0"
               always-float-label></paper-input>
             <span class="input-unit">{{currentCmd.params.duration.unit}}</span>
           </div>
         </template>
+
+        <!-- SingleWheelRotateCmd -->
+        <template is="dom-if" if="{{_cmdTypeName.singleWheelRotate}}" restamp="true">
+          <div class="input-row">
+            <label>Wheel</label>
+            <paper-radio-group selected="{{currentCmd.params.wheel.value}}">
+              <paper-radio-button name="fl">Front Left</paper-radio-button>
+              <paper-radio-button name="fr">Front Right</paper-radio-button>
+              <paper-radio-button name="rl">Rear Left</paper-radio-button>
+              <paper-radio-button name="rr">Rear Right</paper-radio-button>
+            </paper-radio-group>
+          </div>
+          <div class="input-row">
+            <paper-input
+              label="Angle"
+              value="{{currentCmd.params.angle.value}}"
+              placeholder="Enter an angle",
+              type="number"
+              min$="-45"
+              max$="45"
+              always-float-label></paper-input>
+            <span class="input-unit">{{currentCmd.params.angle.unit}}</span>
+          </div>
+          <div class="input-row">
+            <label>Velocity</label>
+            <paper-slider min="0" max="100" editable value="{{currentCmd.params.velocity.value}}"></paper-slider>
+          </div>
+        </template>
+
+        <!-- SingleWheelDriveCmd -->
+        <template is="dom-if" if="{{_cmdTypeName.singleWheelDrive}}" restamp="true">
+          <div class="input-row">
+            <label>Wheel</label>
+            <paper-radio-group selected="{{currentCmd.params.wheel.value}}">
+              <paper-radio-button name="fl">Front Left</paper-radio-button>
+              <paper-radio-button name="fr">Front Right</paper-radio-button>
+              <paper-radio-button name="rl">Rear Left</paper-radio-button>
+              <paper-radio-button name="rr">Rear Right</paper-radio-button>
+            </paper-radio-group>
+          </div>
+          <div class="input-row">
+            <label>Direction</label>
+            <paper-radio-group selected="{{currentCmd.params.direction.value}}">
+              <paper-radio-button name="fwd">Forward</paper-radio-button>
+              <paper-radio-button name="rev">Reverse</paper-radio-button>
+            </paper-radio-group>
+          </div>
+          <div class="input-row">
+            <paper-input
+              label="Duration"
+              value="{{currentCmd.params.duration.value}}"
+              placeholder="Enter a duration",
+              type="number"
+              min$="0"
+              always-float-label></paper-input>
+            <span class="input-unit">{{currentCmd.params.duration.unit}}</span>
+          </div>
+          <div class="input-row">
+            <label>Velocity</label>
+            <paper-slider min="0" max="100" editable value="{{currentCmd.params.velocity.value}}"></paper-slider>
+          </div>
+        </template>
+
+        <!-- WheelsRotateCmd -->
+        <template is="dom-if" if="{{_cmdTypeName.wheelsRotate}}" restamp="true">
+          <div class="input-row">
+            <paper-input
+              label="Angle"
+              value="{{currentCmd.params.angle.value}}"
+              placeholder="Enter a angle",
+              type="number"
+              min$="-45"
+              max$="45"
+              always-float-label></paper-input>
+            <span class="input-unit">{{currentCmd.params.angle.unit}}</span>
+          </div>
+          <div class="input-row">
+            <label>Velocity</label>
+            <paper-slider min="0" max="100" editable value="{{currentCmd.params.velocity.value}}"></paper-slider>
+          </div>
+        </template>
+
+        <!-- RoverRotateCmd -->
+        <template is="dom-if" if="{{_cmdTypeName.roverRotate}}" restamp="true">
+          <div class="input-row">
+            <label>Direction</label>
+            <paper-radio-group selected="{{currentCmd.params.direction.value}}">
+              <paper-radio-button name="cw">Clockwise</paper-radio-button>
+              <paper-radio-button name="ccw">Counter-clockwise</paper-radio-button>
+            </paper-radio-group>
+          </div>
+          <div class="input-row">
+            <paper-input
+              label="Duration"
+              value="{{currentCmd.params.duration.value}}"
+              placeholder="Enter a duration",
+              type="number"
+              min$="0"
+              always-float-label></paper-input>
+            <span class="input-unit">{{currentCmd.params.duration.unit}}</span>
+          </div>
+          <div class="input-row">
+            <label>Velocity</label>
+            <paper-slider min="0" max="100" editable value="{{currentCmd.params.velocity.value}}"></paper-slider>
+          </div>
+        </template>
+
+        <!-- WheelsRotateCmd -->
 
 
       </paper-dialog-scrollable>

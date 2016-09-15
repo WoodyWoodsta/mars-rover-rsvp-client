@@ -2,9 +2,11 @@
 import debug from 'debug';
 
 import * as store from '../store';
+import * as controlIOClient from './control-io-client';
 
 const log = debug('rsvp-client:control-io-client-translator');
 
+// === Incoming ===
 export function onData(message, event) {
   switch (message.storeName) {
     case 'rceState':
@@ -15,4 +17,9 @@ export function onData(message, event) {
     default:
       log(`Storename '${message.storeName}' is not recognised`);
   }
+}
+
+// === Outgoing ===
+export function sendSequence(sequence) {
+  controlIOClient.sendPost('upload-sequence', sequence);
 }

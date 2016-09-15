@@ -57,6 +57,12 @@ export class SingleWheelDriveCmd extends SeqCmd {
     super('Single Wheel Drive', 'low');
 
     this.params = {
+      duration: {
+        type: Number,
+        unit: 'sec',
+        icon: 'rsvp:access-time',
+        value: params.duration || null,
+      },
       wheel: {
         type: String,
         values: ['fl', 'fr', 'rl', 'rr'],
@@ -64,17 +70,18 @@ export class SingleWheelDriveCmd extends SeqCmd {
         icon: 'rsvp:wheel',
         value: params.wheel || null,
       },
-      duration: {
-        type: Number,
-        unit: 'sec',
-        icon: 'rsvp:access-time',
-        value: params.duration || null,
-      },
       velocity: {
         type: Number,
         unit: '%',
         icon: 'rsvp:velocity',
         value: params.velocity || null,
+      },
+      direction: {
+        type: String,
+        values: ['fwd', 'rev'],
+        unit: null,
+        icon: 'rsvp:near-me',
+        value: params.direction || null,
       },
     };
   }
@@ -113,24 +120,17 @@ export class WheelsRotateCmd extends SeqCmd {
     super('Wheels Rotate', 'high');
 
     this.params = {
-      duration: {
+      angle: {
         type: Number,
-        unit: 'sec',
-        icon: 'rsvp:access-time',
-        value: params.duration || null,
+        unit: 'deg',
+        icon: 'rsvp:near-me',
+        value: params.angle || null,
       },
       velocity: {
         type: Number,
         unit: '%',
         icon: 'rsvp:velocity',
         value: params.velocity || null,
-      },
-      direction: {
-        type: String,
-        values: ['fwd', 'rev'],
-        unit: null,
-        icon: 'rsvp:near-me',
-        value: params.direction || null,
       },
     };
   }
@@ -141,13 +141,6 @@ export class RoverRotateCmd extends SeqCmd {
     super('Rover Rotate', 'macro');
 
     this.params = {
-      direction: {
-        type: String,
-        values: ['cw', 'ccw'],
-        unit: null,
-        icon: 'rsvp:near-me',
-        value: params.direction || null,
-      },
       duration: {
         type: Number,
         unit: 'sec',
@@ -159,6 +152,13 @@ export class RoverRotateCmd extends SeqCmd {
         unit: '%',
         icon: 'rsvp:velocity',
         value: params.velocity || null,
+      },
+      direction: {
+        type: String,
+        values: ['cw', 'ccw'],
+        unit: null,
+        icon: 'rsvp:near-me',
+        value: params.direction || null,
       },
     };
   }

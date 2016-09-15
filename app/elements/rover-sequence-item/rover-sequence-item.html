@@ -21,8 +21,12 @@
       }
 
       #name {
-        /*@apply(--layout-flex);*/
-        min-width: 20%;
+        @apply(--layout-horizontal);
+        width: 20%;
+        white-space: nowrap;
+      }
+
+      #nameBox {
         text-overflow: ellipsis;
         overflow: hidden;
       }
@@ -39,6 +43,8 @@
       .param {
         @apply(--layout-horizontal);
         @apply(--layout-center);
+
+        overflow: hidden;
 
         margin-left: calc(var(--container-padding) * 2);
       }
@@ -66,22 +72,56 @@
         }
       }
 
+      @media screen and (max-width: 800px) {
+        #name {
+          @apply(--layout-flex);
+
+          width: auto;
+        }
+
+        #nameBox {
+          @apply(--layout-flex);
+        }
+
+        .spacer {
+          display: none;
+        }
+
+        .param-unit,
+        .param-value {
+          display: none;
+        }
+
+        .param:first-child {
+          margin-left: var(--container-padding);
+        }
+
+        .param {
+          margin-left: var(--element-padding);
+        }
+
+        .param:hover .param-unit,
+        .param:hover .param-value {
+          display: inherit;
+        }
+      }
+
     </style>
 
     <iron-icon id="icon" icon="{{_icon}}"></iron-icon>
-    <span id="name">{{data.name}}</span>
+    <span id="name"><div id="nameBox">{{data.name}}</div></span>
     <div id="paramWrapper">
       <template is="dom-repeat" items="{{_cmdParamArray}}" index-as="index">
         <div class="param">
           <iron-icon icon="{{item.icon}}"></iron-icon>
-          <span>{{item.value}}</span>
+          <span class="param-value">{{item.value}}</span>
           <span class="param-unit">&nbsp;{{item.unit}}</span>
         </div>
       </template>
     </div>
     <div class="spacer"></div>
-    <paper-icon-button id="delete" icon="rsvp:delete"></paper-icon-button>
-    <paper-icon-button id="edit" icon="rsvp:edit"></paper-icon-button>
+    <paper-icon-button id="delete" on-tap="_onDeleteTap" icon="rsvp:delete" disabled$={{data.uneditable}}></paper-icon-button>
+    <paper-icon-button id="edit" on-tap="_onEditTap" icon="rsvp:edit" disabled$={{data.uneditable}}></paper-icon-button>
 
   </template>
   <script src="rover-sequence-item.js" charset="utf-8"></script>

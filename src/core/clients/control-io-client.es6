@@ -16,6 +16,10 @@ export function init() {
   });
 }
 
+export function sendPost(type, data) {
+  controlIOClient.emit('post', { type, data });
+}
+
 // === Private ===
 function attachCoreListeners(io) {
   io.on('connect', () => {
