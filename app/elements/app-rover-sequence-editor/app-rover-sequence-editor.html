@@ -2,6 +2,7 @@
 <!-- Custom Elements -->
 <link rel="import" href="../app-panel/app-panel.html">
 <link rel="import" href="../rover-sequence-item/rover-sequence-item.html">
+<link rel="import" href="../app-fieldset/app-fieldset.html">
 
 <dom-module id="app-rover-sequence-editor">
   <template>
@@ -111,13 +112,24 @@
         };
       }
 
+      app-fieldset {
+        --app-fieldset-container-padding: {
+          padding: calc(var(--container-padding) * 2);
+        }
+      }
+
+      label.input-label {
+        font-size: 0.78rem;
+        font-weight: 300;
+      }
+
       paper-dropdown-menu.new-cmd {
         @apply(--layout-flex);
       }
 
       .input-row {
         @apply(--layout-horizontal);
-        @apply(--layout-end);
+        @apply(--layout-center);
       }
 
       .input-row > paper-input,
@@ -203,31 +215,34 @@
 
         <!-- PauseCmd -->
         <template is="dom-if" if="{{_cmdTypeName.pause}}" restamp="true">
-          <div class="input-row">
-            <paper-input
+          <app-fieldset heading="Parameters">
+            <div class="input-row">
+              <paper-input
               label="Duration"
               value="{{currentCmd.params.duration.value}}"
               placeholder="Enter a duration",
               type="number"
               min$="0"
               always-float-label></paper-input>
-            <span class="input-unit">{{currentCmd.params.duration.unit}}</span>
-          </div>
+              <span class="input-unit">{{currentCmd.params.duration.unit}}</span>
+            </div>
+          </app-fieldset>
         </template>
 
         <!-- SingleWheelRotateCmd -->
         <template is="dom-if" if="{{_cmdTypeName.singleWheelRotate}}" restamp="true">
-          <div class="input-row">
-            <label>Wheel</label>
-            <paper-radio-group selected="{{currentCmd.params.wheel.value}}">
-              <paper-radio-button name="fl">Front Left</paper-radio-button>
-              <paper-radio-button name="fr">Front Right</paper-radio-button>
-              <paper-radio-button name="rl">Rear Left</paper-radio-button>
-              <paper-radio-button name="rr">Rear Right</paper-radio-button>
-            </paper-radio-group>
-          </div>
-          <div class="input-row">
-            <paper-input
+          <app-fieldset heading="Parameters">
+            <label class="input-label">Wheel</label>
+            <div class="input-row">
+              <paper-radio-group selected="{{currentCmd.params.wheel.value}}">
+                <paper-radio-button name="fl">Front Left</paper-radio-button>
+                <paper-radio-button name="fr">Front Right</paper-radio-button>
+                <paper-radio-button name="rl">Rear Left</paper-radio-button>
+                <paper-radio-button name="rr">Rear Right</paper-radio-button>
+              </paper-radio-group>
+            </div>
+            <div class="input-row">
+              <paper-input
               label="Angle"
               value="{{currentCmd.params.angle.value}}"
               placeholder="Enter an angle",
@@ -235,52 +250,83 @@
               min$="-45"
               max$="45"
               always-float-label></paper-input>
-            <span class="input-unit">{{currentCmd.params.angle.unit}}</span>
-          </div>
-          <div class="input-row">
-            <label>Velocity</label>
-            <paper-slider min="0" max="100" editable value="{{currentCmd.params.velocity.value}}"></paper-slider>
-          </div>
+              <span class="input-unit">{{currentCmd.params.angle.unit}}</span>
+            </div>
+            <label class="input-label">Velocity</label>
+            <div class="input-row">
+              <paper-slider min="0" max="100" editable value="{{currentCmd.params.velocity.value}}"></paper-slider>
+            </div>
+          </app-fieldset>
         </template>
 
         <!-- SingleWheelDriveCmd -->
         <template is="dom-if" if="{{_cmdTypeName.singleWheelDrive}}" restamp="true">
-          <div class="input-row">
-            <label>Wheel</label>
-            <paper-radio-group selected="{{currentCmd.params.wheel.value}}">
-              <paper-radio-button name="fl">Front Left</paper-radio-button>
-              <paper-radio-button name="fr">Front Right</paper-radio-button>
-              <paper-radio-button name="rl">Rear Left</paper-radio-button>
-              <paper-radio-button name="rr">Rear Right</paper-radio-button>
-            </paper-radio-group>
-          </div>
-          <div class="input-row">
-            <label>Direction</label>
-            <paper-radio-group selected="{{currentCmd.params.direction.value}}">
-              <paper-radio-button name="fwd">Forward</paper-radio-button>
-              <paper-radio-button name="rev">Reverse</paper-radio-button>
-            </paper-radio-group>
-          </div>
-          <div class="input-row">
-            <paper-input
+          <app-fieldset heading="Parameters">
+            <label class="input-label">Wheel</label>
+            <div class="input-row">
+              <paper-radio-group selected="{{currentCmd.params.wheel.value}}">
+                <paper-radio-button name="fl">Front Left</paper-radio-button>
+                <paper-radio-button name="fr">Front Right</paper-radio-button>
+                <paper-radio-button name="rl">Rear Left</paper-radio-button>
+                <paper-radio-button name="rr">Rear Right</paper-radio-button>
+              </paper-radio-group>
+            </div>
+            <label class="input-label">Direction</label>
+            <div class="input-row">
+              <paper-radio-group selected="{{currentCmd.params.direction.value}}">
+                <paper-radio-button name="fwd">Forward</paper-radio-button>
+                <paper-radio-button name="rev">Reverse</paper-radio-button>
+              </paper-radio-group>
+            </div>
+            <div class="input-row">
+              <paper-input
               label="Duration"
               value="{{currentCmd.params.duration.value}}"
               placeholder="Enter a duration",
               type="number"
               min$="0"
               always-float-label></paper-input>
-            <span class="input-unit">{{currentCmd.params.duration.unit}}</span>
-          </div>
-          <div class="input-row">
-            <label>Velocity</label>
-            <paper-slider min="0" max="100" editable value="{{currentCmd.params.velocity.value}}"></paper-slider>
-          </div>
+              <span class="input-unit">{{currentCmd.params.duration.unit}}</span>
+            </div>
+            <label class="input-label">Velocity</label>
+            <div class="input-row">
+              <paper-slider min="0" max="100" editable value="{{currentCmd.params.velocity.value}}"></paper-slider>
+            </div>
+          </app-fieldset>
+        </template>
+
+        <!-- DriveCmd -->
+        <template is="dom-if" if="{{_cmdTypeName.drive}}" restamp="true">
+          <app-fieldset heading="Parameters">
+            <label class="input-label">Direction</label>
+            <div class="input-row">
+              <paper-radio-group selected="{{currentCmd.params.direction.value}}">
+                <paper-radio-button name="fwd">Forward</paper-radio-button>
+                <paper-radio-button name="rev">Reverse</paper-radio-button>
+              </paper-radio-group>
+            </div>
+            <div class="input-row">
+              <paper-input
+              label="Duration"
+              value="{{currentCmd.params.duration.value}}"
+              placeholder="Enter a duration",
+              type="number"
+              min$="0"
+              always-float-label></paper-input>
+              <span class="input-unit">{{currentCmd.params.duration.unit}}</span>
+            </div>
+            <label class="input-label">Velocity</label>
+            <div class="input-row">
+              <paper-slider min="0" max="100" editable value="{{currentCmd.params.velocity.value}}"></paper-slider>
+            </div>
+          </app-fieldset>
         </template>
 
         <!-- WheelsRotateCmd -->
         <template is="dom-if" if="{{_cmdTypeName.wheelsRotate}}" restamp="true">
-          <div class="input-row">
-            <paper-input
+          <app-fieldset heading="Parameters">
+            <div class="input-row">
+              <paper-input
               label="Angle"
               value="{{currentCmd.params.angle.value}}"
               placeholder="Enter a angle",
@@ -288,42 +334,41 @@
               min$="-45"
               max$="45"
               always-float-label></paper-input>
-            <span class="input-unit">{{currentCmd.params.angle.unit}}</span>
-          </div>
-          <div class="input-row">
-            <label>Velocity</label>
-            <paper-slider min="0" max="100" editable value="{{currentCmd.params.velocity.value}}"></paper-slider>
-          </div>
+              <span class="input-unit">{{currentCmd.params.angle.unit}}</span>
+            </div>
+            <label class="input-label">Velocity</label>
+            <div class="input-row">
+              <paper-slider min="0" max="100" editable value="{{currentCmd.params.velocity.value}}"></paper-slider>
+            </div>
+          </app-fieldset>
         </template>
 
         <!-- RoverRotateCmd -->
         <template is="dom-if" if="{{_cmdTypeName.roverRotate}}" restamp="true">
-          <div class="input-row">
-            <label>Direction</label>
-            <paper-radio-group selected="{{currentCmd.params.direction.value}}">
-              <paper-radio-button name="cw">Clockwise</paper-radio-button>
-              <paper-radio-button name="ccw">Counter-clockwise</paper-radio-button>
-            </paper-radio-group>
-          </div>
-          <div class="input-row">
-            <paper-input
+          <app-fieldset heading="Parameters">
+            <label class="input-label">Direction</label>
+            <div class="input-row">
+              <paper-radio-group selected="{{currentCmd.params.direction.value}}">
+                <paper-radio-button name="cw">Clockwise</paper-radio-button>
+                <paper-radio-button name="ccw">Counter-clockwise</paper-radio-button>
+              </paper-radio-group>
+            </div>
+            <div class="input-row">
+              <paper-input
               label="Duration"
               value="{{currentCmd.params.duration.value}}"
               placeholder="Enter a duration",
               type="number"
               min$="0"
               always-float-label></paper-input>
-            <span class="input-unit">{{currentCmd.params.duration.unit}}</span>
-          </div>
-          <div class="input-row">
-            <label>Velocity</label>
-            <paper-slider min="0" max="100" editable value="{{currentCmd.params.velocity.value}}"></paper-slider>
-          </div>
+              <span class="input-unit">{{currentCmd.params.duration.unit}}</span>
+            </div>
+            <label class="input-label">Velocity</label>
+            <div class="input-row">
+              <paper-slider min="0" max="100" editable value="{{currentCmd.params.velocity.value}}"></paper-slider>
+            </div>
+          </app-fieldset>
         </template>
-
-        <!-- WheelsRotateCmd -->
-
-
       </paper-dialog-scrollable>
 
       <!-- Command Dialog Actions -->

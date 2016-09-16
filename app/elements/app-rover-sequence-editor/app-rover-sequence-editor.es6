@@ -112,12 +112,12 @@ Polymer({
     this._cmdDefArray = this._getCmdDefArray();
   },
 
-  uploadSequence() {
+  uploadSequence(seq = this.sequence) {
     this.state = 'uploading';
     this.frozen = true;
 
     // Send sequence
-    controlIOClientTranslator.sendSequence(this.sequence);
+    controlIOClientTranslator.sendSequence(seq);
     store.control.on('currentSeq-changed', this._onControlCurrentSequenceChanged.bind(this));
   },
 
