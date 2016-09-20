@@ -33,6 +33,7 @@ Polymer({
 
   attached() {
     this.controlTypeToggleChecked = store.client.control.type === 'rose';
+    this._onControlTypeToggleCheckedChanged.initialised = true;
   },
 
   collapseAll() {
@@ -88,6 +89,9 @@ Polymer({
   },
 
   _onControlTypeToggleCheckedChanged(newValue) {
-    store.client.set('control.type', (newValue) ? 'rose' : 'interactive');
+    if (this._onControlTypeToggleCheckedChanged.initialised) {
+      store.client.set('control.type', (newValue) ? 'rose' : 'interactive');
+      store.control.set('type', (newValue) ? 'rose' : 'interactive');
+    }
   },
 });

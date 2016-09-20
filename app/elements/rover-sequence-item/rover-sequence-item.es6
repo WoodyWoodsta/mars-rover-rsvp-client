@@ -12,6 +12,12 @@ Polymer({
       type: Number,
     },
 
+    state: {
+      type: String,
+      computed: '_computeState(data.state)',
+      reflectToAttribute: true,
+    },
+
     // === Private ===
     _icon: {
       type: String,
@@ -39,6 +45,10 @@ Polymer({
 
   _computeCmdParamArray(newValue) {
     return Object.keys(newValue.params).map(val => newValue.params[val]);
+  },
+
+  _computeState(newValue) {
+    return newValue;
   },
 
   _onDeleteTap() {

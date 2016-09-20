@@ -23,3 +23,7 @@ export function onData(message, event) {
 export function sendSequence(sequence) {
   controlIOClient.sendPost('upload-sequence', sequence);
 }
+
+export function sendPlaybackSequenceSignal() {
+  controlIOClient.sendPost('playback-sequence');
+}

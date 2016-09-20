@@ -106,10 +106,18 @@ Polymer({
     'uploadButton.tap': '_onUploadButtonTap',
     'rover-sequence-item-delete': '_onRoverSequenceItemDelete',
     'rover-sequence-item-edit': '_onRoverSequenceItemEdit',
+    'playButton.tap': '_onPlayButtonTap',
   },
 
   attached() {
     this._cmdDefArray = this._getCmdDefArray();
+    store.rceState.on('controller.sequenceState-changed', this._onRceStateControllerSequenceStateChanged.bind(this));
+    store.rceState.on('controller.currentSequenceIndex-changed', this._onRceStateCurrentSequenceIndexChanged.bind(this));
+  },
+
+  detatched() {
+    store.rceState.removeListener('controller.sequenceState-changed', this._onRceStateControllerSequenceStateChanged.bind(this));
+    store.rceState.removeListener('controller.currentSequenceIndex-changed', this._onRceStateCurrentSequenceIndexChanged.bind(this));
   },
 
   uploadSequence(seq = this.sequence) {
@@ -118,13 +126,36 @@ Polymer({
 
     // Send sequence
     controlIOClientTranslator.sendSequence(seq);
-    store.control.on('currentSeq-changed', this._onControlCurrentSequenceChanged.bind(this));
+    store.rceState.on('controller.sequence-changed', this._onRceStateControllerSequenceChanged.bind(this));
   },
 
   // === Private ===
-  _onControlCurrentSequenceChanged() {
-    store.control.removeListener('currentSeq-changed', this._onControlCurrentSequenceChanged.bind(this));
+  _onRceStateControllerSequenceChanged() {
+    store.rceState.removeListener('controller.sequence-changed', this._onRceStateControllerSequenceChanged.bind(this));
     this.state = 'uploaded';
+  },
+
+  _onRceStateControllerSequenceStateChanged(event) {
+    switch (event.newValue) {
+      case 'running':
+        this.state = 'playing';
+        break;
+      case 'off':
+        if (this.state === 'playing') {
+          this.state = 'paused';
+        }
+        // TODO: Add the case where the sequence has completed in entirety
+        break;
+      default:
+    }
+  },
+
+  _onRceStateCurrentSequenceIndexChanged(event) {
+    console.log('Index changed', event.oldValue, event.newValue);
+    if (event.oldValue !== undefined) {
+      this.set(`sequence.${event.oldValue}.state`, 'off');
+    }
+    this.set(`sequence.${event.newValue}.state`, 'running');
   },
 
   _onAddButtonTap() {
@@ -138,6 +169,10 @@ Polymer({
     if (this.frozen) {
       this.frozen = false;
     }
+  },
+
+  _onPlayButtonTap() {
+    controlIOClientTranslator.sendPlaybackSequenceSignal();
   },
 
   _sortCmdDefArray(a, b) {
@@ -309,17 +344,17 @@ Polymer({
       case 'uploading':
         this._statusText = 'uploading...';
         break;
-      case 'standby':
+      case 'uploaded':
         this._statusText = 'uploaded';
         break;
       case 'playing':
+        console.log('Getting here');
         this._statusText = 'playing';
         break;
       case 'paused':
         this._statusText = 'paused';
         break;
       default:
-
     }
   },
 

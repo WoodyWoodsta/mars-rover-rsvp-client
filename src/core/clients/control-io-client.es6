@@ -4,6 +4,7 @@ import debug from 'debug';
 import SocketClient from 'socket.io-client';
 
 const log = debug('rsvp-client:control-io-client');
+let listenersAttached = false;
 
 export let controlIOClient;
 
@@ -16,8 +17,8 @@ export function init() {
   });
 }
 
-export function sendPost(type, data) {
-  controlIOClient.emit('post', { type, data });
+export function sendPost(type, payload) {
+  controlIOClient.emit('post', { type, payload });
 }
 
 // === Private ===
@@ -26,7 +27,9 @@ function attachCoreListeners(io) {
     log('Connected to ControlIO Websocket');
     io.emit('test');
 
-    attachControlListeners(io);
+    if (!listenersAttached) {
+      attachControlListeners(io);
+    }
   });
 
   io.on('test', () => {
@@ -37,5 +40,5 @@ function attachCoreListeners(io) {
 }
 
 function attachControlListeners(io) {
-
+  listenersAttached = true;
 }

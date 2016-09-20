@@ -6,6 +6,7 @@ import SocketClient from 'socket.io-client';
 import * as teleIOClientTranslator from './tele-io-client-translator';
 
 const log = debug('rsvp-client:TeleIOClient');
+let listenersAttached = false;
 
 export let teleIOClient;
 
@@ -20,7 +21,9 @@ function attachCoreListeners(io) {
     log('Connected to TeleIO Websocket');
     io.emit('test');
 
-    attachTeleListeners(io);
+    if (!listenersAttached) {
+      attachTeleListeners(io);
+    }
   });
 }
 
@@ -33,4 +36,6 @@ function attachTeleListeners(io) {
   io.on('data', (message) => {
     teleIOClientTranslator.onData(message, 'data');
   });
+
+  listenersAttached = true;
 }

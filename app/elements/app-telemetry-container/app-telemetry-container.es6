@@ -41,6 +41,11 @@ Polymer({
         },
       ],
     },
+
+    selected: {
+      type: String,
+      value: 'rce-system-page',
+    },
   },
 
   listeners: {
@@ -48,6 +53,7 @@ Polymer({
   },
 
   attached() {
+    this.selected = 'rce-system-page';
     this._setupBindings();
   },
 
@@ -69,6 +75,10 @@ Polymer({
     store.hardwareState.on('leds.initialised-changed', this._onLedsInitialisedChanged.bind(this));
     store.hardwareState.on('proximity.initialised-changed', this._onProximityInitialisedChanged.bind(this));
     store.hardwareState.on('servos.initialised-changed', this._onServosInitialisedChanged.bind(this));
+
+    // store.hardwareState.on('servos.values.driveFrontLeft-changed', (event) => {
+    //   // console.log(event.newValue);
+    // });
   },
 
   _removeBindings() {
@@ -86,6 +96,7 @@ Polymer({
   },
 
   _onRceCpuChanged(event) {
+    console.log('CPU: ', event.oldValue, event.newValue);
     this.$.rceCpuBubble.value = Math.round(event.newValue * 100) / 100;
   },
 

@@ -50,12 +50,18 @@ class DataStore extends EventEmitter {
   receiveData(fullPath, path, data, notifyees = []) {
     // Keep track of who is notified to prevent event duplication
     const notified = [];
-
     let dotIndex = 0;
 
-    // Copy old data and mutat
-    let oldValue = {};
-    objectPath.set(oldValue, path, objectPath.set(this, path, data));
+    let tempObj = {};
+    objectPath.set(tempObj, path, data);
+
+    // Record old value
+    let _oldValue = {};
+    objectPath.set(_oldValue, path, objectPath.get(this, path));
+    const oldValue = clone(_oldValue);
+
+    // Mutate
+    objectPath.set(this, fullPath, objectPath.get(tempObj, fullPath));
 
     // Copy new data
     let newValue = {};
@@ -106,10 +112,18 @@ class DataStore extends EventEmitter {
  * @member {Number} camMemory The percentage of physically available memory taken up by the cam process
  */
 export const rceState = new DataStore('rceState', 'sink', {
+  rceIO: {
+    connected: false,
+  },
   rceCpu: -1,
   rceMemory: -1,
   camCpu: -1,
   camMemory: -1,
+
+  controller: {
+    sequence: [],
+    sequenceState: undefined,
+  },
 }, {
   rceCpu: [],
   rceMemory: [],
@@ -137,6 +151,8 @@ export const client = new DataStore('client', 'source', {
  * @member {Object} testLED     The state of the test LED
  */
 export const control = new DataStore('control', 'source', {
+  type: client.control.type,
+
   driveInput: {
     xMag: 0,
     yMag: 0,
@@ -146,6 +162,7 @@ export const control = new DataStore('control', 'source', {
     isOn: false,
   },
 }, {
+  type: ['controlIO'],
   driveInput: ['controlIO'],
   testLED: ['controlIO'],
 });
@@ -270,4 +287,57 @@ function notifyMutate(notifyee, storeName, fullPath, path, newValue, oldValue) {
       log(`Attempted notification failed on ${notifyee}, no such notifyee`);
       break;
   }
+}
+
+function clone(src) {
+  function mixin(dest, source, copyFunc) {
+    var name,
+      s,
+      i,
+      empty = {};
+    for (name in source) {
+      // the (!(name in empty) || empty[name] !== s) condition avoids copying properties in "source"
+      // inherited from Object.prototype.	 For example, if dest has a custom toString() method,
+      // don't overwrite it with the toString() method that source inherited from Object.prototype
+      s = source[name];
+      if (!(name in dest) || (dest[name] !== s && (!(name in empty) || empty[name] !== s))) {
+        dest[name] = copyFunc ? copyFunc(s) : s;
+      }
+    }
+    return dest;
+  }
+
+  if (!src || typeof src != "object" || Object.prototype.toString.call(src) === "[object Function]") {
+    // null, undefined, any non-object, or function
+    return src; // anything
+  }
+  if (src.nodeType && "cloneNode" in src) {
+    // DOM Node
+    return src.cloneNode(true); // Node
+  }
+  if (src instanceof Date) {
+    // Date
+    return new Date(src.getTime()); // Date
+  }
+  if (src instanceof RegExp) {
+    // RegExp
+    return new RegExp(src); // RegExp
+  }
+  var r,
+    i,
+    l;
+  if (src instanceof Array) {
+    // array
+    r = [];
+    for (i = 0, l = src.length; i < l; ++i) {
+      if (i in src) {
+        r.push(clone(src[i]));
+      }
+    }
+  } else {
+    // generic objects
+    r = src.constructor ? new src.constructor() : {};
+  }
+  return mixin(r, src, clone);
+
 }

@@ -1,9 +1,9 @@
 /* sequence-behavior */
-// REVIEW: Consider making these classes
 
 export class SeqCmd {
   constructor(name, type, params = {}) {
     this.name = name;
+    this._name = this.constructor.name;
     this.type = type;
     this.params = params;
   }
@@ -15,7 +15,7 @@ export class PauseCmd extends SeqCmd {
 
     this.params = {
       duration: {
-        type: Number,
+        type: 'Number',
         unit: 'sec',
         icon: 'rsvp:access-time',
         value: params.duration || null,
@@ -30,20 +30,20 @@ export class SingleWheelRotateCmd extends SeqCmd {
 
     this.params = {
       wheel: {
-        type: String,
+        type: 'String',
         values: ['fl', 'fr', 'rl', 'rr'],
         unit: null,
         icon: 'rsvp:wheel',
         value: params.wheel || null,
       },
       angle: {
-        type: Number,
+        type: 'Number',
         unit: 'deg',
         icon: 'rsvp:angle',
         value: params.angle || null,
       },
       velocity: {
-        type: Number,
+        type: 'Number',
         unit: '%',
         icon: 'rsvp:velocity',
         value: params.velocity || null,
@@ -58,26 +58,26 @@ export class SingleWheelDriveCmd extends SeqCmd {
 
     this.params = {
       duration: {
-        type: Number,
+        type: 'Number',
         unit: 'sec',
         icon: 'rsvp:access-time',
         value: params.duration || null,
       },
       wheel: {
-        type: String,
+        type: 'String',
         values: ['fl', 'fr', 'rl', 'rr'],
         unit: null,
         icon: 'rsvp:wheel',
         value: params.wheel || null,
       },
       velocity: {
-        type: Number,
+        type: 'Number',
         unit: '%',
         icon: 'rsvp:velocity',
         value: params.velocity || null,
       },
       direction: {
-        type: String,
+        type: 'String',
         values: ['fwd', 'rev'],
         unit: null,
         icon: 'rsvp:near-me',
@@ -93,23 +93,29 @@ export class DriveCmd extends SeqCmd {
 
     this.params = {
       duration: {
-        type: Number,
+        type: 'Number',
         unit: 'sec',
         icon: 'rsvp:access-time',
         value: params.duration || null,
       },
       velocity: {
-        type: Number,
+        type: 'Number',
         unit: '%',
         icon: 'rsvp:velocity',
         value: params.velocity || null,
       },
       direction: {
-        type: String,
+        type: 'String',
         values: ['fwd', 'rev'],
         unit: null,
         icon: 'rsvp:near-me',
         value: params.direction || null,
+      },
+      arc: {
+        type: 'Number',
+        unit: null,
+        icon: 'rsvp:',
+        value: params.arc || null,
       },
     };
   }
@@ -121,13 +127,13 @@ export class WheelsRotateCmd extends SeqCmd {
 
     this.params = {
       angle: {
-        type: Number,
+        type: 'Number',
         unit: 'deg',
         icon: 'rsvp:near-me',
         value: params.angle || null,
       },
       velocity: {
-        type: Number,
+        type: 'Number',
         unit: '%',
         icon: 'rsvp:velocity',
         value: params.velocity || null,
@@ -142,19 +148,19 @@ export class RoverRotateCmd extends SeqCmd {
 
     this.params = {
       duration: {
-        type: Number,
+        type: 'Number',
         unit: 'sec',
         icon: 'rsvp:access-time',
         value: params.duration || null,
       },
       velocity: {
-        type: Number,
+        type: 'Number',
         unit: '%',
         icon: 'rsvp:velocity',
         value: params.velocity || null,
       },
       direction: {
-        type: String,
+        type: 'String',
         values: ['cw', 'ccw'],
         unit: null,
         icon: 'rsvp:near-me',

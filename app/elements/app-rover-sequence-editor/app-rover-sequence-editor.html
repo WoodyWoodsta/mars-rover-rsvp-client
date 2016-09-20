@@ -127,6 +127,10 @@
         @apply(--layout-flex);
       }
 
+      paper-slider.no-active {
+        --paper-slider-active-color: transparent;
+      }
+
       .input-row {
         @apply(--layout-horizontal);
         @apply(--layout-center);
@@ -304,6 +308,10 @@
                 <paper-radio-button name="fwd">Forward</paper-radio-button>
                 <paper-radio-button name="rev">Reverse</paper-radio-button>
               </paper-radio-group>
+            </div>
+            <label class="input-label">Arc</label>
+            <div class="input-row">
+              <paper-slider class="no-active" min="-1" max="1" step="0.001" editable value="{{currentCmd.params.arc.value}}"></paper-slider>
             </div>
             <div class="input-row">
               <paper-input

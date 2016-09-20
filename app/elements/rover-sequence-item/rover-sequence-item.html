@@ -2,6 +2,18 @@
 <dom-module id="rover-sequence-item">
   <template>
     <style include="paper-override-shared-styles">
+      @keyframes blink {
+        0% {
+          border-color: rgba(76, 175, 80, 0)
+        }
+        50% {
+          border-color: rgba(76, 175, 80, 1)
+        }
+        100% {
+          border-color: rgba(76, 175, 80, 0)
+        }
+      }
+
       :host {
         display: block;
         @apply(--layout-horizontal);
@@ -11,6 +23,13 @@
 
         padding: var(--element-padding);
         border-radius: var(--border-radius);
+        border: 1px solid transparent;
+
+        transition: border 0.5s ease-in-out;
+      }
+
+      :host([state="running"]) {
+        animation: blink normal 1s infinite ease-in-out;
       }
 
       #icon {
