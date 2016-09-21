@@ -126,12 +126,16 @@ Polymer({
 
     // Send sequence
     controlIOClientTranslator.sendSequence(seq);
-    store.rceState.on('controller.sequence-changed', this._onRceStateControllerSequenceChanged.bind(this));
+    if (this._seqChangedCallback === undefined) {
+      this._seqChangedCallback = this._onRceStateControllerSequenceChanged.bind(this);
+      store.rceState.on('controller.sequence-changed', this._seqChangedCallback);
+    }
   },
 
   // === Private ===
   _onRceStateControllerSequenceChanged() {
-    store.rceState.removeListener('controller.sequence-changed', this._onRceStateControllerSequenceChanged.bind(this));
+    store.rceState.removeListener('controller.sequence-changed', this._seqChangedCallback);
+    this._seqChangedCallback = undefined;
     this.state = 'uploaded';
   },
 
@@ -151,7 +155,6 @@ Polymer({
   },
 
   _onRceStateCurrentSequenceIndexChanged(event) {
-    console.log('Index changed', event.oldValue, event.newValue);
     if (event.oldValue !== undefined) {
       this.set(`sequence.${event.oldValue}.state`, 'off');
     }
@@ -380,6 +383,9 @@ Polymer({
     }
   },
 
+  /**
+   * Force the `dom-repeat` to re-render the items
+   */
   _forceSeqListRender() {
     const seq = this.sequence;
     this.sequence = [];

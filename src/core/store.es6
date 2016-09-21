@@ -291,13 +291,13 @@ function notifyMutate(notifyee, storeName, fullPath, path, newValue, oldValue) {
 
 function clone(src) {
   function mixin(dest, source, copyFunc) {
-    var name,
-      s,
-      i,
-      empty = {};
+    const empty = {};
+    let name;
+    let s;
+
     for (name in source) {
       // the (!(name in empty) || empty[name] !== s) condition avoids copying properties in "source"
-      // inherited from Object.prototype.	 For example, if dest has a custom toString() method,
+      // inherited from Object.prototype. For example, if dest has a custom toString() method,
       // don't overwrite it with the toString() method that source inherited from Object.prototype
       s = source[name];
       if (!(name in dest) || (dest[name] !== s && (!(name in empty) || empty[name] !== s))) {
@@ -307,11 +307,11 @@ function clone(src) {
     return dest;
   }
 
-  if (!src || typeof src != "object" || Object.prototype.toString.call(src) === "[object Function]") {
+  if (!src || typeof src !== 'object' || Object.prototype.toString.call(src) === '[object Function]') {
     // null, undefined, any non-object, or function
     return src; // anything
   }
-  if (src.nodeType && "cloneNode" in src) {
+  if (src.nodeType && 'cloneNode' in src) {
     // DOM Node
     return src.cloneNode(true); // Node
   }
@@ -323,9 +323,9 @@ function clone(src) {
     // RegExp
     return new RegExp(src); // RegExp
   }
-  var r,
-    i,
-    l;
+  let r;
+  let i;
+  let l;
   if (src instanceof Array) {
     // array
     r = [];
@@ -339,5 +339,4 @@ function clone(src) {
     r = src.constructor ? new src.constructor() : {};
   }
   return mixin(r, src, clone);
-
 }

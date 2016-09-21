@@ -48,6 +48,12 @@ export class SingleWheelRotateCmd extends SeqCmd {
         icon: 'rsvp:velocity',
         value: params.velocity || null,
       },
+      waitForComplete: {
+        type: 'Boolean',
+        unit: null,
+        icon: 'rsvp:wait-for-complete',
+        value: params.waitForComplete || true,
+      },
     };
   }
 }

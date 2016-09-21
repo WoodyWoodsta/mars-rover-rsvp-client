@@ -260,6 +260,9 @@
             <div class="input-row">
               <paper-slider min="0" max="100" editable value="{{currentCmd.params.velocity.value}}"></paper-slider>
             </div>
+            <div class="input-row">
+              <paper-checkbox checked="{{currentCmd.params.waitForComplete.value}}">Wait for completion of this motion</paper-checkbox>
+            </div>
           </app-fieldset>
         </template>
 
