@@ -9,22 +9,26 @@ Polymer({
   properties: {
     sequence: {
       type: Array,
-      // value: [
-      //   new sequenceBehavior.DriveCmd({
-      //     duration: 200,
-      //     direction: 'fwd',
-      //     velocity: 50,
-      //   }),
-      //   new sequenceBehavior.PauseCmd({
-      //     duration: 50,
-      //   }),
-      //   new sequenceBehavior.DriveCmd({
-      //     duration: 100,
-      //     direction: 'fwd',
-      //     velocity: 30,
-      //   }),
-      // ],
-      value: [],
+      value: [
+        new sequenceBehavior.DriveCmd({
+          duration: 1,
+          direction: 'fwd',
+          velocity: 50,
+        }),
+        new sequenceBehavior.PauseCmd({
+          duration: 3,
+        }),
+        new sequenceBehavior.DriveCmd({
+          duration: 1,
+          direction: 'rev',
+          velocity: 30,
+        }),
+        new sequenceBehavior.SingleWheelRotateCmd({
+          wheel: 'fl',
+          angle: 45,
+        }),
+      ],
+      // value: [],
     },
 
     cmdTypeIsSelected: {
@@ -55,6 +59,12 @@ Polymer({
       observer: '_onCmdDialogStateChanged',
     },
 
+    mobile: {
+      type: Boolean,
+      reflectToAttribute: true,
+      observer: '_onMobileChanged',
+    },
+
     // === Private ===
 
     _cmdDefArray: {
@@ -82,6 +92,12 @@ Polymer({
       value: true,
     },
 
+    _seqCollapseOpen: {
+      type: Boolean,
+      value: true,
+      reflectToAttribute: true,
+    },
+
     _readyToPlayback: {
       type: Boolean,
       computed: '_computeReadyToPlayback(state)',
@@ -101,18 +117,22 @@ Polymer({
   listeners: {
     'addButton.tap': '_onAddButtonTap',
     'editButton.tap': '_onEditButtonTap',
+    'clearButton.tap': '_onClearButtonTap',
     'cmdDialog.iron-overlay-closed': '_onNewCmdDialogIronOverlayClosed',
     'cmdDialogCancelButton.tap': '_onCmdDialogCancelButtonTap',
     'uploadButton.tap': '_onUploadButtonTap',
     'rover-sequence-item-delete': '_onRoverSequenceItemDelete',
     'rover-sequence-item-edit': '_onRoverSequenceItemEdit',
     'playButton.tap': '_onPlayButtonTap',
+    'editorHeading.tap': '_onEditorHeadingTap',
   },
 
   attached() {
     this._cmdDefArray = this._getCmdDefArray();
     store.rceState.on('controller.sequenceState-changed', this._onRceStateControllerSequenceStateChanged.bind(this));
     store.rceState.on('controller.currentSequenceIndex-changed', this._onRceStateCurrentSequenceIndexChanged.bind(this));
+
+    this._checkSeqEmpty();
   },
 
   detatched() {
@@ -133,6 +153,14 @@ Polymer({
   },
 
   // === Private ===
+  _onMobileChanged(newValue) {
+    console.log('Mobile view indicator changed to:', newValue);
+  },
+
+  _onEditorHeadingTap() {
+    this._seqCollapseOpen = !this._seqCollapseOpen;
+  },
+
   _onRceStateControllerSequenceChanged() {
     store.rceState.removeListener('controller.sequence-changed', this._seqChangedCallback);
     this._seqChangedCallback = undefined;
@@ -172,6 +200,18 @@ Polymer({
     if (this.frozen) {
       this.frozen = false;
     }
+  },
+
+  _onClearButtonTap() {
+    this.state = 'editing';
+
+    if (this.frozen) {
+      this.frozen = false;
+    }
+
+    // Clear the list of commands
+    this.splice('sequence', 0, this.sequence.length);
+    this._checkSeqEmpty();
   },
 
   _onPlayButtonTap() {
@@ -290,18 +330,12 @@ Polymer({
 
   _addNewCmd(cmd) {
     this.push('sequence', cmd);
-
-    if (this._seqEmpty) {
-      this._seqEmpty = false;
-    }
+    this._checkSeqEmpty();
   },
 
   _removeCmd(index) {
     this.splice('sequence', index, 1);
-
-    if (!this._seqEmpty && this.sequence.length === 0) {
-      this._seqEmpty = true;
-    }
+    this._checkSeqEmpty();
   },
 
   _editCmd(index) {
@@ -309,6 +343,10 @@ Polymer({
     this.set('currentCmd', this.sequence[index]);
     this._cmdTypeSelection = { item: { key: this.currentCmd._key } };
     this.$.cmdDialog.open();
+  },
+
+  _checkSeqEmpty() {
+    this._seqEmpty = (this.sequence.length === 0);
   },
 
   _onRoverSequenceItemDelete(event) {

@@ -53,7 +53,7 @@
       }
 
       app-rover-sequence-editor > app-rover-overview {
-        height: 60vh;
+        height: 50vh;
       }
 
       paper-button {
@@ -69,6 +69,12 @@
 
       .test paper-button {
         @apply(--layout-flex);
+      }
+
+      @media screen and (max-width: 640px) {
+        #upperContainer {
+          @apply(--layout-vertical);
+        }
       }
     </style>
 

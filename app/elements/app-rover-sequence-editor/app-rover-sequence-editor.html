@@ -12,6 +12,22 @@
         @apply(--layout-horizontal);
       }
 
+      #editorHeading {
+        @apply(--layout-self-stretch);
+      }
+
+      #editorHeading > .app.subheading {
+        @apply(--layout-flex);
+      }
+
+      #editorHeadingCollapseIcon {
+        display: none;
+      }
+
+      :host([_seq-collapse-open]) #editorHeadingCollapseIcon {
+        transform: rotate(180deg);
+      }
+
       #editorContainer {
         @apply(--layout-vertical);
         @apply(--layout-flex-2);
@@ -27,7 +43,7 @@
       }
 
       #sidePanelWrapper {
-        width: 45%;
+        min-width: 45%;
       }
 
       #sortableWrapper {
@@ -47,6 +63,7 @@
       #sequenceControlsContainer {
         @apply(--layout-horizontal);
 
+        min-height: 26px;
         margin-top: var(--element-padding);
         padding: var(--element-padding);
         border-radius: var(--border-radius);
@@ -62,6 +79,11 @@
         height: 90%;
         color: var(--light-semiweak-alpha);
         font-size: 1.4rem;
+        opacity: 1;
+
+        transition-property: opacity, height;
+        transition: 0 var(--timing-function);
+        transition-delay: calc(var(--duration) / 2);
       }
 
       :host(:not([_seq-empty])) #seqEmptyState {
@@ -155,6 +177,57 @@
         }
       }
 
+      @media screen and (max-width: 640px) {
+        #editorHeadingCollapseIcon {
+          display: inherit;
+        }
+
+        #editorContainer {
+          position: absolute;
+          bottom: 0;
+          left: 0;
+          right: 0;
+          height: 80vh;
+          margin: 0 calc(-1 * var(--container-padding)) calc(-1 * var(--container-padding)) calc(-1 * var(--container-padding));
+          background: var(--app-primary-background-color);
+          border-top: 1px solid var(--light-normal-alpha);
+
+          transition: height var(--duration) var(--timing-function);
+        }
+
+        #sequenceControlsContainer {
+          transition: margin-top 0 var(--timing-function);
+          transition-delay: calc(var(--duration) / 2);
+        }
+
+        #sidePanelWrapper {
+          @apply(--layout-flex);
+
+          padding-bottom: 91px;
+        }
+
+        :host(:not([_seq-collapse-open])) #editorContainer {
+          height: 91px;
+        }
+
+        :host(:not([_seq-collapse-open])) #sequenceControlsContainer {
+          margin-top: 0;
+        }
+
+        :host(:not([_seq-collapse-open])) #seqEmptyState {
+          height: 0;
+          opacity: 0;
+          overflow: hidden;
+        }
+
+        #editorContainer {
+          z-index: 1;
+          -webkit-box-shadow: 0px 0px 16px 5px rgba(0,0,0,0.3);
+          -moz-box-shadow: 0px 0px 16px 5px rgba(0,0,0,0.3);
+          box-shadow: 0px 0px 16px 5px rgba(0,0,0,0.3);
+        }
+      }
+
       @media screen and (max-width: 550px) {
         #seqEmptyState {
           @apply(--layout-vertical);
@@ -164,13 +237,14 @@
 
     <!-- Sequence Editor Panel -->
     <div id="editorContainer">
-      <div class="icon-heading">
+      <div id="editorHeading" class="icon-heading">
         <iron-icon icon="rsvp:view-list"></iron-icon>
         <div class="app subheading">Sequence Editor</div>
+        <iron-icon id="editorHeadingCollapseIcon" icon="rsvp:keyboard-arrow-up"></iron-icon>
       </div>
       <app-panel id="panel">
         <div id="seqEmptyState">
-          <span>Click on "</span><iron-icon icon="rsvp:add"></iron-icon><span>" below to add a command</span>
+          <span>Click on </span><iron-icon icon="rsvp:add"></iron-icon><span> below to add a command</span>
         </div>
         <div id="sortableWrapper">
           <sortable-js id="sequenceSortable" group="sequenceSortable" draggable=".item" animation="100">
@@ -182,6 +256,7 @@
         <div id="sequenceControlsContainer">
           <paper-icon-button id="addButton" icon="rsvp:add"></paper-icon-button>
           <paper-icon-button id="editButton" icon="rsvp:edit"></paper-icon-button>
+          <paper-icon-button id="clearButton" icon="rsvp:delete"></paper-icon-button>
           <div class="spacer"></div>
           <span id="status" status$={{_statusText}}>{{_statusText}}</span>
           <paper-icon-button id="uploadButton" icon="rsvp:file-upload"></paper-icon-button>
@@ -192,9 +267,11 @@
     </div>
 
     <!-- Side Panel -->
-    <div id="sidePanelWrapper">
-      <content select="[right]"></content>
-    </div>
+    <template is="dom-if" if="{{!mobile}}" restamp="true">
+      <div id="sidePanelWrapper">
+        <content select="[right]"></content>
+      </div>
+    </template>
 
     <!-- Add Command Dialog -->
     <paper-dialog id="cmdDialog" with-backdrop>
@@ -388,6 +465,11 @@
         <paper-button dialog-confirm autofocus disabled$="{{!cmdTypeIsSelected}}">{{_newCmdDialogCommitButtonText}}</paper-button>
       </div>
     </paper-dialog>
+
+    <!-- Media Queries -->
+    <iron-media-query query="max-width: 640px" query-matches="{{mobile}}">
+    </iron-media-query>
+
 
   </template>
   <script src="app-rover-sequence-editor.js" charset="utf-8"></script>

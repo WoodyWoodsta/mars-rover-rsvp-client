@@ -120,7 +120,7 @@ export class DriveCmd extends SeqCmd {
       arc: {
         type: 'Number',
         unit: null,
-        icon: 'rsvp:',
+        icon: 'rsvp:angle',
         value: params.arc || null,
       },
     };
@@ -132,11 +132,11 @@ export class WheelsRotateCmd extends SeqCmd {
     super('Wheels Rotate', 'high');
 
     this.params = {
-      angle: {
+      arc: {
         type: 'Number',
         unit: 'deg',
-        icon: 'rsvp:near-me',
-        value: params.angle || null,
+        icon: 'rsvp:angle',
+        value: params.arc || null,
       },
       velocity: {
         type: 'Number',
