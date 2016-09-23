@@ -46,6 +46,11 @@ Polymer({
       type: String,
       value: 'rce-system-page',
     },
+
+    mobile: {
+      type: Boolean,
+      value: false,
+    },
   },
 
   listeners: {
@@ -55,6 +60,8 @@ Polymer({
   attached() {
     this.selected = 'rce-system-page';
     this._setupBindings();
+
+    this.mobile = store.client.mobile;
   },
 
   detached() {
@@ -62,7 +69,6 @@ Polymer({
   },
 
   // === Private ===
-
   _setupBindings() {
     store.rceState.on('rceCpu-changed', this._onRceCpuChanged.bind(this));
     store.rceState.on('rceMemory-changed', this._onRceMemChanged.bind(this));
@@ -75,6 +81,8 @@ Polymer({
     store.hardwareState.on('leds.initialised-changed', this._onLedsInitialisedChanged.bind(this));
     store.hardwareState.on('proximity.initialised-changed', this._onProximityInitialisedChanged.bind(this));
     store.hardwareState.on('servos.initialised-changed', this._onServosInitialisedChanged.bind(this));
+
+    store.client.on('mobile-changed', this._onClientMobileChanged.bind(this));
   },
 
   _removeBindings() {
@@ -89,6 +97,8 @@ Polymer({
     store.hardwareState.removeListener('leds.initialised-changed', this._onLedsInitialisedChanged.bind(this));
     store.hardwareState.removeListener('proximity.initialised-changed', this._onProximityInitialisedChanged.bind(this));
     store.hardwareState.removeListener('servos.initialised-changed', this._onServosInitialisedChanged.bind(this));
+
+    store.client.removeListener('mobile-changed', this._onClientMobileChanged.bind(this));
   },
 
   _onRceCpuChanged(event) {
@@ -135,6 +145,10 @@ Polymer({
   _onServosInitialisedChanged(event) {
     const state = (event.newValue) ? 'Online' : 'Offline';
     this._setHardwareState(5, state, event.newValue);
+  },
+
+  _onClientMobileChanged(event) {
+    this.mobile = event.newValue;
   },
 
   _setHardwareState(index, state, positivity) {

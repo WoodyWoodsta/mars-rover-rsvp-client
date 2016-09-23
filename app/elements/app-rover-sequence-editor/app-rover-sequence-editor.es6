@@ -62,7 +62,7 @@ Polymer({
     mobile: {
       type: Boolean,
       reflectToAttribute: true,
-      observer: '_onMobileChanged',
+      value: false,
     },
 
     // === Private ===
@@ -131,13 +131,16 @@ Polymer({
     this._cmdDefArray = this._getCmdDefArray();
     store.rceState.on('controller.sequenceState-changed', this._onRceStateControllerSequenceStateChanged.bind(this));
     store.rceState.on('controller.currentSequenceIndex-changed', this._onRceStateCurrentSequenceIndexChanged.bind(this));
-
+    store.client.on('mobile-changed', this._onClientMobileChanged.bind(this));
     this._checkSeqEmpty();
+
+    this.mobile = store.client.mobile;
   },
 
   detatched() {
     store.rceState.removeListener('controller.sequenceState-changed', this._onRceStateControllerSequenceStateChanged.bind(this));
     store.rceState.removeListener('controller.currentSequenceIndex-changed', this._onRceStateCurrentSequenceIndexChanged.bind(this));
+    store.client.removeListener('mobile-changed', this._onClientMobileChanged.bind(this));
   },
 
   uploadSequence(seq = this.sequence) {
@@ -153,8 +156,8 @@ Polymer({
   },
 
   // === Private ===
-  _onMobileChanged(newValue) {
-    console.log('Mobile view indicator changed to:', newValue);
+  _onClientMobileChanged(event) {
+    this.mobile = event.newValue;
   },
 
   _onEditorHeadingTap() {
@@ -389,7 +392,6 @@ Polymer({
         this._statusText = 'uploaded';
         break;
       case 'playing':
-        console.log('Getting here');
         this._statusText = 'playing';
         break;
       case 'paused':

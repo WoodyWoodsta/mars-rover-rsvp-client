@@ -2,12 +2,13 @@
 <!-- custom elements -->
 <link rel="import" href="../app-panel/app-panel.html">
 <link rel="import" href="../app-fieldset/app-fieldset.html">
+<link rel="import" href="../app-rover-overview/app-rover-overview.html">
 <link rel="import" href="../rover-tele-progress-bubble/rover-tele-progress-bubble.html">
 <link rel="import" href="../app-state-row/app-state-row.html">
 
 <dom-module id="app-telemetry-container">
   <template>
-    <style>
+    <style include="paper-override-shared-styles">
       :host {
         @apply(--layout-vertical);
       }
@@ -70,6 +71,9 @@
       <!-- Tabs -->
       <paper-tabs selected="{{selected}}" attr-for-selected="page">
         <paper-tab page="rce-system-page">RCE System</paper-tab>
+        <template is="dom-if" if="{{mobile}}" restamp="true">
+          <paper-tab page="rover-overview-page">Rover Overview</paper-tab>
+        </template>
         <paper-tab page="other-page">Other</paper-tab>
       </paper-tabs>
 
@@ -93,6 +97,15 @@
             </app-fieldset>
           </div>
         </section>
+
+        <!-- Rover Overview Page -->
+        <template is="dom-if" if="{{mobile}}" restamp="true">
+          <section id="roverOverviewPage" page="rover-overview-page">
+            <div class="page-wrapper">
+              <app-rover-overview></app-rover-overview>
+            </div>
+          </section>
+        </template>
 
         <!-- Other Page -->
         <section page="other-page">

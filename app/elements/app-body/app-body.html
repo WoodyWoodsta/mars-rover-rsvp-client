@@ -74,6 +74,18 @@
       @media screen and (max-width: 640px) {
         #upperContainer {
           @apply(--layout-vertical);
+          @apply(--layout-center);
+        }
+
+        app-telemetry-container {
+          @apply(--layout-self-stretch);
+
+
+          margin-top: var(--container-padding);
+        }
+
+        app-stream-container {
+          margin: 0;
         }
       }
     </style>

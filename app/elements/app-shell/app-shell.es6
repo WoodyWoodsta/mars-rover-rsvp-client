@@ -1,4 +1,5 @@
 /* app-shell.es6 */
+import { store } from 'app-core';
 
 Polymer({
   is: 'app-shell',
@@ -23,11 +24,21 @@ Polymer({
       observer: '_onNarrowChanged',
     },
 
+    mobile: {
+      type: Boolean,
+      observer: '_onMobileChanged',
+    },
+
     // === Private ===
   },
 
   listeners: {
     'iron-resize': '_onIronResize',
+    'hello': '_onHello',
+  },
+
+  _onHello() {
+    console.log('Hello World');
   },
 
   attached() {
@@ -54,6 +65,10 @@ Polymer({
   },
 
   // === Private ===
+  _onMobileChanged(newValue) {
+    store.client.set('mobile', newValue);
+  },
+
   _onExpandToggleableTap() {
     if (!this.$.layout.narrow) {
       this.toggleDrawerExpand();

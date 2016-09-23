@@ -3,12 +3,13 @@
   <template>
     <style>
       :host {
-        --pad-icon-size: 80px;
 
         @apply(--layout-horizontal);
 
         height: var(--joystick-height, 200px);
         width: var(--joystick-width, 200px);
+
+        --pad-icon-size: calc(var(--joystick-height, 200px) / 2.5);
 
         -webkit-user-select: none;
         -moz-user-select: none;

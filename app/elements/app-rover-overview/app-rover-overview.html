@@ -14,11 +14,13 @@
         @apply(--layout-flex);
       }
     </style>
-
-    <div class="icon-heading">
-      <iron-icon icon="rsvp:surround-sound"></iron-icon>
-      <div class="app subheading">Rover Overview</div>
-    </div>
+    
+    <template is="dom-if" if="{{!mobile}}" restamp="true">
+      <div class="icon-heading">
+        <iron-icon icon="rsvp:surround-sound"></iron-icon>
+        <div class="app subheading">Rover Overview</div>
+      </div>
+    </template>
     <app-panel></app-panel>
 
   </template>

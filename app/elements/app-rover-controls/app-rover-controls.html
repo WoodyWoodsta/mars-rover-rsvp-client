@@ -23,6 +23,7 @@
 
       #rightPanel {
         min-width: 200px;
+        margin-left: var(--container-padding);
       }
 
       .vertical {
@@ -68,6 +69,18 @@
       .button-row.right {
         @apply(--layout-flex);
       }
+
+      @media screen and (max-width: 640px) {
+        #leftPanel > rover-control-joystick {
+          --pad-width: 200px;
+        }
+
+        #rightPanel {
+          min-width: 200px;
+        }
+
+
+      }
     </style>
 
     <!-- Left Hand Panel -->
@@ -92,9 +105,11 @@
     </div>
 
     <!-- Center Panel -->
-    <div id="midPanel" class="panel">
-      <content select="[middle]"></content>
-    </div>
+    <template is="dom-if" if="{{!mobile}}" restamp="true">
+      <div id="midPanel" class="panel">
+        <content select="[middle]"></content>
+      </div>
+    </template>
 
     <!-- Right Hand Panel -->
     <div id="rightPanel" class="panel vertical">
