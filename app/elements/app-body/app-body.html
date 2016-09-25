@@ -1,5 +1,6 @@
 <!-- app-body.html -->
 <!-- elements -->
+<link rel="import" href="../app-panel/app-panel.html">
 <link rel="import" href="../app-rover-controls/app-rover-controls.html">
 <link rel="import" href="../app-rover-overview/app-rover-overview.html">
 <link rel="import" href="../app-stream-container/app-stream-container.html">
@@ -88,15 +89,24 @@
           margin: 0;
         }
       }
+
+      @media screen and (orientation: landscape) and (max-width: 640px) {
+        :host {
+          @apply(--layout-horizontal);
+        }
+      }
     </style>
 
-
-    <div id="upperContainer">
+    <!-- Upper Section -->
+    <app-panel id="upperContainer" outline>
       <!-- Video Container -->
-      <app-stream-container></app-stream-container>
-      <app-telemetry-container></app-telemetry-container>
+      <app-stream-container id="streamContainer"></app-stream-container>
       <!-- Telemetry -->
-    </div>
+      <app-telemetry-container id="telemetryContainer">
+      </app-telemetry-container>
+    </app-panel>
+
+    <!-- Lower Section -->
     <div id="lowerContainer">
       <!-- Controls -->
       <iron-pages id="controlPages" selected="{{controlPageSelected}}">

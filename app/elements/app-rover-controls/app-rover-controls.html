@@ -13,6 +13,12 @@
         --rover-control-button-icon-size: 24px;
       }
 
+      .spacer {
+        @apply(--layout-flex);
+
+        display: none;
+      }
+
       .panel + .panel {
         margin-left: var(--container-padding);
       }
@@ -79,7 +85,9 @@
           min-width: 200px;
         }
 
-
+        .spacer {
+          display: inherit;
+        }
       }
     </style>
 
@@ -110,6 +118,8 @@
         <content select="[middle]"></content>
       </div>
     </template>
+
+    <div class="spacer"></div>
 
     <!-- Right Hand Panel -->
     <div id="rightPanel" class="panel vertical">

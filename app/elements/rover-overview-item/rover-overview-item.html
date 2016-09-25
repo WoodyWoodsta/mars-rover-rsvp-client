@@ -1,0 +1,20 @@
+<dom-module id="rover-overview-item">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+    </style>
+
+    <span class="section-label">{{data.label}}</span>
+    <template is="dom-repeat" items="{{data.items}}" index-as="index">
+      <div class="section-row">
+        <span class="label">{{item.label}}</span>
+        <span class="value">{{item.value}}</span>
+        <span class="unit">{{item.unit}}</span>
+      </div>
+    </template>
+
+  </template>
+  <script src="rover-overview-item.js" charset="utf-8"></script>
+</dom-module>

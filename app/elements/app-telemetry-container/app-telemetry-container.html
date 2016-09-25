@@ -11,11 +11,6 @@
     <style include="paper-override-shared-styles">
       :host {
         @apply(--layout-vertical);
-      }
-
-      app-panel {
-        @apply(--layout-vertical);
-        @apply(--layout-flex);
 
         padding: var(--container-padding);
         padding-top: var(--element-padding);
@@ -26,6 +21,11 @@
         @apply(--layout-flex);
 
         padding-top: var(--element-padding);
+      }
+
+      section {
+        @apply(--layout-vertical);
+        @apply(--layout-flex);
       }
 
       paper-tabs {
@@ -46,14 +46,23 @@
       #rceSystemPage {
         @apply(--layout-vertical);
         @apply(--layout-flex);
-
         overflow: auto;
+      }
+
+      app-rover-overview {
+        @apply(--layout-vertical);
+        @apply(--layout-flex);
+        @apply(--layout-flex);
       }
 
       .page-wrapper {
         position: relative;
         height: 100%;
         overflow: auto;
+      }
+
+      #roverOverviewPage > .page-wrapper {
+        @apply(--layout-vertical);
       }
 
       #systemRow {
@@ -67,52 +76,62 @@
       }
     </style>
 
-    <app-panel outline>
-      <!-- Tabs -->
-      <paper-tabs selected="{{selected}}" attr-for-selected="page">
-        <paper-tab page="rce-system-page">RCE System</paper-tab>
-        <template is="dom-if" if="{{mobile}}" restamp="true">
-          <paper-tab page="rover-overview-page">Rover Overview</paper-tab>
-        </template>
-        <paper-tab page="other-page">Other</paper-tab>
-      </paper-tabs>
+    <!-- Tabs -->
+    <paper-tabs selected="{{selected}}" attr-for-selected="page">
+      <template is="dom-if" if="{{containsStream}}" restamp="true">
+        <paper-tab page="stream-page">Stream</paper-tab>
+      </template>
+      <paper-tab page="rce-system-page">RCE System</paper-tab>
+      <template is="dom-if" if="{{mobile}}" restamp="true">
+        <paper-tab page="rover-overview-page">Rover Overview</paper-tab>
+      </template>
+      <paper-tab page="other-page">Other</paper-tab>
+    </paper-tabs>
 
-      <!-- Pages -->
-      <iron-pages selected="{{selected}}" attr-for-selected="page">
-        <!-- RCE System Page -->
-        <section id="rceSystemPage" page="rce-system-page">
+    <!-- Pages -->
+    <iron-pages selected="{{selected}}" attr-for-selected="page">
+      <!-- Stream Page -->
+      <template is="dom-if" if="{{containsStream}}" restamp="true">
+        <section id="streamPage" page="stream-page">
           <div class="page-wrapper">
-            <!-- Indicators -->
-            <div id="systemRow">
-              <rover-tele-progress-bubble id="rceCpuBubble" heading="RCE CPU"></rover-tele-progress-bubble>
-              <rover-tele-progress-bubble id="rceMemBubble" heading="RCE Mem"></rover-tele-progress-bubble>
-              <rover-tele-progress-bubble id="camCpuBubble" heading="Cam CPU"></rover-tele-progress-bubble>
-              <rover-tele-progress-bubble id="camMemBubble" heading="Cam Mem"></rover-tele-progress-bubble>
-            </div>
-            <!-- System States -->
-            <app-fieldset id="hardwareStates" heading="Hardware States">
-              <template is="dom-repeat" items="{{states}}" index-as="index">
-                <app-state-row description="{{item.description}}" state="{{item.state}}" positivity="{{item.positivity}}"></app-state-row>
-              </template>
-            </app-fieldset>
+            <content></content>
+          </div
+        </section>
+      </template>
+
+      <!-- RCE System Page -->
+      <section id="rceSystemPage" page="rce-system-page">
+        <div class="page-wrapper">
+          <!-- Indicators -->
+          <div id="systemRow">
+            <rover-tele-progress-bubble id="rceCpuBubble" heading="RCE CPU"></rover-tele-progress-bubble>
+            <rover-tele-progress-bubble id="rceMemBubble" heading="RCE Mem"></rover-tele-progress-bubble>
+            <rover-tele-progress-bubble id="camCpuBubble" heading="Cam CPU"></rover-tele-progress-bubble>
+            <rover-tele-progress-bubble id="camMemBubble" heading="Cam Mem"></rover-tele-progress-bubble>
+          </div>
+          <!-- System States -->
+          <app-fieldset id="hardwareStates" heading="Hardware States">
+            <template is="dom-repeat" items="{{states}}" index-as="index">
+              <app-state-row description="{{item.description}}" state="{{item.state}}" positivity="{{item.positivity}}"></app-state-row>
+            </template>
+          </app-fieldset>
+        </div>
+      </section>
+
+      <!-- Rover Overview Page -->
+      <template is="dom-if" if="{{mobile}}" restamp="true">
+        <section id="roverOverviewPage" page="rover-overview-page">
+          <div class="page-wrapper">
+            <app-rover-overview></app-rover-overview>
           </div>
         </section>
+      </template>
 
-        <!-- Rover Overview Page -->
-        <template is="dom-if" if="{{mobile}}" restamp="true">
-          <section id="roverOverviewPage" page="rover-overview-page">
-            <div class="page-wrapper">
-              <app-rover-overview></app-rover-overview>
-            </div>
-          </section>
-        </template>
+      <!-- Other Page -->
+      <section page="other-page">
 
-        <!-- Other Page -->
-        <section page="other-page">
-
-        </section>
-      </iron-pages>
-    </app-panel>
+      </section>
+    </iron-pages>
 
     <!-- Toasts -->
     <paper-toast id="toast"></paper-toast>

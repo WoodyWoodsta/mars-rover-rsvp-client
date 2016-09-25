@@ -11,6 +11,144 @@ Polymer({
       reflectToAttribute: true,
       value: false,
     },
+
+    frontLeftWheelData: {
+      type: Object,
+      value: {
+        label: '',
+        items: [
+          {
+            label: 'Angle',
+            value: 0,
+            unit: 'deg',
+          },
+          {
+            label: 'Velocity',
+            value: 0,
+            unit: '',
+          },
+        ],
+      },
+    },
+
+    frontRightWheelData: {
+      type: Object,
+      value: {
+        label: '',
+        items: [
+          {
+            label: 'Angle',
+            value: 0,
+            unit: 'deg',
+          },
+          {
+            label: 'Velocity',
+            value: 0,
+            unit: '',
+          },
+        ],
+      },
+    },
+
+    rearLeftWheelData: {
+      type: Object,
+      value: {
+        label: '',
+        items: [
+          {
+            label: 'Angle',
+            value: 0,
+            unit: 'deg',
+          },
+          {
+            label: 'Velocity',
+            value: 0,
+            unit: '',
+          },
+        ],
+      },
+    },
+
+    rearRightWheelData: {
+      type: Object,
+      value: {
+        label: '',
+        items: [
+          {
+            label: 'Angle',
+            value: 0,
+            unit: 'deg',
+          },
+          {
+            label: 'Velocity',
+            value: 0,
+            unit: '',
+          },
+        ],
+      },
+    },
+
+    frontUsSensorData: {
+      type: Object,
+      value: {
+        label: '',
+        items: [
+          {
+            label: 'Distance',
+            value: 0,
+            unit: 'mm',
+          },
+          {
+            label: 'Warning',
+            value: 'None',
+            unit: '',
+          },
+        ],
+      },
+    },
+
+    rearUsSensorData: {
+      type: Object,
+      value: {
+        label: '',
+        items: [
+          {
+            label: 'Distance',
+            value: 0,
+            unit: 'mm',
+          },
+          {
+            label: 'Warning',
+            value: 'None',
+            unit: '',
+          },
+        ],
+      },
+    },
+
+    headData: {
+      type: Object,
+      value: {
+        label: '',
+        items: [
+          {
+            label: 'Pan',
+            value: 0,
+            unit: 'deg',
+          },
+          {
+            label: 'Pitch',
+            value: 0,
+            unit: 'deg',
+          },
+          {
+            label: 'Distance',
+            value: 0,
+            unit: 'mm',
+          },
+        ],
+      },
+    },
   },
 
   attached() {
