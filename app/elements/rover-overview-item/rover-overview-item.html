@@ -1,19 +1,45 @@
+<!-- roiver-overview-item.html -->
+<!-- custom elements -->
+<link rel="import" href="../app-fieldset/app-fieldset.html">
+
 <dom-module id="rover-overview-item">
   <template>
     <style>
       :host {
         display: block;
       }
+
+      iron-icon {
+        --iron-icon-height: 16px;
+        --iron-icon-wdth: var(--iron-icon-height);
+      }
+
+      .section-row {
+        @apply(--layout-horizontal);
+        @apply(--layout-center);
+      }
+
+      .value {
+        font-size: 0.75rem;
+      }
+
+      .unit {
+        margin-left: var(--element-padding);
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: var(--light-normal-alpha);
+      }
     </style>
 
-    <span class="section-label">{{data.label}}</span>
-    <template is="dom-repeat" items="{{data.items}}" index-as="index">
-      <div class="section-row">
-        <span class="label">{{item.label}}</span>
-        <span class="value">{{item.value}}</span>
-        <span class="unit">{{item.unit}}</span>
-      </div>
-    </template>
+    <app-fieldset heading="{{data.label}}">
+      <template is="dom-repeat" items="{{data.items}}" index-as="index">
+        <div class="section-row">
+          <iron-icon icon="{{item.icon}}"></iron-icon>
+          <span class="value">{{item.value}}</span>
+          <span class="unit">{{item.unit}}</span>
+        </div>
+      </template>
+    </app-fieldset>
 
   </template>
   <script src="rover-overview-item.js" charset="utf-8"></script>

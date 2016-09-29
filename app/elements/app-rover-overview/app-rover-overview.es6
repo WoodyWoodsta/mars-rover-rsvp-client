@@ -15,17 +15,19 @@ Polymer({
     frontLeftWheelData: {
       type: Object,
       value: {
-        label: '',
+        label: 'FL Wheel',
         items: [
           {
             label: 'Angle',
             value: 0,
             unit: 'deg',
+            icon: 'rsvp:angle',
           },
           {
             label: 'Velocity',
             value: 0,
             unit: '',
+            icon: 'rsvp:velocity',
           },
         ],
       },
@@ -34,17 +36,19 @@ Polymer({
     frontRightWheelData: {
       type: Object,
       value: {
-        label: '',
+        label: 'FR Wheel',
         items: [
           {
             label: 'Angle',
             value: 0,
             unit: 'deg',
+            icon: 'rsvp:angle',
           },
           {
             label: 'Velocity',
             value: 0,
             unit: '',
+            icon: 'rsvp:velocity',
           },
         ],
       },
@@ -53,17 +57,19 @@ Polymer({
     rearLeftWheelData: {
       type: Object,
       value: {
-        label: '',
+        label: 'RL Wheel',
         items: [
           {
             label: 'Angle',
             value: 0,
             unit: 'deg',
+            icon: 'rsvp:angle',
           },
           {
             label: 'Velocity',
             value: 0,
             unit: '',
+            icon: 'rsvp:velocity',
           },
         ],
       },
@@ -72,17 +78,19 @@ Polymer({
     rearRightWheelData: {
       type: Object,
       value: {
-        label: '',
+        label: 'RR Wheel',
         items: [
           {
             label: 'Angle',
             value: 0,
             unit: 'deg',
+            icon: 'rsvp:angle',
           },
           {
             label: 'Velocity',
             value: 0,
             unit: '',
+            icon: 'rsvp:velocity',
           },
         ],
       },
@@ -91,17 +99,19 @@ Polymer({
     frontUsSensorData: {
       type: Object,
       value: {
-        label: '',
+        label: 'F Sensor',
         items: [
           {
             label: 'Distance',
             value: 0,
             unit: 'mm',
+            icon: 'rsvp:distance',
           },
           {
             label: 'Warning',
             value: 'None',
             unit: '',
+            icon: 'rsvp:warning',
           },
         ],
       },
@@ -110,17 +120,19 @@ Polymer({
     rearUsSensorData: {
       type: Object,
       value: {
-        label: '',
+        label: 'R Sensor',
         items: [
           {
             label: 'Distance',
             value: 0,
             unit: 'mm',
+            icon: 'rsvp:distance',
           },
           {
             label: 'Warning',
             value: 'None',
             unit: '',
+            icon: 'rsvp:warning',
           },
         ],
       },
@@ -129,22 +141,25 @@ Polymer({
     headData: {
       type: Object,
       value: {
-        label: '',
+        label: 'Head',
         items: [
           {
             label: 'Pan',
             value: 0,
             unit: 'deg',
+            icon: 'rsvp:pan',
           },
           {
             label: 'Pitch',
             value: 0,
             unit: 'deg',
+            icon: 'rsvp:pitch',
           },
           {
             label: 'Distance',
             value: 0,
             unit: 'mm',
+            icon: 'rsvp:distance',
           },
         ],
       },
@@ -152,13 +167,13 @@ Polymer({
   },
 
   attached() {
-    store.client.on('mobile-changed', this._onClientMobileChanged.bind(this));
+    store.client.on('mobile-changed', this._onClientMobileChanged, this);
 
     this.mobile = store.client.mobile;
   },
 
   detached() {
-    store.client.removeListener('mobile-changed', this._onClientMobileChanged.bind(this));
+    store.client.removeListener('mobile-changed', this._onClientMobileChanged, this);
   },
 
   // === Private ===

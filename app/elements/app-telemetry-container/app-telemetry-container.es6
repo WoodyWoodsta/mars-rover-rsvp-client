@@ -70,35 +70,35 @@ Polymer({
 
   // === Private ===
   _setupBindings() {
-    store.rceState.on('rceCpu-changed', this._onRceCpuChanged.bind(this));
-    store.rceState.on('rceMemory-changed', this._onRceMemChanged.bind(this));
-    store.rceState.on('camCpu-changed', this._onCamCpuChanged.bind(this));
-    store.rceState.on('camMemory-changed', this._onCamMemChanged.bind(this));
+    store.rceState.on('rceCpu-changed', this._onRceCpuChanged, this);
+    store.rceState.on('rceMemory-changed', this._onRceMemChanged, this);
+    store.rceState.on('camCpu-changed', this._onCamCpuChanged, this);
+    store.rceState.on('camMemory-changed', this._onCamMemChanged, this);
 
-    store.hardwareState.on('board.initialised-changed', this._onBoardInitialisedChanged.bind(this));
-    store.hardwareState.on('analog.initialised-changed', this._onAnalogInitialisedChanged.bind(this));
-    store.hardwareState.on('camera.running-changed', this._onCameraRunningChanged.bind(this));
-    store.hardwareState.on('leds.initialised-changed', this._onLedsInitialisedChanged.bind(this));
-    store.hardwareState.on('proximity.initialised-changed', this._onProximityInitialisedChanged.bind(this));
-    store.hardwareState.on('servos.initialised-changed', this._onServosInitialisedChanged.bind(this));
+    store.hardwareState.on('board.initialised-changed', this._onBoardInitialisedChanged, this);
+    store.hardwareState.on('analog.initialised-changed', this._onAnalogInitialisedChanged, this);
+    store.hardwareState.on('camera.running-changed', this._onCameraRunningChanged, this);
+    store.hardwareState.on('leds.initialised-changed', this._onLedsInitialisedChanged, this);
+    store.hardwareState.on('proximity.initialised-changed', this._onProximityInitialisedChanged, this);
+    store.hardwareState.on('servos.initialised-changed', this._onServosInitialisedChanged, this);
 
-    store.client.on('mobile-changed', this._onClientMobileChanged.bind(this));
+    store.client.on('mobile-changed', this._onClientMobileChanged, this);
   },
 
   _removeBindings() {
-    store.rceState.removeListener('rceCpu-changed', this._onRceCpuChanged.bind(this));
-    store.rceState.removeListener('rceMemory-changed', this._onRceMemChanged.bind(this));
-    store.rceState.removeListener('camCpu-changed', this._onCamCpuChanged.bind(this));
-    store.rceState.removeListener('camMemory-changed', this._onCamMemChanged.bind(this));
+    store.rceState.removeListener('rceCpu-changed', this._onRceCpuChanged, this);
+    store.rceState.removeListener('rceMemory-changed', this._onRceMemChanged, this);
+    store.rceState.removeListener('camCpu-changed', this._onCamCpuChanged, this);
+    store.rceState.removeListener('camMemory-changed', this._onCamMemChanged, this);
 
-    store.hardwareState.removeListener('board.initialised-changed', this._onBoardInitialisedChanged.bind(this));
-    store.hardwareState.removeListener('analog.initialised-changed', this._onAnalogInitialisedChanged.bind(this));
-    store.hardwareState.removeListener('camera.running-changed', this._onCameraRunningChanged.bind(this));
-    store.hardwareState.removeListener('leds.initialised-changed', this._onLedsInitialisedChanged.bind(this));
-    store.hardwareState.removeListener('proximity.initialised-changed', this._onProximityInitialisedChanged.bind(this));
-    store.hardwareState.removeListener('servos.initialised-changed', this._onServosInitialisedChanged.bind(this));
+    store.hardwareState.removeListener('board.initialised-changed', this._onBoardInitialisedChanged, this);
+    store.hardwareState.removeListener('analog.initialised-changed', this._onAnalogInitialisedChanged, this);
+    store.hardwareState.removeListener('camera.running-changed', this._onCameraRunningChanged, this);
+    store.hardwareState.removeListener('leds.initialised-changed', this._onLedsInitialisedChanged, this);
+    store.hardwareState.removeListener('proximity.initialised-changed', this._onProximityInitialisedChanged, this);
+    store.hardwareState.removeListener('servos.initialised-changed', this._onServosInitialisedChanged, this);
 
-    store.client.removeListener('mobile-changed', this._onClientMobileChanged.bind(this));
+    store.client.removeListener('mobile-changed', this._onClientMobileChanged, this);
   },
 
   _onRceCpuChanged(event) {

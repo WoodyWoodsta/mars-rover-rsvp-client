@@ -129,18 +129,18 @@ Polymer({
 
   attached() {
     this._cmdDefArray = this._getCmdDefArray();
-    store.rceState.on('controller.sequenceState-changed', this._onRceStateControllerSequenceStateChanged.bind(this));
-    store.rceState.on('controller.currentSequenceIndex-changed', this._onRceStateCurrentSequenceIndexChanged.bind(this));
-    store.client.on('mobile-changed', this._onClientMobileChanged.bind(this));
+    store.rceState.on('controller.sequenceState-changed', this._onRceStateControllerSequenceStateChanged, this);
+    store.rceState.on('controller.currentSequenceIndex-changed', this._onRceStateCurrentSequenceIndexChanged, this);
+    store.client.on('mobile-changed', this._onClientMobileChanged, this);
     this._checkSeqEmpty();
 
     this.mobile = store.client.mobile;
   },
 
   detatched() {
-    store.rceState.removeListener('controller.sequenceState-changed', this._onRceStateControllerSequenceStateChanged.bind(this));
-    store.rceState.removeListener('controller.currentSequenceIndex-changed', this._onRceStateCurrentSequenceIndexChanged.bind(this));
-    store.client.removeListener('mobile-changed', this._onClientMobileChanged.bind(this));
+    store.rceState.removeListener('controller.sequenceState-changed', this._onRceStateControllerSequenceStateChanged, this);
+    store.rceState.removeListener('controller.currentSequenceIndex-changed', this._onRceStateCurrentSequenceIndexChanged, this);
+    store.client.removeListener('mobile-changed', this._onClientMobileChanged, this);
   },
 
   uploadSequence(seq = this.sequence) {
@@ -148,11 +148,8 @@ Polymer({
     this.frozen = true;
 
     // Send sequence
+    store.rceState.on('controller.sequence-changed', this._onRceStateControllerSequenceChanged, this);
     controlIOClientTranslator.sendSequence(seq);
-    if (this._seqChangedCallback === undefined) {
-      this._seqChangedCallback = this._onRceStateControllerSequenceChanged.bind(this);
-      store.rceState.on('controller.sequence-changed', this._seqChangedCallback);
-    }
   },
 
   // === Private ===
@@ -165,8 +162,7 @@ Polymer({
   },
 
   _onRceStateControllerSequenceChanged() {
-    store.rceState.removeListener('controller.sequence-changed', this._seqChangedCallback);
-    this._seqChangedCallback = undefined;
+    store.rceState.removeListener('controller.sequence-changed', this._onRceStateControllerSequenceChanged, this);
     this.state = 'uploaded';
   },
 

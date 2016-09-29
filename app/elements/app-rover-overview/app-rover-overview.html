@@ -16,11 +16,13 @@
         @apply(--layout-horizontal);
         @apply(--layout-center);
         @apply(--layout-center-justified);
+
+        position: relative;
       }
 
       svg {
         max-height: 80%;
-        max-width: 50%;
+        max-width: 60%;
       }
 
       svg .body {
@@ -77,6 +79,51 @@
         transform-origin: 35px 25px;
         transform: translate(325px, 100px) rotate(0deg);
       }
+
+      .outer-panel {
+        position: absolute;
+      }
+
+      #leftPanel,
+      #rightPanel {
+        @apply(--layout-vertical);
+
+        box-sizing: border-box;
+        height: 100%;
+        width: 22%;
+        padding: var(--element-padding) 0 var(--container-padding) 0;
+        overflow: auto;
+      }
+
+      #leftPanel {
+        left: var(--container-padding);
+      }
+
+      #rightPanel {
+        right: var(--container-padding);
+      }
+
+      #topPanel,
+      #bottomPanel {
+        @apply(--layout-horizontal);
+        @apply(--layout-center-justified);
+
+        width: 80%;
+        height: 20%;
+      }
+
+      #topPanel {
+        top: var(--container-padding);
+      }
+
+      #bottomPanel {
+        bottom: var(--container-padding);
+      }
+
+      .spacer {
+        @apply(--layout-flex);
+      }
+
     </style>
 
     <template is="dom-if" if="{{!mobile}}" restamp="true">
@@ -164,16 +211,28 @@
         </g>
       </svg>
 
-      <!-- <img src="../../resources/images/rover-overview-body-plainOutline.svg" alt="Whoops"/> -->
+      <div id="leftPanel" class="outer-panel">
+        <rover-overview-item id="frontUsSensorData" data="{{frontUsSensorData}}"></rover-overview-item>
+        <rover-overview-item id="frontLeftWheelData" data="{{frontLeftWheelData}}"></rover-overview-item>
+        <div class="spacer"></div>
+        <rover-overview-item id="rearLeftWheelData" data="{{rearLeftWheelData}}"></rover-overview-item>
+        <rover-overview-item id="rearUsSensorData" data="{{rearUsSensorData}}"></rover-overview-item>
+      </div>
+      <div id="rightPanel" class="outer-panel">
+        <rover-overview-item id="headData" data="{{headData}}"></rover-overview-item>
+        <rover-overview-item id="frontRightWheelData" data="{{frontRightWheelData}}"></rover-overview-item>
+        <div class="spacer"></div>
+        <rover-overview-item id="rearRightWheelData" data="{{rearRightWheelData}}"></rover-overview-item>
+
+      </div>
+      <div id="topPanel" class="outer-panel">
+
+      </div>
+      <div id="bottomPanel" class="outer-panel">
+
+      </div>
     </app-panel>
 
-    <!-- <rover-overview-item id="frontLeftWheelData" data="{{frontLeftWheelData}}"></rover-overview-item>
-    <rover-overview-item id="frontRightWheelData" data="{{frontRightWheelData}}"></rover-overview-item>
-    <rover-overview-item id="rearLeftWheelData" data="{{rearLeftWheelData}}"></rover-overview-item>
-    <rover-overview-item id="rearRightWheelData" data="{{rearRightWheelData}}"></rover-overview-item>
-    <rover-overview-item id="frontUsSensorData" data="{{frontUsSensorData}}"></rover-overview-item>
-    <rover-overview-item id="rearUsSensorData" data="{{rearUsSensorData}}"></rover-overview-item>
-    <rover-overview-item id="headData" data="{{headData}}"></rover-overview-item> -->
 
   </template>
   <script src="app-rover-overview.js" charset="utf-8"></script>

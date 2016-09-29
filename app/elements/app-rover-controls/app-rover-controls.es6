@@ -19,13 +19,13 @@ Polymer({
   },
 
   attached() {
-    store.client.on('mobile-changed', this._onClientMobileChanged.bind(this));
+    store.client.on('mobile-changed', this._onClientMobileChanged, this);
 
     this.mobile = store.client.mobile;
   },
 
   detached() {
-    store.client.removeListener('mobile-changed', this._onClientMobileChanged.bind(this));
+    store.client.removeListener('mobile-changed', this._onClientMobileChanged, this);
   },
 
   resetControls() {

@@ -42,16 +42,16 @@ Polymer({
   },
 
   attached() {
-    store.client.on('control.type-changed', this._onControlTypeChanged.bind(this));
-    store.client.on('mobile-changed', this._onClientMobileChanged.bind(this));
+    store.client.on('control.type-changed', this._onControlTypeChanged, this);
+    store.client.on('mobile-changed', this._onClientMobileChanged, this);
 
     this.controlType = store.client.control.type;
     this.mobile = store.client.mobile;
   },
 
   detached() {
-    store.client.removeListener('control.type-changed', this._onControlTypeChanged.bind(this));
-    store.client.removeListener('mobile-changed', this._onClientMobileChanged.bind(this));
+    store.client.removeListener('control.type-changed', this._onControlTypeChanged, this);
+    store.client.removeListener('mobile-changed', this._onClientMobileChanged, this);
   },
 
   // === Private ===
