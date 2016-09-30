@@ -7,6 +7,7 @@ import * as controlIOClientTranslator from './core/clients/control-io-client-tra
 socket.startSockets();
 
 export { debug } from './core/utils/debug';
+export { round } from './core/utils/round';
 export {
   kurentoIOClient,
   store,

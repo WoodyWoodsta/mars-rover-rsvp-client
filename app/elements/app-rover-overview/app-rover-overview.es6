@@ -1,6 +1,6 @@
 /* app-rover-overview.es6 */
 
-import { store } from 'app-core';
+import { store, round } from 'app-core';
 
 Polymer({
   is: 'app-rover-overview',
@@ -20,7 +20,7 @@ Polymer({
           {
             label: 'Angle',
             value: 0,
-            unit: 'deg',
+            unit: '°',
             icon: 'rsvp:angle',
           },
           {
@@ -41,7 +41,7 @@ Polymer({
           {
             label: 'Angle',
             value: 0,
-            unit: 'deg',
+            unit: '°',
             icon: 'rsvp:angle',
           },
           {
@@ -62,7 +62,7 @@ Polymer({
           {
             label: 'Angle',
             value: 0,
-            unit: 'deg',
+            unit: '°',
             icon: 'rsvp:angle',
           },
           {
@@ -83,7 +83,7 @@ Polymer({
           {
             label: 'Angle',
             value: 0,
-            unit: 'deg',
+            unit: '°',
             icon: 'rsvp:angle',
           },
           {
@@ -146,13 +146,13 @@ Polymer({
           {
             label: 'Pan',
             value: 0,
-            unit: 'deg',
+            unit: '°',
             icon: 'rsvp:pan',
           },
           {
             label: 'Pitch',
             value: 0,
-            unit: 'deg',
+            unit: '°',
             icon: 'rsvp:pitch',
           },
           {
@@ -168,16 +168,71 @@ Polymer({
 
   attached() {
     store.client.on('mobile-changed', this._onClientMobileChanged, this);
+    store.hardwareState.on('servos.values-changed', this._onStoreServosChanged, this);
 
     this.mobile = store.client.mobile;
   },
 
   detached() {
     store.client.removeListener('mobile-changed', this._onClientMobileChanged, this);
+    store.hardwareState.removeListener('servos.values-changed', this._onStoreServosChanged, this);
   },
 
   // === Private ===
   _onClientMobileChanged(event) {
     this.mobile = event.newValue;
+  },
+
+  _onStoreServosChanged(event) {
+    if (event.path !== 'servos.values') {
+      return console.log(`Servo change path '${event.path}' not recognised`);
+    }
+
+    Object.keys(event.newValue).forEach((key) => {
+      switch (key) {
+        case 'driveFrontLeft':
+          this.set('frontLeftWheelData.items.1.value', round(event.newValue[key], 2));
+          break;
+        case 'driveFrontRight':
+          this.set('frontRightWheelData.items.1.value', round(event.newValue[key], 2));
+
+          break;
+        case 'driveRearLeft':
+          this.set('rearLeftWheelData.items.1.value', round(event.newValue[key], 2));
+
+          break;
+        case 'driveRearRight':
+          this.set('rearRightWheelData.items.1.value', round(event.newValue[key], 2));
+
+          break;
+        case 'steerFrontLeft':
+          this.set('frontLeftWheelData.items.0.value', round(event.newValue[key], 2));
+
+          break;
+        case 'steerFrontRight':
+          this.set('frontRightWheelData.items.0.value', round(event.newValue[key], 2));
+
+          break;
+        case 'steerRearLeft':
+          this.set('rearLeftWheelData.items.0.value', round(event.newValue[key], 2));
+
+          break;
+        case 'steerRearRight':
+          this.set('rearRightWheelData.items.0.value', round(event.newValue[key], 2));
+
+          break;
+        case 'headPan':
+          this.set('headData.items.0.value', round(event.newValue[key], 2));
+
+          break;
+        case 'headPitch':
+          this.set('headData.items.1.value', round(event.newValue[key], 2));
+
+          break;
+        default:
+          console.log(`Servo change property '${key}' not recognised`);
+          break;
+      }
+    });
   },
 });
