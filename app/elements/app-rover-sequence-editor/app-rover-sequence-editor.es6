@@ -10,22 +10,52 @@ Polymer({
     sequence: {
       type: Array,
       value: [
-        new sequenceBehavior.DriveCmd({
-          duration: 1,
-          direction: 'fwd',
-          velocity: 50,
+        new sequenceBehavior.SingleWheelRotateCmd({
+          wheel: 'fl',
+          angle: 70,
+          velocity: 0,
+          waitForComplete: false,
+        }),
+        new sequenceBehavior.SingleWheelRotateCmd({
+          wheel: 'fr',
+          angle: 70,
+          velocity: 0,
+          waitForComplete: false,
+        }),
+        new sequenceBehavior.SingleWheelRotateCmd({
+          wheel: 'rl',
+          angle: 70,
+          velocity: 0,
+          waitForComplete: false,
+        }),
+        new sequenceBehavior.SingleWheelRotateCmd({
+          wheel: 'rr',
+          angle: 70,
+          velocity: 0,
+          waitForComplete: false,
         }),
         new sequenceBehavior.PauseCmd({
-          duration: 3,
-        }),
-        new sequenceBehavior.DriveCmd({
-          duration: 1,
-          direction: 'rev',
-          velocity: 30,
+          duration: 2,
         }),
         new sequenceBehavior.SingleWheelRotateCmd({
           wheel: 'fl',
-          angle: 45,
+          angle: 0,
+          velocity: 0,
+        }),
+        new sequenceBehavior.SingleWheelRotateCmd({
+          wheel: 'fr',
+          angle: 0,
+          velocity: 0,
+        }),
+        new sequenceBehavior.SingleWheelRotateCmd({
+          wheel: 'rl',
+          angle: 0,
+          velocity: 0,
+        }),
+        new sequenceBehavior.SingleWheelRotateCmd({
+          wheel: 'rr',
+          angle: 0,
+          velocity: 0,
         }),
       ],
       // value: [],

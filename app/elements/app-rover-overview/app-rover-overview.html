@@ -22,24 +22,29 @@
 
       svg {
         max-height: 80%;
-        max-width: 60%;
+        max-width: 55%;
+      }
+
+      #body {
+        stroke: var(--light-normal-alpha);
+        fill: none;
       }
 
       svg .body {
         stroke-linejoin: round;
-        stroke: var(--light-normal-alpha);
+        stroke: inherit;
         stroke-linecap: round;
         stroke-width: 3;
-        fill: none;
+        fill: inherit;
       }
 
       svg .wheel-pivot,
       svg .wheel,
       svg .head {
         stroke-linejoin: round;
-        stroke: var(--light-normal-alpha);
+        stroke: inherit;
         stroke-width: 3;
-        fill: var(--light-strong-alpha);
+        fill: inherit;
 
       }
 
@@ -49,7 +54,26 @@
       }
 
       svg .moving {
-        transition: transform 0.5s ease-in-out;
+        stroke: none;
+        fill: var(--light-strong-alpha);
+
+        transition-property: transform, fill;
+        transition: 0.5s ease-in-out;
+      }
+
+      svg .velocity-bar {
+        stroke-linejoin: round;
+        stroke-width: 3;
+        stroke: var(--light-normal-alpha);
+        fill: none;
+      }
+
+      svg .velocity-bar-fill {
+        stroke: none;
+        fill: var(--green-theme-primary-color);
+
+        transition-property: height, color;
+        transition: 0.5s var(--timing-function);
       }
 
       #wheelFrontLeft {
@@ -60,20 +84,50 @@
       #wheelRearLeft {
         transform-origin: 56.2px 39px;
         transform: translate(40px, 330px) rotate(0deg);
-
       }
 
       #wheelFrontRight {
         transform-origin: 56.2px 39px;
         transform: translate(450px, 25px) rotate(0deg);
-
       }
 
       #wheelRearRight {
         transform-origin: 56.2px 39px;
         transform: translate(450px, 330px) rotate(0deg);
-
       }
+
+      #wheelFrontLeftVelocity {
+        transform: translate(20px, 73px) rotate(180deg);
+      }
+
+      #wheelRearLeftVelocity {
+        transform: translate(20px, 73px) rotate(180deg);
+      }
+
+      #wheelFrontRightVelocity {
+        transform: translate(100px, 73px) rotate(180deg);
+      }
+
+      #wheelRearRightVelocity {
+        transform: translate(100px, 73px) rotate(180deg);
+      }
+
+      #wheelFrontLeftVelocityFill {
+        transform: translate(20px, 73px) rotate(180deg);
+      }
+
+      #wheelRearLeftVelocityFill {
+        transform: translate(20px, 73px) rotate(180deg);
+      }
+
+      #wheelFrontRightVelocityFill {
+        transform: translate(100px, 73px) rotate(180deg);
+      }
+
+      #wheelRearRightVelocityFill {
+        transform: translate(100px, 73px) rotate(180deg);
+      }
+
 
       #head {
         transform-origin: 35px 25px;
@@ -181,12 +235,20 @@
             <path class="wheel-pivot" d="m137 43c-15 0-25 2-25 2v70s10 3 25 3 25-3 25-3v-10h-32l-8-8v-29l8-8h32v-15s-10-2-25-2z"/>
             <path class="wheel" d="m127 70 5-5h50v10h10v10h-10v5h-10l-10 10h-30l-5-5z"/>
           </g>
+          <g>
+            <rect id="wheelFrontLeftVelocity" class="velocity-bar" width="10" height="69"></rect>
+            <rect id="wheelFrontLeftVelocityFill" class="velocity-bar-fill" width="10" height="0"></rect>
+          </g>
         </g>
 
         <g id="wheelRearLeft" class="moving" width="112.4" height="78" viewBox="0 0 112.4 78">
           <g transform="translate(-80.5 -41.5)">
             <path class="wheel-pivot" d="m137 43c-15 0-25 2-25 2v70s10 3 25 3 25-3 25-3v-10h-32l-8-8v-29l8-8h32v-15s-10-2-25-2z"/>
             <path class="wheel" d="m127 70 5-5h50v10h10v10h-10v5h-10l-10 10h-30l-5-5z"/>
+          </g>
+          <g>
+            <rect id="wheelRearLeftVelocity" class="velocity-bar" width="10" height="69"></rect>
+            <rect id="wheelRearLeftVelocityFill" class="velocity-bar-fill" width="10" height="0"></rect>
           </g>
         </g>
 
@@ -195,12 +257,20 @@
             <path class="wheel-pivot" d="m137 43c-15 0-25 2-25 2v70s10 3 25 3 25-3 25-3v-10h-32l-8-8v-29l8-8h32v-15s-10-2-25-2z"/>
             <path class="wheel" d="m127 70 5-5h50v10h10v10h-10v5h-10l-10 10h-30l-5-5z"/>
           </g>
+          <g>
+            <rect id="wheelFrontRightVelocity" class="velocity-bar" width="10" height="69"></rect>
+            <rect id="wheelFrontRightVelocityFill" class="velocity-bar-fill" width="10" height="0"></rect>
+          </g>
         </g>
 
         <g id="wheelRearRight" class="moving" width="112.4" height="78" viewBox="0 0 112.4 78">
           <g transform="scale(-1 1) translate(-191 -41.5)">
             <path class="wheel-pivot" d="m137 43c-15 0-25 2-25 2v70s10 3 25 3 25-3 25-3v-10h-32l-8-8v-29l8-8h32v-15s-10-2-25-2z"/>
             <path class="wheel" d="m127 70 5-5h50v10h10v10h-10v5h-10l-10 10h-30l-5-5z"/>
+          </g>
+          <g>
+            <rect id="wheelRearRightVelocity" class="velocity-bar" width="10" height="69"></rect>
+            <rect id="wheelRearRightVelocityFill" class="velocity-bar-fill" width="10" height="0"></rect>
           </g>
         </g>
 

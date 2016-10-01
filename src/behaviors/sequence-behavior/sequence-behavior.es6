@@ -1,5 +1,7 @@
 /* sequence-behavior */
 
+// TODO: Assert required params
+
 export class SeqCmd {
   constructor(name, type, params = {}) {
     this.name = name;
@@ -40,19 +42,19 @@ export class SingleWheelRotateCmd extends SeqCmd {
         type: 'Number',
         unit: 'deg',
         icon: 'rsvp:angle',
-        value: params.angle || null,
+        value: (params.angle !== undefined) ? params.angle : null,
       },
       velocity: {
         type: 'Number',
         unit: '%',
         icon: 'rsvp:velocity',
-        value: params.velocity || null,
+        value: (params.velocity !== undefined) ? params.velocity : null,
       },
       waitForComplete: {
         type: 'Boolean',
         unit: null,
         icon: 'rsvp:wait-for-complete',
-        value: params.waitForComplete || true,
+        value: (params.waitForComplete !== undefined) ? params.waitForComplete : true,
       },
     };
   }
@@ -80,7 +82,7 @@ export class SingleWheelDriveCmd extends SeqCmd {
         type: 'Number',
         unit: '%',
         icon: 'rsvp:velocity',
-        value: params.velocity || null,
+        value: (params.velocity !== undefined) ? params.velocity : null,
       },
       direction: {
         type: 'String',
@@ -108,7 +110,7 @@ export class DriveCmd extends SeqCmd {
         type: 'Number',
         unit: '%',
         icon: 'rsvp:velocity',
-        value: params.velocity || null,
+        value: (params.velocity !== undefined) ? params.velocity : null,
       },
       direction: {
         type: 'String',
@@ -142,7 +144,7 @@ export class WheelsRotateCmd extends SeqCmd {
         type: 'Number',
         unit: '%',
         icon: 'rsvp:velocity',
-        value: params.velocity || null,
+        value: (params.velocity !== undefined) ? params.velocity : null,
       },
     };
   }
@@ -163,7 +165,7 @@ export class RoverRotateCmd extends SeqCmd {
         type: 'Number',
         unit: '%',
         icon: 'rsvp:velocity',
-        value: params.velocity || null,
+        value: (params.velocity !== undefined) ? params.velocity : null,
       },
       direction: {
         type: 'String',
