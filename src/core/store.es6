@@ -223,11 +223,6 @@ export const hardwareState = new DataStore('hardwareState', 'sink', {
       rear: false,
       head: false,
     },
-    shutdown: {
-      front: false,
-      rear: false,
-      head: false,
-    },
   },
   servos: {
     initialised: false,

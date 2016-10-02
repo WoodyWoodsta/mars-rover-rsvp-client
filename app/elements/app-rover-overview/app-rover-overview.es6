@@ -169,6 +169,7 @@ Polymer({
   attached() {
     store.client.on('mobile-changed', this._onClientMobileChanged, this);
     store.hardwareState.on('servos.values-changed', this._onStoreServosChanged, this);
+    store.hardwareState.on('proximity.values-changed', this._onStoreProximityValuesChanged, this);
 
     this.mobile = store.client.mobile;
   },
@@ -176,6 +177,7 @@ Polymer({
   detached() {
     store.client.removeListener('mobile-changed', this._onClientMobileChanged, this);
     store.hardwareState.removeListener('servos.values-changed', this._onStoreServosChanged, this);
+    store.hardwareState.removeListener('proximity.values-changed', this._onStoreProximityValuesChanged, this);
   },
 
   // === Private ===
@@ -183,11 +185,48 @@ Polymer({
     this.mobile = event.newValue;
   },
 
-  _onStoreServosChanged(event) {
-    if (event.path !== 'servos.values') {
-      return console.log(`Servo change path '${event.path}' not recognised`);
-    }
+  _onStoreProximityValuesChanged(event) {
+    Object.keys(event.newValue).forEach((key) => {
+      switch (key) {
+        case 'front':
+          this.set('frontUsSensorData.0.value', event.newValue[key]);
+          this._updateFrontUsSensorValue(event.newValue[key]);
+          break;
+        case 'rear':
+          this.set('rearUsSensorData.0.value', event.newValue[key]);
+          this._updateRearUsSensorValue(event.newValue[key]);
+          break;
+        case 'head':
+          this.set('headUsSensorData.0.value', event.newValue[key]);
+          this._updateHeadUsSensorValue(event.newValue[key]);
+          break;
+        default:
+          console.log(`Proximity change property '${key}' not recognised`);
+          break;
+      }
+    });
+  },
 
+  _onStoreProximityWarningChanged(event) {
+    Object.keys(event.newValue).forEach((key) => {
+      switch (key) {
+        case 'front':
+          this.set('frontUsSensorData.1.value', event.newValue[key]);
+          break;
+        case 'rear':
+          this.set('rearUsSensorData.1.value', event.newValue[key]);
+          break;
+        case 'head':
+          this.set('headUsSensorData.1.value', event.newValue[key]);
+          break;
+        default:
+          console.log(`Proximity change property '${key}' not recognised`);
+          break;
+      }
+    });
+  },
+
+  _onStoreServosChanged(event) {
     Object.keys(event.newValue).forEach((key) => {
       switch (key) {
         case 'driveFrontLeft':
@@ -292,6 +331,22 @@ Polymer({
 
   _updateHeadPitch(value) {
 
+  },
+
+  _updateFrontUsSensorValue(value) {
+    this.$.usSensorFrontFill.style.fillOpacity = value / 5000;
+  },
+
+  _updateRearUsSensorValue(value) {
+    this.$.usSensorRearFill.style.fillOpacity = value / 5000;
+  },
+
+  _updateFrontUsSensorWarn(value) {
+    this.$.usSensorFront.setAttribute('warn', value);
+  },
+
+  _updateRearUsSensorWarn(value) {
+    this.$.usSensorRear.setAttribute('warn', value);
   },
 
   _resolveFillColor(value) {

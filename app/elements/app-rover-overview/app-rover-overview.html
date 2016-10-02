@@ -7,6 +7,48 @@
 <dom-module id="app-rover-overview">
   <template>
     <style include="app-general-shared-styles">
+      @keyframes blink {
+        0% {
+          fill-opacity: 0;
+        }
+
+        50% {
+          fill-opacity: 1;
+        }
+
+        100% {
+          fill-opacity: 0;
+        }
+      }
+
+      @keyframes warningStroke {
+        0% {
+          stroke: var(--light-strong-alpha);
+        }
+
+        50% {
+          stroke: var(--amber-theme-dark-color);
+        }
+
+        100% {
+          stroke: var(--light-strong-alpha);
+        }
+      }
+
+      @keyframes shutdownStroke {
+        0% {
+          stroke: var(--light-strong-alpha);
+        }
+
+        50% {
+          stroke: var(--red-theme-dark-color);
+        }
+
+        100% {
+          stroke: var(--light-strong-alpha);
+        }
+      }
+
       :host {
         @apply(--layout-vertical);
       }
@@ -48,9 +90,44 @@
 
       }
 
-      svg .us-sensor {
+      svg .us-sensor.fill {
+        transform-origin: center;
+        transform: scale(0.78);
+        stroke: none;
+        fill: var(--light-strong-alpha);
+        fill-opacity: 0;
+
+        transition: fill-opacity 0.5s var(--timing-function);
+      }
+
+      #usSensorRearFill {
+        transform: scale(0.78, 0.7);
+      }
+
+      svg .us-sensor.stroke {
+        fill: none;
         stroke-dasharray: 6;
         stroke: var(--light-strong-alpha);
+      }
+
+      svg .us-sensor-group[warn="warn"] > .us-sensor.fill {
+        fill: var(--amber-theme-dark-color);
+
+        animation: blink normal 1s infinite ease-in-out;
+      }
+
+      svg .us-sensor-group[warn="shutdown"] > .us-sensor.fill {
+        fill: var(--red-theme-dark-color);
+
+        animation: blink normal 0.5s infinite ease-in-out;
+      }
+
+      svg .us-sensor-group[warn="warn"] > .us-sensor.stroke {
+        animation: warningStroke normal 0.5s infinite ease-in-out;
+      }
+
+      svg .us-sensor-group[warn="shutdown"] > .us-sensor.stroke {
+        animation: shutdownStroke normal 0.5s infinite ease-in-out;
       }
 
       svg .moving {
@@ -226,8 +303,14 @@
           <path class="body" d="m345.5 91.5v35h16v-35z"/>
           <path class="body" d="m111.5 91.5v35h16v-35z"/>
           <path class="body" d="m446.5 177.5c-15 0-25 2-25 2v70s10 3 25 3 25-3 25-3v-10-45-15s-10-2-25-2z"/>
-          <path id="usSensorFront" class="body us-sensor" d="m256.5 76.5 30-60s-15-15-50-15-50 15-50 15l30 60s10-5 20-5 20 5 20 5z"/>
-          <path id="usSensorRear" class="body us-sensor" d="m204.5 431.5-18 35s15 15 50 15 50-15 50-15l-18-35z"/>
+          <g id="usSensorFront" class="us-sensor-group">
+            <path id="usSensorFrontFill" class="body us-sensor fill" d="m256.5 76.5 30-60s-15-15-50-15-50 15-50 15l30 60s10-5 20-5 20 5 20 5z"/>
+            <path id="usSensorFrontStroke" class="body us-sensor stroke" d="m256.5 76.5 30-60s-15-15-50-15-50 15-50 15l30 60s10-5 20-5 20 5 20 5z"/>
+          </g>
+          <g id="usSensorRear" class="us-sensor-group">
+            <path id="usSensorRearFill" class="body us-sensor fill" d="m204.5 431.5-18 35s15 15 50 15 50-15 50-15l-18-35z"/>
+            <path id="usSensorRearStroke" class="body us-sensor stroke" d="m204.5 431.5-18 35s15 15 50 15 50-15 50-15l-18-35z"/>
+          </g>
         </g>
 
         <g id="wheelFrontLeft" class="moving" width="112.4" height="78" viewBox="0 0 112.4 78">
