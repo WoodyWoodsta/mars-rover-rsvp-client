@@ -1,6 +1,6 @@
 /* app-rover-overview.es6 */
 
-import { store, round } from 'app-core';
+import { store, round, teleIOClientTranslator } from 'app-core';
 
 Polymer({
   is: 'app-rover-overview',
@@ -171,6 +171,8 @@ Polymer({
     store.hardwareState.on('servos.values-changed', this._onStoreServosChanged, this);
     store.hardwareState.on('proximity.values-changed', this._onStoreProximityValuesChanged, this);
 
+    teleIOClientTranslator.requestRepush('hardwareState', '*');
+
     this.mobile = store.client.mobile;
   },
 
@@ -293,19 +295,19 @@ Polymer({
 
   _updateDriveFrontRight(value) {
     this.$.wheelFrontRightVelocityFill.style.fill = this._resolveFillColor(value);
-    this.$.wheelFrontRightVelocityFill.height = value * 69;
+    this.$.wheelFrontRightVelocityFill.setAttribute('height', Math.abs(value * 69));
 
   },
 
   _updateDriveRearLeft(value) {
     this.$.wheelRearLeftVelocityFill.style.fill = this._resolveFillColor(value);
-    this.$.wheelRearLeftVelocityFill.height = value * 69;
+    this.$.wheelRearLeftVelocityFill.setAttribute('height', Math.abs(value * 69));
 
   },
 
   _updateDriveRearRight(value) {
     this.$.wheelRearRightVelocityFill.style.fill = this._resolveFillColor(value);
-    this.$.wheelRearRightVelocityFill.height = value * 69;
+    this.$.wheelRearRightVelocityFill.setAttribute('height', Math.abs(value * 69));
 
   },
 

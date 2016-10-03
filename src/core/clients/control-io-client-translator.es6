@@ -27,3 +27,7 @@ export function sendSequence(sequence) {
 export function sendPlaybackSequenceSignal() {
   controlIOClient.sendPost('playback-sequence');
 }
+
+export function requestRepush(storeName, path, notifyees = []) {
+  controlIOClient.sendRequest('repush', { storeName, path, notifyees });
+}

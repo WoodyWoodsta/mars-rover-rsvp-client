@@ -2,9 +2,11 @@
 import debug from 'debug';
 
 import * as store from '../store';
+import * as teleIOClient from './tele-io-client';
 
 const log = debug('rsvp-client:tele-io-client-translator');
 
+// === Incoming ===
 export function onData(message, event) {
   if (event === 'data') {
     switch (message.storeName) {
@@ -21,4 +23,8 @@ export function onData(message, event) {
         log(`Storename '${message.storeName}' is not recognised`);
     }
   }
+}
+
+export function requestRepush(storeName, path, notifyees = []) {
+  teleIOClient.sendRequest('repush', { storeName, path, notifyees });
 }

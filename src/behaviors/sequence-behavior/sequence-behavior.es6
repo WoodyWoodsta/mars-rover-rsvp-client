@@ -136,7 +136,7 @@ export class WheelsRotateCmd extends SeqCmd {
     this.params = {
       arc: {
         type: 'Number',
-        unit: 'deg',
+        unit: null,
         icon: 'rsvp:angle',
         value: params.arc || null,
       },

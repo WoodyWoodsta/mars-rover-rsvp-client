@@ -21,6 +21,10 @@ export function sendPost(type, payload) {
   controlIOClient.emit('post', { type, payload });
 }
 
+export function sendRequest(type, payload) {
+  controlIOClient.emit('request', { type, payload });
+}
+
 // === Private ===
 function attachCoreListeners(io) {
   io.on('connect', () => {

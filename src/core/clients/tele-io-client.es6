@@ -15,6 +15,10 @@ export function init() {
   attachCoreListeners(teleIOClient);
 }
 
+export function sendRequest(type, payload) {
+  teleIOClient.emit('request', { type, payload });
+}
+
 // === Private ===
 function attachCoreListeners(io) {
   io.on('connect', () => {

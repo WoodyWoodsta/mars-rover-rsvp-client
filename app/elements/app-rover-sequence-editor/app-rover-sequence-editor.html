@@ -414,14 +414,14 @@
           <app-fieldset heading="Parameters">
             <div class="input-row">
               <paper-input
-              label="Angle"
-              value="{{currentCmd.params.angle.value}}"
-              placeholder="Enter a angle",
+              label="Arc"
+              value="{{currentCmd.params.arc.value}}"
+              placeholder="Enter an arc factor",
               type="number"
-              min$="-45"
-              max$="45"
+              min$="-1"
+              max$="1"
               always-float-label></paper-input>
-              <span class="input-unit">{{currentCmd.params.angle.unit}}</span>
+              <span class="input-unit">{{currentCmd.params.arc.unit}}</span>
             </div>
             <label class="input-label">Velocity</label>
             <div class="input-row">

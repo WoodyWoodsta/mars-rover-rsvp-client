@@ -1,6 +1,6 @@
 /* app-telemetry-container.es6 */
 
-import { store } from 'app-core';
+import { store, teleIOClientTranslator } from 'app-core';
 
 Polymer({
   is: 'app-telemetry-container',
@@ -81,6 +81,9 @@ Polymer({
     store.hardwareState.on('leds.initialised-changed', this._onLedsInitialisedChanged, this);
     store.hardwareState.on('proximity.initialised-changed', this._onProximityInitialisedChanged, this);
     store.hardwareState.on('servos.initialised-changed', this._onServosInitialisedChanged, this);
+
+    teleIOClientTranslator.requestRepush('rceState', '*');
+    teleIOClientTranslator.requestRepush('hardwareState', '*');
 
     store.client.on('mobile-changed', this._onClientMobileChanged, this);
   },
