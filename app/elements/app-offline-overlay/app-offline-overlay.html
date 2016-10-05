@@ -1,0 +1,75 @@
+<!-- app-offline-overlay.html -->
+
+<dom-module id="app-offline-overlay">
+  <template>
+    <style>
+      :host {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+
+      #dialog {
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+        @apply(--layout-center-justified);
+
+        position: absolute;
+        height: 100%;
+        width: 100%;
+      }
+
+      .offline-text-wrapper {
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+        @apply(--layout-center-justified);
+      }
+
+      .offline-text-wrapper[hidden] {
+        display: none;
+
+        margin: var(--container-padding) 0;
+      }
+
+      .offline-text-wrapper + .offline-text-wrapper {
+        border-top: 1px solid var(--divider-color);
+      }
+
+      .offline-text {
+        font-size: 1.6rem;
+        margin-top: var(--container-padding);
+      }
+
+      .offline-text-wrapper > iron-icon {
+        --iron-icon-height: 35px;
+        --iron-icon-width: var(--iron-icon-height);
+      }
+    </style>
+
+    <iron-overlay-backdrop id="backdrop"></iron-overlay-backdrop>
+    <div id="dialog">
+      <template is="dom-if" if="{{loadingTextVisible}}" restamp="true">
+        <div class="offline-text-wrapper">
+          <paper-spinner active></paper-spinner>
+          <span class="offline-text">Waiting for Rover...</span>
+        </div>
+      </template>
+      <template is="dom-if" if="{{roverTextVisible}}" restamp="true">
+        <div class="offline-text-wrapper" hidden$="{{loadingTextVisible}}">
+          <iron-icon icon="rsvp:signal-wifi-off"></iron-icon>
+          <span class="offline-text">Rover Offline</span>
+        </div>
+      </template>
+      <template is="dom-if" if="{{serverTextVisible}}" restamp="true">
+        <div class="offline-text-wrapper" hidden$="{{loadingTextVisible}}">
+          <iron-icon icon="rsvp:cloud-off"></iron-icon>
+          <span class="offline-text">RSVP Server Offline</span>
+        </div>
+      </template>
+    </div>
+
+  </template>
+  <script src="app-offline-overlay.js" charset="utf-8"></script>
+</dom-module>

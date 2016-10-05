@@ -7,6 +7,11 @@ import * as teleIOClientTranslator from './core/clients/tele-io-client-translato
 
 socket.startSockets();
 
+teleIOClientTranslator.requestRepush('server', '*');
+teleIOClientTranslator.requestRepush('client', '*');
+teleIOClientTranslator.requestRepush('rceState', '*');
+teleIOClientTranslator.requestRepush('hardwareState', '*');
+
 export { debug } from './core/utils/debug';
 export { round } from './core/utils/round';
 export {

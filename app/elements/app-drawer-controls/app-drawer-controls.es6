@@ -68,10 +68,6 @@ Polymer({
     return (isParentExpandedValue) ? 'icons:chevron-left' : 'icons:chevron-right';
   },
 
-  _onPresenterButtonTap() {
-    kurentoBehavior.presenter();
-  },
-
   _onViewerTap() {
     kurentoBehavior.viewer();
   },

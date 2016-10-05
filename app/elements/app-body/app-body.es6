@@ -47,6 +47,9 @@ Polymer({
 
     this.controlType = store.client.control.type;
     this.mobile = store.client.mobile;
+
+    this.$.offlineOverlay.fitInto = this;
+    this.$.offlineOverlay.backdropElememt = this.$.offlineOverlayBackdrop;
   },
 
   detached() {

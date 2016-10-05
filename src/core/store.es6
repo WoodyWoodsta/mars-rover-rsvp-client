@@ -183,6 +183,10 @@ export const client = new DataStore('client', 'source', true, {
   control: {
     type: 'rose',
   },
+
+  teleIOClient: {
+    connected: false,
+  },
 });
 
 /**
@@ -213,7 +217,7 @@ export const control = new DataStore('control', 'source', true, {
  * @member {Object} teleIOClients     Of the clients connected to the teleIO socket
  * @member {Object} rover             Of the rover
  */
-export const server = new DataStore('server', 'sink', {
+export const server = new DataStore('server', 'sink', false, {
   controlIOClients: {
     number: 0,
   },
@@ -236,7 +240,7 @@ export const server = new DataStore('server', 'sink', {
  * @member {Object} proximity Data related to the proximity sensors
  * @member {Object} servos    Data related to the servo motors
  */
-export const hardwareState = new DataStore('hardwareState', 'sink', {
+export const hardwareState = new DataStore('hardwareState', 'sink', false, {
   board: {
     initialised: false,
   },

@@ -5,6 +5,7 @@
 <link rel="import" href="../app-rover-overview/app-rover-overview.html">
 <link rel="import" href="../app-stream-container/app-stream-container.html">
 <link rel="import" href="../app-rover-sequence-editor/app-rover-sequence-editor.html">
+<link rel="import" href="../app-offline-overlay/app-offline-overlay.html">
 
 <dom-module id="app-body">
   <template>
@@ -72,6 +73,16 @@
         @apply(--layout-flex);
       }
 
+      #offlineOverlayBackdrop {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+
+        background: red;
+      }
+
       @media screen and (max-width: 640px) {
         #upperContainer {
           @apply(--layout-vertical);
@@ -123,6 +134,9 @@
       </iron-pages>
 
     </div>
+
+    <!-- Offline Overlay -->
+    <app-offline-overlay id="offlineOverlay"></app-offline-overlay>
 
   </template>
   <script src="app-body.js" charset="utf-8"></script>
