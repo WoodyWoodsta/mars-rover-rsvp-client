@@ -11,7 +11,7 @@
         bottom: 0;
       }
 
-      #dialog {
+      #dialogWrapper {
         @apply(--layout-vertical);
         @apply(--layout-center);
         @apply(--layout-center-justified);
@@ -19,6 +19,21 @@
         position: absolute;
         height: 100%;
         width: 100%;
+      }
+
+      :host(:not([showing])) #dialogWrapper {
+        display: none;
+      }
+
+      #dialog {
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+        @apply(--layout-center-justified);
+
+        padding: calc(var(--container-padding) * 4);
+        border: 1px solid var(--light-normal-alpha);
+        border-radius: calc(var(--border-radius) * 4);
+        background: rgba(0,0,0,.8);
       }
 
       .offline-text-wrapper {
@@ -46,28 +61,34 @@
         --iron-icon-height: 35px;
         --iron-icon-width: var(--iron-icon-height);
       }
+
+      paper-spinner-lite {
+        --paper-spinner-color: var(--accent-color);
+      }
     </style>
 
     <iron-overlay-backdrop id="backdrop"></iron-overlay-backdrop>
-    <div id="dialog">
-      <template is="dom-if" if="{{loadingTextVisible}}" restamp="true">
-        <div class="offline-text-wrapper">
-          <paper-spinner active></paper-spinner>
-          <span class="offline-text">Waiting for Rover...</span>
-        </div>
-      </template>
-      <template is="dom-if" if="{{roverTextVisible}}" restamp="true">
-        <div class="offline-text-wrapper" hidden$="{{loadingTextVisible}}">
-          <iron-icon icon="rsvp:signal-wifi-off"></iron-icon>
-          <span class="offline-text">Rover Offline</span>
-        </div>
-      </template>
-      <template is="dom-if" if="{{serverTextVisible}}" restamp="true">
-        <div class="offline-text-wrapper" hidden$="{{loadingTextVisible}}">
-          <iron-icon icon="rsvp:cloud-off"></iron-icon>
-          <span class="offline-text">RSVP Server Offline</span>
-        </div>
-      </template>
+    <div id="dialogWrapper">
+      <div id="dialog">
+        <template is="dom-if" if="{{loadingTextVisible}}" restamp="true">
+          <div class="offline-text-wrapper">
+            <paper-spinner-lite active></paper-spinner-lite>
+            <span class="offline-text">Waiting for RCE...</span>
+          </div>
+        </template>
+        <template is="dom-if" if="{{roverTextVisible}}" restamp="true">
+          <div class="offline-text-wrapper" hidden$="{{loadingTextVisible}}">
+            <iron-icon icon="rsvp:signal-wifi-off"></iron-icon>
+            <span class="offline-text">RCE Offline</span>
+          </div>
+        </template>
+        <template is="dom-if" if="{{serverTextVisible}}" restamp="true">
+          <div class="offline-text-wrapper" hidden$="{{loadingTextVisible}}">
+            <iron-icon icon="rsvp:cloud-off"></iron-icon>
+            <span class="offline-text">RSVP Server Offline</span>
+          </div>
+        </template>
+      </div>
     </div>
 
   </template>
