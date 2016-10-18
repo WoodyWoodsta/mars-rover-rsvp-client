@@ -6,20 +6,20 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "init-build": "mkdir ../mars-rover-rsvp-server/app && ln -s $(pwd)/bower_components ../mars-rover-rsvp-server/app/bower_components",
-    "clean": "rm -rf ../mars-rover-rsvp-server/app && npm run init-build",
+    "clean": "rm -rf ../mars-rover-rsvp-server/app && yarn run init-build",
     "build-core": "browserify ./src/app-core.es6 -o ../mars-rover-rsvp-server/app/app-core.js --extension=.js --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] --extensions .es6 ] -r ./src/app-core.es6:app-core -x app-behaviors -x app-bootstrap",
     "build-behaviors": "browserify ./src/app-behaviors.es6 -o ../mars-rover-rsvp-server/app/app-behaviors.js --extension=.js --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] --extensions .es6 ] -r ./src/app-behaviors.es6:app-behaviors -x app-core -x app-bootstrap",
     "build-bootstrap": "browserify ./src/app-bootstrap.es6 -o ../mars-rover-rsvp-server/app/app-bootstrap.js --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] --extensions .es6 ] -r ./src/app-bootstrap.es6:app-bootstrap -x app-core -x app-behaviors",
-    "build-bundles": "npm run build-core && npm run build-behaviors && npm run build-bootstrap",
+    "build-bundles": "yarn run build-core && yarn run build-behaviors && yarn run build-bootstrap",
     "build-polymer": "babel ./app --presets @woodywoodsta/babel-preset-browser-polymer -d ../mars-rover-rsvp-server/app --copy-files",
-    "rebuild-bundles": "npm run build-bundles",
-    "rebuild-polymer": "npm run build-polymer",
+    "rebuild-bundles": "yarn run build-bundles",
+    "rebuild-polymer": "yarn run build-polymer",
     "watch-core": "watchify ./src/app-core.es6 -o ../mars-rover-rsvp-server/app/app-core.js -v --extension=.js --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] --extensions .es6 ] -r ./src/app-core.es6:app-core -x app-behaviors -x app-bootstrap",
     "watch-behaviors": "watchify ./src/app-behaviors.es6 -o ../mars-rover-rsvp-server/app/app-behaviors.js -v --extension=.js --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] --extensions .es6 ] -r ./src/app-behaviors.es6:app-behaviors -x app-core -x app-bootstrap",
     "watch-bootstrap": "watchify ./src/app-bootstrap.es6 -o ../mars-rover-rsvp-server/app/app-bootstrap.js -v --extension=.json --extension=.es6 -t [ babelify --presets [ @woodywoodsta/babel-preset-browser-bundle ] --extensions .es6 ] -r ./src/app-bootstrap.es6:app-bootstrap -x app-core -x app-behaviors",
     "watch-polymer": "babel ./app --presets @woodywoodsta/babel-preset-browser-polymer -d ../mars-rover-rsvp-server/app --copy-files -w",
-    "build": "npm run build-bundles && npm run build-polymer",
-    "watch": "concurrently --kill-others 'npm run watch-core' 'npm run watch-behaviors' 'npm run watch-bootstrap' 'npm run watch-polymer'"
+    "build": "yarn run build-bundles && yarn run build-polymer",
+    "watch": "concurrently --kill-others 'yarn run watch-core' 'yarn run watch-behaviors' 'yarn run watch-bootstrap' 'yarn run watch-polymer'"
   },
   "repository": {
     "type": "git",
