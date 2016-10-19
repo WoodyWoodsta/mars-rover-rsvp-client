@@ -347,6 +347,15 @@ Polymer({
       case 'roverRotate':
         className = 'RoverRotateCmd';
         break;
+      case 'headPan':
+        className = 'HeadPanCmd';
+        break;
+      case 'headPitch':
+        className = 'HeadPitchCmd';
+        break;
+      case 'headPosition':
+        className = 'HeadPositionCmd';
+        break;
       default:
     }
 

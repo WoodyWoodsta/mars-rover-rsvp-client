@@ -178,6 +178,93 @@ export class RoverRotateCmd extends SeqCmd {
   }
 }
 
+export class HeadPanCmd extends SeqCmd {
+  constructor(params = {}) {
+    super('Head Pan', 'low');
+
+    this.params = {
+      angle: {
+        type: 'Number',
+        unit: 'deg',
+        icon: 'rsvp:angle',
+        value: params.angle || null,
+      },
+      velocity: {
+        type: 'Number',
+        unit: '%',
+        icon: 'rsvp:velocity',
+        value: (params.velocity !== undefined) ? params.velocity : null,
+      },
+      waitForComplete: {
+        type: 'Boolean',
+        unit: null,
+        icon: 'rsvp:wait-for-complete',
+        value: (params.waitForComplete !== undefined) ? params.waitForComplete : true,
+      },
+    };
+  }
+}
+
+export class HeadPitchCmd extends SeqCmd {
+  constructor(params = {}) {
+    super('Head Pitch', 'low');
+
+    this.params = {
+      angle: {
+        type: 'Number',
+        unit: 'deg',
+        icon: 'rsvp:angle',
+        value: params.angle || null,
+      },
+      velocity: {
+        type: 'Number',
+        unit: '%',
+        icon: 'rsvp:velocity',
+        value: (params.velocity !== undefined) ? params.velocity : null,
+      },
+      waitForComplete: {
+        type: 'Boolean',
+        unit: null,
+        icon: 'rsvp:wait-for-complete',
+        value: (params.waitForComplete !== undefined) ? params.waitForComplete : true,
+      },
+    };
+  }
+}
+
+export class HeadPositionCmd extends SeqCmd {
+  constructor(params = {}) {
+    super('Head Position', 'macro');
+
+    this.params = {
+      panAngle: {
+        type: 'Number',
+        unit: 'deg',
+        icon: 'rsvp:angle',
+        value: params.panAngle || null,
+      },
+      pitchAngle: {
+        type: 'Number',
+        unit: 'deg',
+        icon: 'rsvp:angle',
+        value: params.pitchAngle || null,
+      },
+      velocity: {
+        type: 'Number',
+        unit: '%',
+        icon: 'rsvp:velocity',
+        value: (params.velocity !== undefined) ? params.velocity : null,
+      },
+      waitForComplete: {
+        type: 'Boolean',
+        unit: null,
+        icon: 'rsvp:wait-for-complete',
+        value: (params.waitForComplete !== undefined) ? params.waitForComplete : true,
+      },
+    };
+  }
+}
+
 export const cmdDefinitions = {
   pause: new PauseCmd(),
   singleWheelRotate: new SingleWheelRotateCmd(),
@@ -185,4 +272,7 @@ export const cmdDefinitions = {
   drive: new DriveCmd(),
   wheelsRotate: new WheelsRotateCmd(),
   roverRotate: new RoverRotateCmd(),
+  headPan: new HeadPanCmd(),
+  headPitch: new HeadPitchCmd(),
+  headPosition: new HeadPositionCmd(),
 };
