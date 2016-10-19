@@ -68,6 +68,14 @@ Polymer({
       reflectToAttribute: true,
     },
 
+    /**
+     * Whether or not the joystick should remain in the position when let go
+     */
+    sticky: {
+      type: Boolean,
+      value: false,
+    },
+
     // === Private ===
     _joystickWidth: {
       type: Number,
@@ -237,7 +245,9 @@ Polymer({
    */
   _onJoystickContainerUp() {
     this.active = false;
-    this.returnToCenter();
+    if (!this.sticky) {
+      this.returnToCenter();
+    }
   },
 
   /**

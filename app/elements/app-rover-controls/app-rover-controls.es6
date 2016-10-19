@@ -14,8 +14,9 @@ Polymer({
 
   listeners: {
     'driveJoystick.rover-control-joystick-tweak': '_onDriveJoystickTweak',
-    'pointUpButton.down': '_onPointUpButtonDown',
-    'pointUpButton.up': '_onPointUpButtonUp',
+    'headJoystick.rover-control-joystick-tweak': '_onHeadJoystickTweak',
+    'snapshotButton.tap': '_onSnapshotButtonTap',
+    'centerHeadButton.tap': '_onCenterHeadButtonTap',
   },
 
   attached() {
@@ -37,12 +38,16 @@ Polymer({
     store.control.set('driveInput', { xMag: event.detail.xMag, yMag: event.detail.yMag });
   },
 
-  _onPointUpButtonDown() {
-    store.control.set('testLED.isOn', true);
+  _onHeadJoystickTweak(event) {
+    store.control.set('headInput', { xMag: event.detail.xMag, yMag: event.detail.yMag });
   },
 
-  _onPointUpButtonUp() {
-    store.control.set('testLED.isOn', false);
+  _onCenterHeadButtonTap() {
+    this.$.headJoystick.returnToCenter();
+  },
+
+  _onSnapshotButtonTap() {
+    console.log('Snapshot!');
   },
 
   _onClientMobileChanged(event) {

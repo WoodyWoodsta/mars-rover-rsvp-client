@@ -192,6 +192,8 @@ export const client = new DataStore('client', 'source', true, {
 /**
  * Store for the control input
  * @member {Object} driveInput  The input values from the drive joystick
+ * @member {Object} driveInput  The input values from the drive joystick
+ * @member {Object} headInput   The input values from the head joystick
  * @member {Object} testLED     The state of the test LED
  */
 export const control = new DataStore('control', 'source', true, {
@@ -202,12 +204,18 @@ export const control = new DataStore('control', 'source', true, {
     yMag: 0,
   },
 
+  headInput: {
+    xMag: 0,
+    yMag: 0,
+  },
+
   testLED: {
     isOn: false,
   },
 }, {
   type: ['controlIO'],
   driveInput: ['controlIO'],
+  headInput: ['controlIO'],
   testLED: ['controlIO'],
 });
 

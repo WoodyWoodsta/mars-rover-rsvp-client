@@ -23,13 +23,9 @@
         margin-left: var(--container-padding);
       }
 
-      #leftPanel > rover-control-joystick {
+      #leftPanel > rover-control-joystick,
+      #rightPanel > rover-control-joystick {
         --pad-width: 200px;
-      }
-
-      #rightPanel {
-        min-width: 200px;
-        margin-left: var(--container-padding);
       }
 
       .vertical {
@@ -48,6 +44,12 @@
 
       #leftPanel {
         @apply(--layout-vertical);
+      }
+
+      #rightPanel {
+        @apply(--layout-vertical);
+
+        margin-left: var(--container-padding);
       }
 
       .button-row {
@@ -77,12 +79,9 @@
       }
 
       @media screen and (max-width: 640px) {
-        #leftPanel > rover-control-joystick {
+        #leftPanel > rover-control-joystick,
+        #rightPanel > rover-control-joystick {
           --pad-width: 200px;
-        }
-
-        #rightPanel {
-          min-width: 200px;
         }
 
         .spacer {
@@ -101,12 +100,12 @@
         <rover-control-button icon="rsvp:rotate-left"
           tool-tip="Rotate the rover counter-clockwise on the spot"
           tool-tip-position="top">
-          <span>CCW</span>
+          <span>Rotate CCW</span>
         </rover-control-button>
         <rover-control-button icon="rsvp:rotate-right"
           tool-tip="Rotate the rover clockwise on the spot"
           tool-tip-position="top">
-          Rotate CW
+          <span>Rotate CW</span>
         </rover-control-button>
       </div>
       <rover-control-joystick id="driveJoystick" name="Drive" arrows></rover-control-joystick>
@@ -127,34 +126,19 @@
         <iron-icon icon="rsvp:visibility"></iron-icon>
         <span class="app subheading">Head</span>
       </div>
-      <div class="button-row right">
-        <rover-control-button id="pointUpButton" icon="rsvp:keyboard-arrow-up"
-          tool-tip="Rotate the rover counter-clockwise on the spot"
-          tool-tip-position="bottom">
-          Point Up
+      <div class="button-row left">
+        <rover-control-button id="snapshotButton" icon="rsvp:photo-camera"
+          tool-tip="Take a snapshot of the current camera view"
+          tool-tip-position="top">
+          <span>Snapshot</span>
+        </rover-control-button>
+        <rover-control-button id="centerHeadButton" icon="rsvp:filter-center-focus"
+          tool-tip="Center the camera pan and pitch angles"
+          tool-tip-position="top">
+          <span>Center</span>
         </rover-control-button>
       </div>
-
-      <div class="button-row right">
-        <rover-control-button icon="rsvp:keyboard-arrow-left"
-          tool-tip="Rotate the rover counter-clockwise on the spot"
-          tool-tip-position="bottom">
-          Pan Left
-        </rover-control-button>
-        <rover-control-button icon="rsvp:keyboard-arrow-right"
-          tool-tip="Rotate the rover clockwise on the spot"
-          tool-tip-position="bottom">
-          Pan Right
-        </rover-control-button>
-      </div>
-
-      <div class="button-row right">
-        <rover-control-button icon="rsvp:keyboard-arrow-down"
-          tool-tip="Rotate the rover counter-clockwise on the spot"
-          tool-tip-position="bottom">
-          Point Down
-        </rover-control-button>
-      </div>
+      <rover-control-joystick id="headJoystick" name="Head" sticky></rover-control-joystick>
     </div>
   </template>
   <script src="app-rover-controls.js" charset="utf-8"></script>
