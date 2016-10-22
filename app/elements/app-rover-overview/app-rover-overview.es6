@@ -170,6 +170,7 @@ Polymer({
     store.client.on('mobile-changed', this._onClientMobileChanged, this);
     store.hardwareState.on('servos.values-changed', this._onStoreServosChanged, this);
     store.hardwareState.on('proximity.values-changed', this._onStoreProximityValuesChanged, this);
+    store.hardwareState.on('proximity.warn-changed', this._onStoreProximityWarnChanged, this);
 
     teleIOClientTranslator.requestRepush('hardwareState', '*');
 
@@ -188,18 +189,19 @@ Polymer({
   },
 
   _onStoreProximityValuesChanged(event) {
+    // debugger;
     Object.keys(event.newValue).forEach((key) => {
       switch (key) {
         case 'front':
-          this.set('frontUsSensorData.0.value', event.newValue[key]);
+          this.set('frontUsSensorData.items.0.value', event.newValue[key]);
           this._updateFrontUsSensorValue(event.newValue[key]);
           break;
         case 'rear':
-          this.set('rearUsSensorData.0.value', event.newValue[key]);
+          this.set('rearUsSensorData.items.0.value', event.newValue[key]);
           this._updateRearUsSensorValue(event.newValue[key]);
           break;
         case 'head':
-          this.set('headUsSensorData.0.value', event.newValue[key]);
+          this.set('headUsSensorData.items.0.value', event.newValue[key]);
           this._updateHeadUsSensorValue(event.newValue[key]);
           break;
         default:
@@ -209,17 +211,19 @@ Polymer({
     });
   },
 
-  _onStoreProximityWarningChanged(event) {
+  _onStoreProximityWarnChanged(event) {
     Object.keys(event.newValue).forEach((key) => {
       switch (key) {
         case 'front':
-          this.set('frontUsSensorData.1.value', event.newValue[key]);
+          this.set('frontUsSensorData.items.1.value', event.newValue[key]);
+          this._updateFrontUsSensorWarn(event.newValue[key]);
           break;
         case 'rear':
-          this.set('rearUsSensorData.1.value', event.newValue[key]);
+          this.set('rearUsSensorData.items.1.value', event.newValue[key]);
+          this._updateRearUsSensorWarn(event.newValue[key]);
           break;
         case 'head':
-          this.set('headUsSensorData.1.value', event.newValue[key]);
+          this.set('headUsSensorData.items.1.value', event.newValue[key]);
           break;
         default:
           console.log(`Proximity change property '${key}' not recognised`);
@@ -336,7 +340,7 @@ Polymer({
   },
 
   _updateFrontUsSensorValue(value) {
-    this.$.usSensorFrontFill.style.fillOpacity = value / 5000;
+    this.$.usSensorFrontFill.style.fillOpacity = 1 - value / 200;
   },
 
   _updateRearUsSensorValue(value) {
@@ -344,6 +348,7 @@ Polymer({
   },
 
   _updateFrontUsSensorWarn(value) {
+    console.log(value);
     this.$.usSensorFront.setAttribute('warn', value);
   },
 
