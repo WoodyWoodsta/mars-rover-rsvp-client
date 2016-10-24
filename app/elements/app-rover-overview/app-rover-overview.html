@@ -92,22 +92,20 @@
 
       svg .us-sensor.fill {
         transform-origin: center;
-        transform: scale(0.78);
         stroke: none;
         fill: var(--light-strong-alpha);
         fill-opacity: 0;
 
         transition: fill-opacity 0.5s var(--timing-function);
-      }
-
-      #usSensorRearFill {
-        transform: scale(0.78, 0.7);
+        transform: translateZ(0);
       }
 
       svg .us-sensor.stroke {
         fill: none;
         stroke-dasharray: 6;
         stroke: var(--light-strong-alpha);
+
+        transform: translateZ(0);
       }
 
       svg .us-sensor-group[warn="warn"] > .us-sensor.fill {

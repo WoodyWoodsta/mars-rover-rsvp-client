@@ -300,19 +300,16 @@ Polymer({
   _updateDriveFrontRight(value) {
     this.$.wheelFrontRightVelocityFill.style.fill = this._resolveFillColor(value);
     this.$.wheelFrontRightVelocityFill.setAttribute('height', Math.abs(value * 69));
-
   },
 
   _updateDriveRearLeft(value) {
     this.$.wheelRearLeftVelocityFill.style.fill = this._resolveFillColor(value);
     this.$.wheelRearLeftVelocityFill.setAttribute('height', Math.abs(value * 69));
-
   },
 
   _updateDriveRearRight(value) {
     this.$.wheelRearRightVelocityFill.style.fill = this._resolveFillColor(value);
     this.$.wheelRearRightVelocityFill.setAttribute('height', Math.abs(value * 69));
-
   },
 
   _updateSteerFrontLeft(value) {
@@ -340,7 +337,7 @@ Polymer({
   },
 
   _updateFrontUsSensorValue(value) {
-    this.$.usSensorFrontFill.style.fillOpacity = 1 - value / 200;
+    this.$.usSensorFrontFill.style.fillOpacity = 1 - (value / 200);
   },
 
   _updateRearUsSensorValue(value) {
@@ -348,7 +345,6 @@ Polymer({
   },
 
   _updateFrontUsSensorWarn(value) {
-    console.log(value);
     this.$.usSensorFront.setAttribute('warn', value);
   },
 
