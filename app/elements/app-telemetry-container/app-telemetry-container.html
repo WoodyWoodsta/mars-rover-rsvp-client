@@ -108,6 +108,7 @@
             <rover-tele-progress-bubble id="rceMemBubble" heading="RCE Mem"></rover-tele-progress-bubble>
             <rover-tele-progress-bubble id="camCpuBubble" heading="Cam CPU"></rover-tele-progress-bubble>
             <rover-tele-progress-bubble id="camMemBubble" heading="Cam Mem"></rover-tele-progress-bubble>
+            <rover-tele-progress-bubble id="batteryVoltageBubble" heading="Battery" unit="V" max="12.4"></rover-tele-progress-bubble>
           </div>
           <!-- System States -->
           <app-fieldset id="hardwareStates" heading="Hardware States">
@@ -132,9 +133,6 @@
 
       </section>
     </iron-pages>
-
-    <!-- Toasts -->
-    <paper-toast id="toast"></paper-toast>
 
   </template>
   <script src="app-telemetry-container.js" charset="utf-8"></script>

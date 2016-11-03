@@ -138,6 +138,12 @@
     <!-- Offline Overlay -->
     <app-offline-overlay id="offlineOverlay"></app-offline-overlay>
 
+    <!-- Toasts -->
+    <paper-toast id="temporaryToast"></paper-toast>
+    <paper-toast id="persistentToast" duration="0" no-cancel-on-esc-key no-cancel-on-outside-click>
+      <paper-button id="persistentToastClose">Close</paper-button>
+    </paper-toast>
+
   </template>
   <script src="app-body.js" charset="utf-8"></script>
 </dom-module>

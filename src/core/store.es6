@@ -254,6 +254,12 @@ export const hardwareState = new DataStore('hardwareState', 'sink', false, {
   },
   analog: {
     initialised: false,
+    values: {
+      battery: 0,
+    },
+    warnings: {
+      battery: 'none',
+    },
   },
   camera: {
     initialised: false,

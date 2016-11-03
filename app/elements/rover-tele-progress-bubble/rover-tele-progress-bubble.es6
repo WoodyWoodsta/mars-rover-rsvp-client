@@ -12,5 +12,10 @@ Polymer({
       type: String,
       value: '%',
     },
+    
+    max: {
+      type: Number,
+      value: 100,
+    },
   },
 });

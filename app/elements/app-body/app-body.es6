@@ -1,5 +1,6 @@
 /* app-body.es6 */
 import { store } from 'app-core';
+import { toastBehavior } from 'app-behaviors';
 
 Polymer({
   is: 'app-body',
@@ -39,6 +40,7 @@ Polymer({
 
   listeners: {
     'iron-select': '_onIronSelect',
+    'persistentToastClose.tap': '_onPersistentToastCloseTap',
   },
 
   attached() {
@@ -50,6 +52,9 @@ Polymer({
 
     this.$.offlineOverlay.fitInto = this;
     this.$.offlineOverlay.backdropElememt = this.$.offlineOverlayBackdrop;
+
+    toastBehavior.exposeTemporaryToast(this.$.temporaryToast);
+    toastBehavior.exposePersistentToast(this.$.persistentToast);
   },
 
   detached() {
@@ -105,6 +110,15 @@ Polymer({
   _onIronSelect(event) {
     if (event.detail.item === this.$.controlsSection) {
       this.$.controls.resetControls();
+    }
+  },
+
+  /**
+   * Close the persistent toast element if the close button within is pressed
+   */
+  _onPersistentToastCloseTap() {
+    if (this.$.persistentToast.opened) {
+      this.$.persistentToast.close();
     }
   },
 });
