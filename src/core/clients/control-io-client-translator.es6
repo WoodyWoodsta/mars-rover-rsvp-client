@@ -28,6 +28,14 @@ export function sendPlaybackSequenceSignal() {
   controlIOClient.sendPost('playback-sequence');
 }
 
+export function updateTrims(trims) {
+  controlIOClient.sendPost('update-trims', trims);
+}
+
+export function requestSaveTrims() {
+  controlIOClient.sendRequest('save-trims');
+}
+
 export function requestRepush(storeName, path, notifyees = []) {
   controlIOClient.sendRequest('repush', { storeName, path, notifyees });
 }

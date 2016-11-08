@@ -1,7 +1,8 @@
 <!-- app-shell.html -->
 
-<!-- elements -->
+<!-- custom elements -->
 <link rel="import" href="../app-drawer-controls/app-drawer-controls.html">
+<link rel="import" href="../app-trims-dialog/app-trims-dialog.html">
 
 <dom-module id="app-shell">
   <template>
@@ -67,6 +68,9 @@
       <!-- Body -->
       <content id="mainContent" select="[body]"></content>
     </app-drawer-layout>
+
+    <!-- Trims Dialog -->
+    <app-trims-dialog id="trimsDialog"></app-trims-dialog>
 
     <!-- Media Queries -->
     <iron-media-query query="max-width: 640px" query-matches="{{mobile}}">

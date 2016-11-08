@@ -29,6 +29,7 @@ Polymer({
     'disconnect.tap': '_onDisconnectTap',
     'settingsRowButton.tap': '_onSettingsRowButtonTap',
     'controlTypeRowButton.tap': '_onControlTypeRowButtonTap',
+    'openTrimsButton.tap': '_onOpenTrimsButtonTap',
   },
 
   attached() {
@@ -89,5 +90,9 @@ Polymer({
       store.client.set('control.type', (newValue) ? 'rose' : 'interactive');
       store.control.set('type', (newValue) ? 'rose' : 'interactive');
     }
+  },
+
+  _onOpenTrimsButtonTap() {
+    this.fire('open-app-trims-dialog');
   },
 });

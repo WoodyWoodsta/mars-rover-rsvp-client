@@ -138,7 +138,11 @@
         --paper-slider-active-color: var(--accent-color);
         --paper-slider-knob-color: var(--accent-color);
         --paper-slider-pin-color: var(--accent-color)
-    }
+      }
+
+      app-trims-dialog {
+        position: absolute;
+      }
     </style>
 
     <!-- Top -->
@@ -197,7 +201,7 @@
           </div>
           <!-- Settings -->
           <app-drawer-collapse id="settingsCollapse">
-            <div style="height: 100px; width: 100%"></div>
+            <paper-button id="openTrimsButton" raised>TRIMS</paper-button>
           </app-drawer-collapse>
         </div>
 

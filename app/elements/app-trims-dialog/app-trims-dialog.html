@@ -1,0 +1,190 @@
+<!-- app-trims-dialog.html -->
+
+<!-- custom elements -->
+<link rel="import" href="../app-fieldset/app-fieldset.html">
+
+<dom-module id="app-trims-dialog">
+  <template>
+    <style include="paper-override-shared-styles">
+      :host {
+        display: block;
+      }
+
+      app-fieldset > div {
+        @apply(--layout-horizontal);
+      }
+
+      .slider-container {
+        padding: 0 var(--element-padding);
+      }
+
+      .slider-container + .slider-container {
+        margin-left: var(--container-padding);
+      }
+
+      .input-label {
+        position: relative;
+        margin-bottom: calc(-1 * var(--container-padding));
+        margin-left: var(--container-padding);
+        font-size: 0.78rem;
+        font-weight: 300;
+      }
+
+    </style>
+
+    <paper-dialog with-backdrop id="trimsDialog">
+      <h2>Trims</h2>
+      <paper-dialog-scrollable>
+        <h3>Drive</h3>
+        <!-- Front Left Drive -->
+        <app-fieldset heading="Front Left Drive Servo">
+          <div>
+            <div class="slider-container">
+              <div class="input-label">Offset</div>
+              <paper-slider min="-5" max="5" editable value="{{trims.offset.driveFrontLeft}}"></paper-slider>
+            </div>
+            <div class="slider-container">
+              <div class="input-label">Multiplier</div>
+              <paper-slider min="0" max="1" step="0.001" editable value="{{trims.multiplier.driveFrontLeft}}"></paper-slider>
+            </div>
+          </div>
+        </app-fieldset>
+
+        <!-- Front Right Drive -->
+        <app-fieldset heading="Front Right Drive Servo">
+          <div>
+            <div class="slider-container">
+              <div class="input-label">Offset</div>
+              <paper-slider min="-5" max="5" editable value="{{trims.offset.driveFrontRight}}"></paper-slider>
+            </div>
+            <div class="slider-container">
+              <div class="input-label">Multiplier</div>
+              <paper-slider min="0" max="1" step="0.001" editable value="{{trims.multiplier.driveFrontRight}}"></paper-slider>
+            </div>
+          </div>
+        </app-fieldset>
+
+        <!-- Rear Left Drive -->
+        <app-fieldset heading="Rear Left Drive Servo">
+          <div>
+            <div class="slider-container">
+              <div class="input-label">Offset</div>
+              <paper-slider min="-5" max="5" editable value="{{trims.offset.driveRearLeft}}"></paper-slider>
+            </div>
+            <div class="slider-container">
+              <div class="input-label">Multiplier</div>
+              <paper-slider min="0" max="1" step="0.001" editable value="{{trims.multiplier.driveRearLeft}}"></paper-slider>
+            </div>
+          </div>
+        </app-fieldset>
+
+        <!-- Rear Right Drive -->
+        <app-fieldset heading="Rear Right Drive Servo">
+          <div>
+            <div class="slider-container">
+              <div class="input-label">Offset</div>
+              <paper-slider min="-5" max="5" editable value="{{trims.offset.driveRearRight}}"></paper-slider>
+            </div>
+            <div class="slider-container">
+              <div class="input-label">Multiplier</div>
+              <paper-slider min="0" max="1" step="0.001" editable value="{{trims.multiplier.driveRearRight}}"></paper-slider>
+            </div>
+          </div>
+        </app-fieldset>
+
+        <h3>Steer</h3>
+        <!-- Front Left Steer -->
+        <app-fieldset heading="Front Left Steer Servo">
+          <div>
+            <div class="slider-container">
+              <div class="input-label">Offset</div>
+              <paper-slider min="-15" max="15" editable value="{{trims.offset.steerFrontLeft}}"></paper-slider>
+            </div>
+            <div class="slider-container">
+              <div class="input-label">Multiplier</div>
+              <paper-slider min="0" max="1" step="0.001" editable value="{{trims.multiplier.steerFrontLeft}}"></paper-slider>
+            </div>
+          </div>
+        </app-fieldset>
+
+        <!-- Front Right Steer -->
+        <app-fieldset heading="Front Right Steer Servo">
+          <div>
+            <div class="slider-container">
+              <div class="input-label">Offset</div>
+              <paper-slider min="-15" max="15" editable value="{{trims.offset.steerFrontRight}}"></paper-slider>
+            </div>
+            <div class="slider-container">
+              <div class="input-label">Multiplier</div>
+              <paper-slider min="0" max="1" step="0.001" editable value="{{trims.multiplier.steerFrontRight}}"></paper-slider>
+            </div>
+          </div>
+        </app-fieldset>
+
+        <!-- Rear Left Steer -->
+        <app-fieldset heading="Rear Left Steer Servo">
+          <div>
+            <div class="slider-container">
+              <div class="input-label">Offset</div>
+              <paper-slider min="-15" max="15" editable value="{{trims.offset.steerRearLeft}}"></paper-slider>
+            </div>
+            <div class="slider-container">
+              <div class="input-label">Multiplier</div>
+              <paper-slider min="0" max="1" step="0.001" editable value="{{trims.multiplier.steerRearLeft}}"></paper-slider>
+            </div>
+          </div>
+        </app-fieldset>
+
+        <!-- Rear Right Steer -->
+        <app-fieldset heading="Rear Right Steer Servo">
+          <div>
+            <div class="slider-container">
+              <div class="input-label">Offset</div>
+              <paper-slider min="-15" max="15" editable value="{{trims.offset.steerRearRight}}"></paper-slider>
+            </div>
+            <div class="slider-container">
+              <div class="input-label">Multiplier</div>
+              <paper-slider min="0" max="1" step="0.001" editable value="{{trims.multiplier.steerRearRight}}"></paper-slider>
+            </div>
+          </div>
+        </app-fieldset>
+
+        <h3>Head</h3>
+        <!-- Head Pan -->
+        <app-fieldset heading="Head Pan Servo">
+          <div>
+            <div class="slider-container">
+              <div class="input-label">Offset</div>
+              <paper-slider min="-90" max="90" editable value="{{trims.offset.headPan}}"></paper-slider>
+            </div>
+            <div class="slider-container">
+              <div class="input-label">Multiplier</div>
+              <paper-slider min="0" max="1" step="0.001" editable value="{{trims.multiplier.headPan}}"></paper-slider>
+            </div>
+          </div>
+        </app-fieldset>
+
+        <!-- Head Pan -->
+        <app-fieldset heading="Head Pitch Servo">
+          <div>
+            <div class="slider-container">
+              <div class="input-label">Offset</div>
+              <paper-slider min="-90" max="90" editable value="{{trims.offset.headPitch}}"></paper-slider>
+            </div>
+            <div class="slider-container">
+              <div class="input-label">Multiplier</div>
+              <paper-slider min="0" max="1" step="0.001" editable value="{{trims.multiplier.headPitch}}"></paper-slider>
+            </div>
+          </div>
+        </app-fieldset>
+      </paper-dialog-scrollable>
+      <div class="buttons">
+        <paper-button id="updateButton">Update</paper-button>
+        <paper-button id="saveButton">Save</paper-button>
+        <paper-button dialog-dismiss>Exit</paper-button>
+      </div>
+    </paper-dialog>
+
+  </template>
+  <script src="app-trims-dialog.js" charset="utf-8"></script>
+</dom-module>

@@ -35,6 +35,7 @@ Polymer({
   listeners: {
     'iron-resize': '_onIronResize',
     'hello': '_onHello',
+    'open-app-trims-dialog': '_onOpenAppTrimsDialog',
   },
 
   _onHello() {
@@ -112,5 +113,9 @@ Polymer({
     // if (!this.narrow) {
     //   this.collapseDrawer();
     // }
+  },
+
+  _onOpenAppTrimsDialog() {
+    this.$.trimsDialog.open();
   },
 });

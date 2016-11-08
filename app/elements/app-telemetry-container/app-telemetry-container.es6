@@ -150,7 +150,7 @@ Polymer({
         break;
     }
 
-    this._setHardwareState(0, state, (state === 'normal'));
+    this._setHardwareState(0, state, (state === 'Normal'));
   },
 
   _onBoardInitialisedChanged(event) {

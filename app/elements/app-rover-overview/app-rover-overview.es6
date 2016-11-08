@@ -201,7 +201,7 @@ Polymer({
           this._updateRearUsSensorValue(event.newValue[key]);
           break;
         case 'head':
-          this.set('headUsSensorData.items.0.value', event.newValue[key]);
+          this.set('headData.items.2.value', event.newValue[key]);
           this._updateHeadUsSensorValue(event.newValue[key]);
           break;
         default:
