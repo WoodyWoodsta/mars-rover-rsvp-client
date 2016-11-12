@@ -21,6 +21,13 @@ Polymer({
       observer: '_onControlTypeToggleCheckedChanged',
     },
 
+    lowGraphicsModeToggleChecked: {
+      type: Boolean,
+      value: false,
+      reflectToAttribute: true,
+      observer: '_onLowGraphicsModeToggleCheckedChanged',
+    },
+
     // === Private ===
   },
 
@@ -37,6 +44,9 @@ Polymer({
   attached() {
     this.controlTypeToggleChecked = store.client.control.type === 'rose';
     this._onControlTypeToggleCheckedChanged.initialised = true;
+
+    this.lowGraphicsModeToggleChecked = store.client.lowGraphicsMode;
+    this._onLowGraphicsModeToggleCheckedChanged.initialised = true;
   },
 
   collapseAll() {
@@ -104,5 +114,11 @@ Polymer({
 
   _onRestartServerButtonTap() {
     controlIOClientTranslator.restartServer();
+  },
+
+  _onLowGraphicsModeToggleCheckedChanged(newValue) {
+    if (this._onLowGraphicsModeToggleCheckedChanged.initialised) {
+      store.client.set('lowGraphicsMode', newValue);
+    }
   },
 });

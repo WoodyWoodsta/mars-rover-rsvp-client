@@ -144,10 +144,6 @@
       paper-toggle-button#controlTypeToggle {
         margin-right: var(--element-padding);
         margin-left: var(--container-padding);
-
-        --paper-toggle-button-checked-bar-color: var(--accent-color);
-        --paper-toggle-button-checked-button-color: var(--accent-color);
-        --paper-toggle-button-checked-ink-color: var(--accent-color);
       }
 
       paper-slider {
@@ -158,6 +154,10 @@
 
       app-trims-dialog {
         position: absolute;
+      }
+
+      .toggle-label {
+        @apply(--layout-flex);
       }
     </style>
 
@@ -217,7 +217,13 @@
           </div>
           <!-- Settings -->
           <app-drawer-collapse id="settingsCollapse">
-            <span class="panel-group-heading">Rover</span>
+            <span class="panel-group-heading">RSVP Client</span>
+              <div class="panel-group horizontal">
+                <span class="toggle-label">Low Graphics Mode</span>
+                <paper-toggle-button id="lowGrahicsModeToggle" checked="{{lowGraphicsModeToggleChecked}}"></paper-toggle-button>
+              </div>
+
+            <span class="panel-group-heading">RCE</span>
             <div class="panel-group vertical">
               <paper-button id="openTrimsButton" class="stretched" raised>TRIMS</paper-button>
 
@@ -227,7 +233,7 @@
               <paper-button id="changeIpAddressButton" raised>Update</paper-button>
 
             </div>
-            <span class="panel-group-heading">Server</span>
+            <span class="panel-group-heading">RSVP Server</span>
             <div class="panel-group vertical">
               <paper-button id="restartServerButton" class="stretched" raised>Restart</paper-button>
             </div>

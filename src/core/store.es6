@@ -184,6 +184,10 @@ export const client = new DataStore('client', 'source', true, {
     type: 'rose',
   },
 
+  lowGraphicsMode: true,
+
+  streamLive: false,
+
   teleIOClient: {
     connected: false,
   },

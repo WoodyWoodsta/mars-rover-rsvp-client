@@ -12,6 +12,12 @@ Polymer({
       value: false,
     },
 
+    lowGraphicsMode: {
+      type: Boolean,
+      reflectToAttribute: true,
+      value: false,
+    },
+
     frontLeftWheelData: {
       type: Object,
       value: {
@@ -172,6 +178,9 @@ Polymer({
     store.hardwareState.on('proximity.values-changed', this._onStoreProximityValuesChanged, this);
     store.hardwareState.on('proximity.warn-changed', this._onStoreProximityWarnChanged, this);
 
+    store.client.on('lowGraphicsMode-changed', this._onLowGraphicsModeChanged, this);
+
+    store.client.repush();
     teleIOClientTranslator.requestRepush('hardwareState', '*');
 
     this.mobile = store.client.mobile;
@@ -181,6 +190,8 @@ Polymer({
     store.client.removeListener('mobile-changed', this._onClientMobileChanged, this);
     store.hardwareState.removeListener('servos.values-changed', this._onStoreServosChanged, this);
     store.hardwareState.removeListener('proximity.values-changed', this._onStoreProximityValuesChanged, this);
+
+    store.client.removeListener('lowGraphicsMode-changed', this._onLowGraphicsModeChanged, this);
   },
 
   // === Private ===
@@ -292,6 +303,10 @@ Polymer({
     });
   },
 
+  _onLowGraphicsModeChanged(event) {
+    this.lowGraphicsMode = event.newValue;
+  },
+
   _updateDriveFrontLeft(value) {
     this.$.wheelFrontLeftVelocityFill.style.fill = this._resolveFillColor(value);
     this.$.wheelFrontLeftVelocityFill.setAttribute('height', Math.abs(value * 69));
@@ -341,7 +356,7 @@ Polymer({
   },
 
   _updateRearUsSensorValue(value) {
-    this.$.usSensorRearFill.style.fillOpacity = value / 5000;
+    this.$.usSensorRearFill.style.fillOpacity = 1 - (value / 200);
   },
 
   _updateFrontUsSensorWarn(value) {

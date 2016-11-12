@@ -3,7 +3,7 @@
  * Exposes video streaming functionality to the browser
  */
 import debug from 'debug';
-import { kurentoIOClient } from 'app-core';
+import { kurentoIOClient, store } from 'app-core';
 
 const log = debug('rsvp-client: kurento-behavior');
 
@@ -130,6 +130,8 @@ function dispose() {
     webRtcPeer.dispose();
     webRtcPeer = null;
   }
+
+  store.rceState.set('streamLive', false);
 }
 
 /**

@@ -194,14 +194,48 @@ Polymer({
   _onAnalogBatteryWarningChanged(event) {
     switch (event.newValue) {
       case 'low':
-        toastBehavior.displayPersistentMessage('Warning: Low RCE battery voltage');
+        this._handleLowBattery();
         break;
       case 'critical':
-        toastBehavior.displayPersistentMessage('Warning: Critical RCE battery voltage!');
+        this._handleCriticalBattery();
         break;
       default:
         break;
 
+    }
+  },
+
+  _handleLowBattery() {
+    const self = this._handleLowBattery;
+
+    // Debounce this event
+    if (!self.lowBefore) {
+      self.lowBefore = true;
+      self.timer = setTimeout(() => {
+        // If the warning still exists, show the toast
+        if (store.hardwareState.analog.warnings.battery === 'low') {
+          toastBehavior.displayPersistentMessage('Warning: Low RCE battery voltage');
+        }
+
+        self.lowBefore = false;
+      }, 5000);
+    }
+  },
+
+  _handleCriticalBattery() {
+    const self = this._handleCriticalBattery;
+
+    // Debounce this event
+    if (!self.criticalBefore) {
+      self.criticalBefore = true;
+      self.timer = setTimeout(() => {
+        // If the warning still exists, show the toast
+        if (store.hardwareState.analog.warnings.battery === 'critical') {
+          toastBehavior.displayPersistentMessage('Warning: Critical RCE battery voltage!');
+        }
+
+        self.criticalBefore = false;
+      }, 5000);
     }
   },
 

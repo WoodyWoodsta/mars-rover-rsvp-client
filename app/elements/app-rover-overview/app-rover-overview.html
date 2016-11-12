@@ -96,8 +96,11 @@
         fill: var(--light-strong-alpha);
         fill-opacity: 0;
 
-        transition: fill-opacity 0.5s var(--timing-function);
         transform: translateZ(0);
+      }
+
+      :host(:not([low-graphics-mode])) svg .us-sensor.fill {
+        transition: fill-opacity 0.5s var(--timing-function);
       }
 
       svg .us-sensor.stroke {
@@ -110,28 +113,34 @@
 
       svg .us-sensor-group[warn="warn"] > .us-sensor.fill {
         fill: var(--amber-theme-dark-color);
+      }
 
+      :host(:not([low-graphics-mode])) svg .us-sensor-group[warn="warn"] > .us-sensor.fill {
         animation: blink normal 1s infinite ease-in-out;
       }
 
       svg .us-sensor-group[warn="shutdown"] > .us-sensor.fill {
         fill: var(--red-theme-dark-color);
+      }
 
+      :host(:not([low-graphics-mode])) svg .us-sensor-group[warn="shutdown"] > .us-sensor.fill {
         animation: blink normal 0.5s infinite ease-in-out;
       }
 
-      svg .us-sensor-group[warn="warn"] > .us-sensor.stroke {
+      :host(:not([low-graphics-mode])) svg .us-sensor-group[warn="warn"] > .us-sensor.stroke {
         animation: warningStroke normal 0.5s infinite ease-in-out;
       }
 
-      svg .us-sensor-group[warn="shutdown"] > .us-sensor.stroke {
+      :host(:not([low-graphics-mode])) svg .us-sensor-group[warn="shutdown"] > .us-sensor.stroke {
         animation: shutdownStroke normal 0.5s infinite ease-in-out;
       }
 
       svg .moving {
         stroke: none;
         fill: var(--light-strong-alpha);
+      }
 
+      :host(:not([low-graphics-mode])) svg .moving {
         transition-property: transform, fill;
         transition: 0.5s ease-in-out;
       }
@@ -146,7 +155,9 @@
       svg .velocity-bar-fill {
         stroke: none;
         fill: var(--green-theme-primary-color);
+      }
 
+      :host(:not([low-graphics-mode])) svg .velocity-bar-fill {
         transition-property: height, color;
         transition: 0.5s var(--timing-function);
       }

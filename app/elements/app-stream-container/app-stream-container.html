@@ -7,6 +7,7 @@
     <style>
       :host {
         @apply(--layout-horizontal);
+        position: relative;
       }
 
       app-panel {
@@ -16,10 +17,54 @@
       #video {
         height: 100%;
       }
+
+      #loadingContainer {
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+        @apply(--layout-center-justified);
+
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+      }
+
+      #titleText {
+        padding: var(--container-padding) calc(3 * var(--container-padding));
+        font-size: 3rem;
+        border: 1px solid var(--light-normal-alpha);
+        border-radius: 8px;
+      }
+
+      #secondaryTitleText {
+        color: var(--light-medium-alpha);
+        font-size: 1.3rem;
+      }
+
+      paper-spinner-lite {
+        margin-top: calc(2 * var(--container-padding));
+
+        --paper-spinner-color: var(--accent-color);
+      }
+
+      @media screen and (max-width: 640px) {
+        #titleText {
+          font-size: 2rem;
+        }
+
+      }
     </style>
 
     <app-panel>
       <video id="video" autoplay></video>
+      <div id="loadingContainer">
+        <span id="titleText"><b>UCT</b> Mars Rover</span>
+
+        <paper-spinner-lite active></paper-spinner-lite>
+
+        <span id="secondaryTitleText">Loading stream...</span>
+      </div>
     </app-panel>
 
   </template>
