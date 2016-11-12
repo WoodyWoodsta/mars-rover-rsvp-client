@@ -209,6 +209,11 @@ export const control = new DataStore('control', 'source', true, {
     yMag: 0,
   },
 
+  buttons: {
+    rotateCW: false,
+    rotateCCW: false,
+  },
+
   testLED: {
     isOn: false,
   },
@@ -217,6 +222,7 @@ export const control = new DataStore('control', 'source', true, {
   driveInput: ['controlIO'],
   headInput: ['controlIO'],
   testLED: ['controlIO'],
+  buttons: ['controlIO'],
 });
 
 /**

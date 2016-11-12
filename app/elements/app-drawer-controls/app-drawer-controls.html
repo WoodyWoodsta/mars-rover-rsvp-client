@@ -4,7 +4,7 @@
 
 <dom-module id="app-drawer-controls">
   <template>
-    <style>
+    <style include="paper-override-shared-styles">
       :host {
         @apply(--layout-vertical);
 
@@ -109,8 +109,20 @@
         @apply(--layout-horizontal);
       }
 
+      .panel-group.vertical {
+        @apply(--layout-vertical);
+      }
+
       .panel-group.center {
         @apply(--layout-center-justified);
+      }
+
+      .panel-group.horizontal.middle {
+        @apply(--layout-center);
+      }
+
+      .panel-group.horizontal.bottom {
+        @apply(--layout-end);
       }
 
       .panel-group-heading {
@@ -123,6 +135,10 @@
 
       .panel-group-heading:first-child {
         margin-top: 0;
+      }
+
+      paper-button.stretched {
+        @apply(--layout-self-stretch);
       }
 
       paper-toggle-button#controlTypeToggle {
@@ -201,7 +217,21 @@
           </div>
           <!-- Settings -->
           <app-drawer-collapse id="settingsCollapse">
-            <paper-button id="openTrimsButton" raised>TRIMS</paper-button>
+            <span class="panel-group-heading">Rover</span>
+            <div class="panel-group vertical">
+              <paper-button id="openTrimsButton" class="stretched" raised>TRIMS</paper-button>
+
+            </div>
+            <div class="panel-group horizontal bottom">
+              <paper-input id="ipAddressInput" label="IP Address" maxlength="14"></paper-input>
+              <paper-button id="changeIpAddressButton" raised>Update</paper-button>
+
+            </div>
+            <span class="panel-group-heading">Server</span>
+            <div class="panel-group vertical">
+              <paper-button id="restartServerButton" class="stretched" raised>Restart</paper-button>
+            </div>
+
           </app-drawer-collapse>
         </div>
 

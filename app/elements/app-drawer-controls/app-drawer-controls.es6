@@ -1,7 +1,7 @@
 /* app-drawer-controls.es6 */
 
 import { kurentoBehavior } from 'app-behaviors';
-import { store } from 'app-core';
+import { store, controlIOClientTranslator } from 'app-core';
 
 Polymer({
   is: 'app-drawer-controls',
@@ -30,6 +30,8 @@ Polymer({
     'settingsRowButton.tap': '_onSettingsRowButtonTap',
     'controlTypeRowButton.tap': '_onControlTypeRowButtonTap',
     'openTrimsButton.tap': '_onOpenTrimsButtonTap',
+    'changeIpAddressButton.tap': '_onChangeIpAddressButtonTap',
+    'restartServerButton.tap': '_onRestartServerButtonTap',
   },
 
   attached() {
@@ -94,5 +96,13 @@ Polymer({
 
   _onOpenTrimsButtonTap() {
     this.fire('open-app-trims-dialog');
+  },
+
+  _onChangeIpAddressButtonTap() {
+    controlIOClientTranslator.updateIpAddress(this.$.ipAddressInput.value);
+  },
+
+  _onRestartServerButtonTap() {
+    controlIOClientTranslator.restartServer();
   },
 });

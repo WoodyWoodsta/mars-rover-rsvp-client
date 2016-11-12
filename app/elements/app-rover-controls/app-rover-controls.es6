@@ -15,8 +15,11 @@ Polymer({
   listeners: {
     'driveJoystick.rover-control-joystick-tweak': '_onDriveJoystickTweak',
     'headJoystick.rover-control-joystick-tweak': '_onHeadJoystickTweak',
-    'snapshotButton.tap': '_onSnapshotButtonTap',
     'centerHeadButton.tap': '_onCenterHeadButtonTap',
+    'rotateCCWButton.down': '_onRotateCCWButtonDown',
+    'rotateCWButton.down': '_onRotateCWButtonDown',
+    'rotateCCWButton.up': '_onRotateCCWButtonUp',
+    'rotateCWButton.up': '_onRotateCWButtonUp',
   },
 
   attached() {
@@ -46,11 +49,23 @@ Polymer({
     this.$.headJoystick.returnToCenter();
   },
 
-  _onSnapshotButtonTap() {
-    console.log('Snapshot!');
-  },
-
   _onClientMobileChanged(event) {
     this.mobile = event.newValue;
+  },
+
+  _onRotateCCWButtonDown() {
+    store.control.set('buttons.rotateCCW', true);
+  },
+
+  _onRotateCWButtonDown() {
+    store.control.set('buttons.rotateCW', true);
+  },
+
+  _onRotateCCWButtonUp() {
+    store.control.set('buttons.rotateCCW', false);
+  },
+
+  _onRotateCWButtonUp() {
+    store.control.set('buttons.rotateCW', false);
   },
 });

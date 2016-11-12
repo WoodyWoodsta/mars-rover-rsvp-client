@@ -36,6 +36,14 @@ export function requestSaveTrims() {
   controlIOClient.sendRequest('save-trims');
 }
 
+export function updateIpAddress(ip) {
+  controlIOClient.sendPost('change-ip-address', ip);
+}
+
+export function restartServer() {
+  controlIOClient.sendPost('restart-server');
+}
+
 export function requestRepush(storeName, path, notifyees = []) {
   controlIOClient.sendRequest('repush', { storeName, path, notifyees });
 }
