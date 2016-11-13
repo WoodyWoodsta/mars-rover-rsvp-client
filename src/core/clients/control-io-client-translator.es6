@@ -28,6 +28,10 @@ export function sendPlaybackSequenceSignal() {
   controlIOClient.sendPost('playback-sequence');
 }
 
+export function runSelfDiagnostics() {
+  controlIOClient.sendPost('run-self-diagnostics');
+}
+
 export function updateTrims(trims) {
   controlIOClient.sendPost('update-trims', trims);
 }

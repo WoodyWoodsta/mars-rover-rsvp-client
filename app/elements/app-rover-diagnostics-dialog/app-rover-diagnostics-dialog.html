@@ -1,0 +1,37 @@
+<!-- app-rover-diagnostics-dialog.html -->
+<dom-module id="app-rover-diagnostics-dialog">
+  <template>
+    <style include="paper-override-shared-styles">
+      :host {
+        display: block;
+      }
+
+      #status {
+        margin: var(--container-padding);
+
+        font-size: 1rem;
+      }
+
+      #dialogWrapper {
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+      }
+
+    </style>
+
+    <paper-dialog id="dialog" with-backdrop>
+      <h2>Rover Self Diagnostics</h2>
+      <paper-dialog-scrollable>
+        <div id="dialogWrapper">
+          <paper-spinner-lite active$="{{running}}"></paper-spinner-lite>
+          <div id="status"><span>{{status}}</span></div>
+        </div>
+      </paper-dialog-scrollable>
+      <div class="buttons">
+        <paper-button dialog-dismiss invalid$="{{running}}">Close</paper-button>
+      </div>
+    </paper-dialog>
+
+  </template>
+  <script src="app-rover-diagnostics-dialog.js" charset="utf-8"></script>
+</dom-module>

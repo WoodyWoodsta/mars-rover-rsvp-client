@@ -89,7 +89,7 @@ Polymer({
    * Decide whether or not the overlay should be shown
    */
   _computeShowing(roverTextVisible, serverTextVisible, loadingTextVisible) {
-    // return roverTextVisible || serverTextVisible || loadingTextVisible;
-    return false;
+    return roverTextVisible || serverTextVisible || loadingTextVisible;
+    // return false;
   },
 });

@@ -39,6 +39,7 @@ Polymer({
     'openTrimsButton.tap': '_onOpenTrimsButtonTap',
     'changeIpAddressButton.tap': '_onChangeIpAddressButtonTap',
     'restartServerButton.tap': '_onRestartServerButtonTap',
+    'runDiagnosticsButton.tap': '_onRunDiagnosticsButtonTap',
   },
 
   attached() {
@@ -120,5 +121,9 @@ Polymer({
     if (this._onLowGraphicsModeToggleCheckedChanged.initialised) {
       store.client.set('lowGraphicsMode', newValue);
     }
+  },
+
+  _onRunDiagnosticsButtonTap() {
+    controlIOClientTranslator.runSelfDiagnostics();
   },
 });

@@ -3,6 +3,7 @@
 <!-- custom elements -->
 <link rel="import" href="../app-drawer-controls/app-drawer-controls.html">
 <link rel="import" href="../app-trims-dialog/app-trims-dialog.html">
+<link rel="import" href="../app-rover-diagnostics-dialog/app-rover-diagnostics-dialog.html">
 
 <dom-module id="app-shell">
   <template>
@@ -69,8 +70,9 @@
       <content id="mainContent" select="[body]"></content>
     </app-drawer-layout>
 
-    <!-- Trims Dialog -->
+    <!-- Dialogs -->
     <app-trims-dialog id="trimsDialog"></app-trims-dialog>
+    <app-rover-diagnostics-dialog></app-rover-diagnostics-dialog>
 
     <!-- Media Queries -->
     <iron-media-query query="max-width: 640px" query-matches="{{mobile}}">
