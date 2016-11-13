@@ -48,6 +48,10 @@
         --paper-spinner-color: var(--accent-color);
       }
 
+      div[hidden] {
+        display: none !important;
+      }
+
       @media screen and (max-width: 640px) {
         #titleText {
           font-size: 2rem;
@@ -61,7 +65,7 @@
       <div id="loadingContainer">
         <span id="titleText"><b>UCT</b> Mars Rover</span>
 
-        <paper-spinner-lite active></paper-spinner-lite>
+        <paper-spinner-lite id="loadingSpinner" active></paper-spinner-lite>
 
         <span id="secondaryTitleText">Loading stream...</span>
       </div>

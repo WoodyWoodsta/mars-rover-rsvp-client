@@ -48,6 +48,22 @@ Polymer({
       ],
     },
 
+    statuses: {
+      type: Array,
+      value: [
+        {
+          status: 'Offline',
+          description: 'RSVP Server',
+          positivity: false,
+        },
+        {
+          status: 'Offline',
+          description: 'Kurento Media Server',
+          positivity: false,
+        },
+      ],
+    },
+
     selected: {
       type: String,
       value: 'rce-system-page',
@@ -56,6 +72,11 @@ Polymer({
     mobile: {
       type: Boolean,
       value: false,
+    },
+
+    clientsCount: {
+      type: Number,
+      value: 0,
     },
   },
 
@@ -91,10 +112,16 @@ Polymer({
     store.hardwareState.on('analog.values.battery-changed', this._onAnalogBatteryChanged, this);
     store.hardwareState.on('analog.warnings.battery-changed', this._onAnalogBatteryWarningChanged, this);
 
+    store.client.on('teleIOClient.connected-changed', this._onTeleIOClientConnectedChanged, this);
+    store.client.on('mobile-changed', this._onClientMobileChanged, this);
+
+    store.server.on('kurento.streamOnline-changed', this._onKurentoStreamOnlineChanged, this);
+    store.server.on('teleIOClients.number-changed', this._onTeleIOClientsNumberChanged, this);
+
     teleIOClientTranslator.requestRepush('rceState', '*');
     teleIOClientTranslator.requestRepush('hardwareState', '*');
-
-    store.client.on('mobile-changed', this._onClientMobileChanged, this);
+    teleIOClientTranslator.requestRepush('server', '*');
+    store.client.repush();
   },
 
   _removeBindings() {
@@ -113,7 +140,11 @@ Polymer({
     store.hardwareState.removeListener('analog.values.battery-changed', this._onAnalogBatteryChanged, this);
     store.hardwareState.removeListener('analog.warnings.battery-changed', this._onAnalogBatteryWarningChanged, this);
 
+    store.client.removeListener('teleIOClient.connected-changed', this._onTeleIOClientConnectedChanged, this);
     store.client.removeListener('mobile-changed', this._onClientMobileChanged, this);
+
+    store.server.removeListener('kurento.streamOnline-changed', this._onKurentoStreamOnlineChanged, this);
+    store.server.removeListener('teleIOClients.number-changed', this._onTeleIOClientsNumberChanged, this);
   },
 
   _onRceCpuChanged(event) {
@@ -256,5 +287,19 @@ Polymer({
       this.$.camCpuBubble.value = Math.round(store.rceState.camCpu * 100) / 100;
       this.$.camMemBubble.value = Math.round(store.rceState.camMemory * 100) / 100;
     }
+  },
+
+  _onTeleIOClientConnectedChanged(event) {
+    this.set('statuses.0.status', (event.newValue) ? 'Online' : 'Offline');
+    this.set('statuses.0.positivity', event.newValue);
+  },
+
+  _onKurentoStreamOnlineChanged(event) {
+    this.set('statuses.1.status', (event.newValue) ? 'Online' : 'Offline');
+    this.set('statuses.1.positivity', event.newValue);
+  },
+
+  _onTeleIOClientsNumberChanged(event) {
+    this.clientsCount = event.newValue;
   },
 });

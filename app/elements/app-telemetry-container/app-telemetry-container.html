@@ -8,6 +8,7 @@
 
 <dom-module id="app-telemetry-container">
   <template>
+    <style include="scrollbar-shared-styles"></style>
     <style include="paper-override-shared-styles">
       :host {
         @apply(--layout-vertical);
@@ -74,6 +75,25 @@
       rover-tele-progress-bubble {
         margin: var(--element-padding);
       }
+
+      #clientsOnlineCountWrapper {
+        @apply(--layout-vertical);
+        @apply(--layout-center);
+        @apply(--layout-stretch);
+
+        padding: 0 var(--container-padding) var(--container-padding) var(--container-padding);
+      }
+
+      #clientsOnline {
+        font-size: 2rem;
+        font-weight: 700;
+      }
+
+      #clientsOnlineTag {
+        margin-top: -10px;
+        font-size: 1.2rem;
+        color: var(--light-medium-alpha).
+      }
     </style>
 
     <!-- Tabs -->
@@ -85,7 +105,7 @@
       <template is="dom-if" if="{{mobile}}" restamp="true">
         <paper-tab page="rover-overview-page">Rover Overview</paper-tab>
       </template>
-      <paper-tab page="other-page">Other</paper-tab>
+      <paper-tab page="server-page">Server</paper-tab>
     </paper-tabs>
 
     <!-- Pages -->
@@ -128,9 +148,22 @@
         </section>
       </template>
 
-      <!-- Other Page -->
-      <section page="other-page">
+      <!-- Server Page -->
+      <section page="server-page">
+        <div class="page-wrapper">
+          <app-fieldset id="serverStatusFieldset" heading="Server Status">
+            <template is="dom-repeat" items="{{statuses}}" index-as="index">
+              <app-state-row description="{{item.description}}" state="{{item.status}}" positivity="{{item.positivity}}"></app-state-row>
+            </template>
+          </app-fieldset>
+          <app-fieldset id="clientsOnlineFieldset" heading="RSVP Clients">
+            <div id="clientsOnlineCountWrapper">
+              <span id="clientsOnline">{{clientsCount}}</span>
+              <span id="clientsOnlineTag">clients online</span>
 
+            </div>
+          </app-fieldset>
+        </div>
       </section>
     </iron-pages>
 

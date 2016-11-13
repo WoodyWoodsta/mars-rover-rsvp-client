@@ -247,6 +247,10 @@ export const server = new DataStore('server', 'sink', false, {
   rover: {
     isOnline: false,
   },
+
+  kurento: {
+    streamOnline: false,
+  },
 });
 
 /**

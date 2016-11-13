@@ -204,15 +204,15 @@ Polymer({
     Object.keys(event.newValue).forEach((key) => {
       switch (key) {
         case 'front':
-          this.set('frontUsSensorData.items.0.value', event.newValue[key]);
+          this.set('frontUsSensorData.items.0.value', round(event.newValue[key], 2));
           this._updateFrontUsSensorValue(event.newValue[key]);
           break;
         case 'rear':
-          this.set('rearUsSensorData.items.0.value', event.newValue[key]);
+          this.set('rearUsSensorData.items.0.value', round(event.newValue[key], 2));
           this._updateRearUsSensorValue(event.newValue[key]);
           break;
         case 'head':
-          this.set('headData.items.2.value', event.newValue[key]);
+          this.set('headData.items.2.value', round(event.newValue[key], 2));
           this._updateHeadUsSensorValue(event.newValue[key]);
           break;
         default:

@@ -7,7 +7,7 @@ Polymer({
   is: 'app-stream-container',
 
   listeners: {
-    'video.playing': '_onVideoPlaying',
+    'video.canplay': '_onVideoPlaying',
   },
 
   attached() {
@@ -25,12 +25,14 @@ Polymer({
   _onStreamLiveChanged(event) {
     if (event.newValue) {
       this.$.loadingContainer.setAttribute('hidden', '');
+      this.$.loadingSpinner.removeAttribute('active');
     } else {
       this.$.loadingContainer.removeAttribute('hidden');
+      this.$.loadingSpinner.setAttribute('active', '');
     }
   },
 
   _onVideoPlaying() {
-    store.rceState.set('streamLive', true);
+    store.client.set('streamLive', true);
   },
 });

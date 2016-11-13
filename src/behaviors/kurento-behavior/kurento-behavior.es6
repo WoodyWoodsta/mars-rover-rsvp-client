@@ -131,7 +131,7 @@ function dispose() {
     webRtcPeer = null;
   }
 
-  store.rceState.set('streamLive', false);
+  store.client.set('streamLive', false);
 }
 
 /**
