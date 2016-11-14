@@ -1,4 +1,8 @@
 /* rover-control-joystick.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
+
 import { debug } from 'app-core';
 const log = debug('rsvp-client:rover-control-joystick');
 

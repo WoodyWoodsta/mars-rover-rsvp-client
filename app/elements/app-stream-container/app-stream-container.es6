@@ -1,4 +1,7 @@
 /* app-stream-container.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
 
 import { kurentoBehavior } from 'app-behaviors';
 import { store } from 'app-core';

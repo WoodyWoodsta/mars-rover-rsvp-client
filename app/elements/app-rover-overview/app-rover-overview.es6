@@ -1,4 +1,7 @@
 /* app-rover-overview.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
 
 import { store, round, teleIOClientTranslator } from 'app-core';
 

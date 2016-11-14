@@ -1,4 +1,7 @@
 /* app-rover-sequence-editor.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
 
 import { sequenceBehavior } from 'app-behaviors';
 import { controlIOClientTranslator, store } from 'app-core';

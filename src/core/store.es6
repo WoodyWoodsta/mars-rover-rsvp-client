@@ -1,5 +1,9 @@
 /* store.es6 */
 /**
+ * @author Sean Wood (WoodyWoodsta)
+ */
+
+/**
  * Client data model including state. Operates on a data-driven model in terms of socket notifications
  */
 import debug from 'debug';

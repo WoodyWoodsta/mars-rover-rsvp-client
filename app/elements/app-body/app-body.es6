@@ -1,4 +1,8 @@
 /* app-body.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
+
 import { store } from 'app-core';
 import { toastBehavior } from 'app-behaviors';
 

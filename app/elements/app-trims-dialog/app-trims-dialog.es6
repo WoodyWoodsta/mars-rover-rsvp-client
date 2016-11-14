@@ -1,4 +1,7 @@
 /* app-trims-dialog.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
 
 import { store, controlIOClientTranslator } from 'app-core';
 

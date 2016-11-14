@@ -1,4 +1,8 @@
 /* tele-io-client.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
+
 import debug from 'debug';
 
 import SocketClient from 'socket.io-client';

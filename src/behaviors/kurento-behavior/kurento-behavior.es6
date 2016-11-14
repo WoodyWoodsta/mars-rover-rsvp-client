@@ -1,5 +1,9 @@
 /* kurento-behavior.es6 */
 /**
+ * @author Sean Wood (WoodyWoodsta)
+ */
+
+/**
  * Exposes video streaming functionality to the browser
  */
 import debug from 'debug';

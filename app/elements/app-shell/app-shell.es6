@@ -1,4 +1,8 @@
 /* app-shell.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
+
 import { store } from 'app-core';
 
 Polymer({

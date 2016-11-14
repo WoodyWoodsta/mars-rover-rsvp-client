@@ -1,4 +1,7 @@
 /* app-offline-overlay.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
 
 import { store, teleIOClientTranslator } from 'app-core';
 

@@ -1,4 +1,8 @@
 /* app-bootstrap.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
+
 import './resources/babel-external-helpers';
 
 import debug from 'debug';

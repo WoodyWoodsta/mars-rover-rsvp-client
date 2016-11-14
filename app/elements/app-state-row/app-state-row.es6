@@ -1,4 +1,7 @@
 /* app-state-row.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
 
 Polymer({
   is: 'app-state-row',

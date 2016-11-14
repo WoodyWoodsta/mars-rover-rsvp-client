@@ -1,4 +1,8 @@
 /* tele-io-client-translator.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
+
 import debug from 'debug';
 
 import * as store from '../store';

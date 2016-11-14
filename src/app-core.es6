@@ -1,4 +1,8 @@
 /* app-core.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
+
 import * as socket from './core/socket';
 import * as kurentoIOClient from './core/clients/kurento-io-client';
 import * as store from './core/store';

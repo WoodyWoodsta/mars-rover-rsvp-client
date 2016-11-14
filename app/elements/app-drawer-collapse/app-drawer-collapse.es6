@@ -1,4 +1,7 @@
 /* app-drawer-collapse.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
 
 Polymer({
   is: 'app-drawer-collapse',

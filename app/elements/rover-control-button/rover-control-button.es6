@@ -1,4 +1,7 @@
 /* rover-control-button.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
 
 Polymer({
   is: 'rover-control-button',

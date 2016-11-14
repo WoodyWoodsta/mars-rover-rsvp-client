@@ -1,4 +1,7 @@
 /* app-drawer-controls.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
 
 import { kurentoBehavior } from 'app-behaviors';
 import { store, controlIOClientTranslator } from 'app-core';

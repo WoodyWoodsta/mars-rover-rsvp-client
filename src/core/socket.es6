@@ -1,5 +1,9 @@
 /* socket.es6 */
 /**
+ * @author Sean Wood (WoodyWoodsta)
+ */
+
+/**
  * Manages the WebSocket connections between here and the server
  */
 import * as controlIOClient from './clients/control-io-client';

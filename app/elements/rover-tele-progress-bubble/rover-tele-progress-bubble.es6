@@ -1,4 +1,7 @@
 /* rover-tele-progress-bubble.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
 
 Polymer({
   is: 'rover-tele-progress-bubble',
@@ -12,7 +15,7 @@ Polymer({
       type: String,
       value: '%',
     },
-    
+
     max: {
       type: Number,
       value: 100,

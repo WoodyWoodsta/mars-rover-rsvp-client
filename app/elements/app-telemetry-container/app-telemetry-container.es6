@@ -1,4 +1,7 @@
 /* app-telemetry-container.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
 
 import { store, teleIOClientTranslator } from 'app-core';
 import { toastBehavior } from 'app-behaviors';

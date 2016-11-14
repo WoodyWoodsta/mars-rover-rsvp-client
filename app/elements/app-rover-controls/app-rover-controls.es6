@@ -1,4 +1,7 @@
 /* app-rover-controls.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
 
 import { store } from 'app-core';
 

@@ -1,7 +1,11 @@
-/* sequence-behavior */
+/* sequence-behavior.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
 
-// TODO: Assert required params
-
+ /**
+  * The base class for a command
+  */
 export class SeqCmd {
   constructor(name, type, params = {}) {
     this.name = name;
@@ -11,6 +15,9 @@ export class SeqCmd {
   }
 }
 
+/**
+ * Command the rover to "do nothing" for a specified duration
+ */
 export class PauseCmd extends SeqCmd {
   constructor(params = {}) {
     super('Pause', 'low');
@@ -26,6 +33,9 @@ export class PauseCmd extends SeqCmd {
   }
 }
 
+/**
+ * Command to rotate a single wheel about its pivot
+ */
 export class SingleWheelRotateCmd extends SeqCmd {
   constructor(params = {}) {
     super('Single Wheel Rotate', 'low');
@@ -60,6 +70,9 @@ export class SingleWheelRotateCmd extends SeqCmd {
   }
 }
 
+/**
+ * Command to drive a specified wheel
+ */
 export class SingleWheelDriveCmd extends SeqCmd {
   constructor(params = {}) {
     super('Single Wheel Drive', 'low');
@@ -95,6 +108,9 @@ export class SingleWheelDriveCmd extends SeqCmd {
   }
 }
 
+/**
+ * Commands the rover to traverse at a specified velocity, pivoting the wheels for a specified arc factor
+ */
 export class DriveCmd extends SeqCmd {
   constructor(params = {}) {
     super('Drive', 'high');
@@ -129,6 +145,9 @@ export class DriveCmd extends SeqCmd {
   }
 }
 
+/**
+ * Command to pivot the wheels given an arc factor
+ */
 export class WheelsRotateCmd extends SeqCmd {
   constructor(params = {}) {
     super('Wheels Rotate', 'high');
@@ -150,6 +169,9 @@ export class WheelsRotateCmd extends SeqCmd {
   }
 }
 
+/**
+ * Command to rotate the rover in-place for a specified duration
+ */
 export class RoverRotateCmd extends SeqCmd {
   constructor(params = {}) {
     super('Rover Rotate', 'macro');
@@ -178,6 +200,9 @@ export class RoverRotateCmd extends SeqCmd {
   }
 }
 
+/**
+ * Command to pan the head component of the rover to result in a certain anglular position
+ */
 export class HeadPanCmd extends SeqCmd {
   constructor(params = {}) {
     super('Head Pan', 'low');
@@ -205,6 +230,9 @@ export class HeadPanCmd extends SeqCmd {
   }
 }
 
+/**
+ * Command to pitch the head component of the rover to result in a certain angular position
+ */
 export class HeadPitchCmd extends SeqCmd {
   constructor(params = {}) {
     super('Head Pitch', 'low');
@@ -232,6 +260,9 @@ export class HeadPitchCmd extends SeqCmd {
   }
 }
 
+/**
+ * Command to position the head component of the rover at a specified pan and pitch angle
+ */
 export class HeadPositionCmd extends SeqCmd {
   constructor(params = {}) {
     super('Head Position', 'macro');

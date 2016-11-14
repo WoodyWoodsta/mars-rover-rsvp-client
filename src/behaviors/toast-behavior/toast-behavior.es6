@@ -1,4 +1,8 @@
 /* toast-behavior.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
+
 let temporaryToast;
 let persistentToast;
 

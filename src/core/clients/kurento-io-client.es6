@@ -1,5 +1,9 @@
 /* kurento-io-client.es6 */
 /**
+ * @author Sean Wood (WoodyWoodsta)
+ */
+
+/**
  * Manages the socket connection itself for the kurento media stream
  */
 import debug from 'debug';

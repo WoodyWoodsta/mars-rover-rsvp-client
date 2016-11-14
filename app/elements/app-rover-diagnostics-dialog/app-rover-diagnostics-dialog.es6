@@ -1,4 +1,7 @@
 /* app-rover-diagnostics-dialog.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
 
 import { store } from 'app-core';
 

@@ -1,4 +1,7 @@
 /* rover-sequence-item.es6 */
+/**
+ * @author Sean Wood (WoodyWoodsta)
+ */
 
 Polymer({
   is: 'rover-sequence-item',
